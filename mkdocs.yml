@@ -1,7 +1,8 @@
 site_name: EdgarTools - Python Library for SEC Data Analysis
 site_description: Access and analyze SEC filings, financial statements, insider trading, and investment fund data
-repo_url: https://github.com/dgunning/edgartools
-repo_name: dgunning/edgartools
+site_url: https://lmist.github.io/edgartools/
+repo_url: https://github.com/lmist/edgartools
+repo_name: lmist/edgartools
 
 extra_css:
   - stylesheets/extra.css
