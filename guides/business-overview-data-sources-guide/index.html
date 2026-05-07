@@ -1,0 +1,5125 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Access and analyze SEC filings, financial statements, insider trading, and investment fund data">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/guides/business-overview-data-sources-guide/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Business Overview Data Sources Guide - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#business-overview-data-sources-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Business Overview Data Sources Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../working-with-filing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../working-with-filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../searching-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tend-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock-splits-eps-normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../xbrl/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/entity-facts-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-data-sources-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference: Data Sources Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-company-core-data-companydata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Company Core Data (company.data)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Company Core Data (company.data)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Address Formatting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-key-financial-metrics-companyget_facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Key Financial Metrics (company.get_facts())
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Key Financial Metrics (company.get_facts())">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-pattern_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formatting-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatting Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-business-description-10-k-item-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Business Description (10-K Item 1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Business Description (10-K Item 1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-pattern_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-10-k-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available 10-K Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-example_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-processing-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Processing Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-multi-period-financial-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Multi-Period Financial Statements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Multi-Period Financial Statements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-via-entityfacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access via EntityFacts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-via-xbrl-single-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access via XBRL (Single Filing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-example_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-recent-events-8-k-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Recent Events (8-K Filings)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Recent Events (8-K Filings)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-pattern_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-8-k-item-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common 8-K Item Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-example_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-risk-factors-10-k-item-1a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Risk Factors (10-K Item 1A)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Risk Factors (10-K Item 1A)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-pattern_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-example_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-insider-activity-form-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Insider Activity (Form 4)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Insider Activity (Form 4)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-pattern_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-example_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-institutional-holdings-13f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Institutional Holdings (13F)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Institutional Holdings (13F)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-pattern_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-implementation-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Implementation Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caching-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#availability-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Availability Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="business-overview-data-sources-guide">Business Overview Data Sources Guide</h1>
+<p>This guide documents all available data sources in EdgarTools for building a "Business Overview" section on a company page. Each source is documented with API access patterns, data fields, and recommendations.</p>
+<h2 id="quick-reference-data-sources-summary">Quick Reference: Data Sources Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Primary Source</th>
+<th>Load Time</th>
+<th>Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Company Header</td>
+<td><code>company.data</code></td>
+<td>~300ms</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Business Description</td>
+<td>10-K Item 1</td>
+<td>1-2s</td>
+<td>~90%</td>
+</tr>
+<tr>
+<td>Key Metrics</td>
+<td><code>company.get_facts()</code></td>
+<td>1-10s</td>
+<td>~85%</td>
+</tr>
+<tr>
+<td>Financial Statements</td>
+<td>EntityFacts</td>
+<td>3-15s</td>
+<td>~85%</td>
+</tr>
+<tr>
+<td>Recent Events</td>
+<td>8-K Filings</td>
+<td>200ms</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Risk Factors</td>
+<td>10-K Item 1A</td>
+<td>1-2s</td>
+<td>~90%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-company-core-data-companydata">1. Company Core Data (<code>company.data</code>)</h2>
+<p>The foundation of any company page. Available for all SEC filers.</p>
+<h3 id="access-pattern">Access Pattern</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="available-fields">Available Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Property</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Company Name</td>
+<td><code>company.name</code></td>
+<td>"Apple Inc."</td>
+</tr>
+<tr>
+<td>Ticker(s)</td>
+<td><code>company.tickers</code></td>
+<td>["AAPL"]</td>
+</tr>
+<tr>
+<td>CIK</td>
+<td><code>company.cik</code></td>
+<td>320193</td>
+</tr>
+<tr>
+<td>Industry</td>
+<td><code>company.industry</code></td>
+<td>"Electronic Computers"</td>
+</tr>
+<tr>
+<td>SIC Code</td>
+<td><code>company.sic</code></td>
+<td>"3571"</td>
+</tr>
+<tr>
+<td>Exchange(s)</td>
+<td><code>company.get_exchanges()</code></td>
+<td>["NASDAQ"]</td>
+</tr>
+<tr>
+<td>Fiscal Year End</td>
+<td><code>company.fiscal_year_end</code></td>
+<td>"0928" (Sep 28)</td>
+</tr>
+<tr>
+<td>State of Incorporation</td>
+<td><code>company.data.state_of_incorporation</code></td>
+<td>"CA"</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>company.data.phone</code></td>
+<td>"408-996-1010"</td>
+</tr>
+<tr>
+<td>Business Address</td>
+<td><code>company.business_address()</code></td>
+<td>Address object</td>
+</tr>
+<tr>
+<td>Mailing Address</td>
+<td><code>company.mailing_address()</code></td>
+<td>Address object</td>
+</tr>
+<tr>
+<td>Former Names</td>
+<td><code>company.data.former_names</code></td>
+<td>List of historical names</td>
+</tr>
+</tbody>
+</table>
+<h3 id="code-example">Code Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_company_header</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get company identification and contact data.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;ticker&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">tickers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">company</span><span class="o">.</span><span class="n">tickers</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;cik&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">company</span><span class="o">.</span><span class="n">cik</span><span class="si">:</span><span class="s2">010d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># Zero-padded CIK</span>
+        <span class="s2">&quot;industry&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">industry</span><span class="p">,</span>
+        <span class="s2">&quot;sic_code&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">sic</span><span class="p">,</span>
+        <span class="s2">&quot;exchanges&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">get_exchanges</span><span class="p">(),</span>
+        <span class="s2">&quot;fiscal_year_end&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">fiscal_year_end</span><span class="p">,</span>
+        <span class="s2">&quot;state_incorporation&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">state_of_incorporation</span><span class="p">,</span>
+        <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h3 id="address-formatting">Address Formatting</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Business address object</span>
+<span class="n">addr</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">business_address</span><span class="p">()</span>
+
+<span class="c1"># Individual components</span>
+<span class="n">street</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">street1</span>
+<span class="n">city</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">city</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">state</span>
+<span class="n">zip_code</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">zip_code</span>
+
+<span class="c1"># Formatted string</span>
+<span class="n">formatted</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>  <span class="c1"># &quot;1 Apple Park Way, Cupertino, CA 95014&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="2-key-financial-metrics-companyget_facts">2. Key Financial Metrics (<code>company.get_facts()</code>)</h2>
+<p>High-level financial metrics extracted from XBRL filings via the SEC Company Facts API.</p>
+<h3 id="access-pattern_1">Access Pattern</h3>
+<div class="highlight"><pre><span></span><code><span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+<span class="c1"># or</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">facts</span>  <span class="c1"># Property alias</span>
+</code></pre></div>
+<h3 id="available-metrics">Available Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Method</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revenue</td>
+<td><code>facts.get_revenue()</code></td>
+<td>Latest annual revenue</td>
+</tr>
+<tr>
+<td>Net Income</td>
+<td><code>facts.get_net_income()</code></td>
+<td>Latest annual net income</td>
+</tr>
+<tr>
+<td>Total Assets</td>
+<td><code>facts.get_total_assets()</code></td>
+<td>Balance sheet total</td>
+</tr>
+<tr>
+<td>Shareholders' Equity</td>
+<td><code>facts.get_shareholders_equity()</code></td>
+<td>Book value</td>
+</tr>
+<tr>
+<td>Cash &amp; Equivalents</td>
+<td><code>facts.get_cash_and_equivalents()</code></td>
+<td>Liquid assets</td>
+</tr>
+<tr>
+<td>Total Liabilities</td>
+<td><code>facts.get_liabilities()</code></td>
+<td>All liabilities</td>
+</tr>
+<tr>
+<td>Shares Outstanding</td>
+<td><code>facts.shares_outstanding</code></td>
+<td>Current shares</td>
+</tr>
+<tr>
+<td>Public Float</td>
+<td><code>facts.public_float</code></td>
+<td>Tradeable shares</td>
+</tr>
+</tbody>
+</table>
+<h3 id="code-example_1">Code Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_key_metrics</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get key financial metrics for display.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">facts</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;revenue&quot;</span><span class="p">:</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_revenue</span><span class="p">(),</span>
+        <span class="s2">&quot;net_income&quot;</span><span class="p">:</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_net_income</span><span class="p">(),</span>
+        <span class="s2">&quot;total_assets&quot;</span><span class="p">:</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_total_assets</span><span class="p">(),</span>
+        <span class="s2">&quot;shareholders_equity&quot;</span><span class="p">:</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_shareholders_equity</span><span class="p">(),</span>
+        <span class="s2">&quot;shares_outstanding&quot;</span><span class="p">:</span> <span class="n">facts</span><span class="o">.</span><span class="n">shares_outstanding</span><span class="p">,</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h3 id="formatting-values">Formatting Values</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">format_currency</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format large currency values (e.g., $416.2B).&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;N/A&quot;</span>
+
+    <span class="n">abs_value</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">abs_value</span> <span class="o">&gt;=</span> <span class="mf">1e12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="o">/</span><span class="mf">1e12</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">T&quot;</span>
+    <span class="k">elif</span> <span class="n">abs_value</span> <span class="o">&gt;=</span> <span class="mf">1e9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="o">/</span><span class="mf">1e9</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">B&quot;</span>
+    <span class="k">elif</span> <span class="n">abs_value</span> <span class="o">&gt;=</span> <span class="mf">1e6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">M&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Usage</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">get_key_metrics</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">format_currency</span><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;revenue&quot;</span><span class="p">]))</span>  <span class="c1"># &quot;$416.2B&quot;</span>
+</code></pre></div>
+<h3 id="limitations">Limitations</h3>
+<ul>
+<li>Not available for investment companies (mutual funds, ETFs)</li>
+<li>Some foreign filers may have incomplete data</li>
+<li>Fact availability varies by company size and filing history</li>
+</ul>
+<hr />
+<h2 id="3-business-description-10-k-item-1">3. Business Description (10-K Item 1)</h2>
+<p>The narrative business description from the company's annual report. This is the richest source of qualitative company information.</p>
+<h3 id="access-pattern_2">Access Pattern</h3>
+<div class="highlight"><pre><span></span><code><span class="n">tenk</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">latest_tenk</span>
+
+<span class="k">if</span> <span class="n">tenk</span><span class="p">:</span>
+    <span class="n">business_text</span> <span class="o">=</span> <span class="n">tenk</span><span class="o">.</span><span class="n">business</span>
+    <span class="c1"># or</span>
+    <span class="n">business_text</span> <span class="o">=</span> <span class="n">tenk</span><span class="p">[</span><span class="s1">&#39;Item 1&#39;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="available-10-k-sections">Available 10-K Sections</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Property</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Item 1</td>
+<td><code>tenk.business</code></td>
+<td>Business operations, products, markets</td>
+</tr>
+<tr>
+<td>Item 1A</td>
+<td><code>tenk.risk_factors</code></td>
+<td>Material risks and uncertainties</td>
+</tr>
+<tr>
+<td>Item 1B</td>
+<td><code>tenk['Item 1B']</code></td>
+<td>Unresolved staff comments</td>
+</tr>
+<tr>
+<td>Item 1C</td>
+<td><code>tenk['Item 1C']</code></td>
+<td>Cybersecurity governance</td>
+</tr>
+<tr>
+<td>Item 2</td>
+<td><code>tenk['Item 2']</code></td>
+<td>Properties</td>
+</tr>
+<tr>
+<td>Item 3</td>
+<td><code>tenk['Item 3']</code></td>
+<td>Legal proceedings</td>
+</tr>
+<tr>
+<td>Item 7</td>
+<td><code>tenk.management_discussion</code></td>
+<td>MD&amp;A financial analysis</td>
+</tr>
+<tr>
+<td>Item 7A</td>
+<td><code>tenk['Item 7A']</code></td>
+<td>Quantitative market risk</td>
+</tr>
+<tr>
+<td>—</td>
+<td><code>tenk.auditor</code></td>
+<td>Auditor name, PCAOB ID, location, ICFR attestation</td>
+</tr>
+<tr>
+<td>EX-21</td>
+<td><code>tenk.subsidiaries</code></td>
+<td>List of subsidiaries with jurisdiction</td>
+</tr>
+</tbody>
+</table>
+<h3 id="code-example_2">Code Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_business_description</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract business description from latest 10-K.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">tenk</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">latest_tenk</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenk</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;available&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;fallback&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;This company operates in the </span><span class="si">{</span><span class="n">company</span><span class="o">.</span><span class="n">industry</span><span class="si">}</span><span class="s2"> industry.&quot;</span>
+        <span class="p">}</span>
+
+    <span class="n">business_text</span> <span class="o">=</span> <span class="n">tenk</span><span class="o">.</span><span class="n">business</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;available&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;full_text&quot;</span><span class="p">:</span> <span class="n">business_text</span><span class="p">,</span>
+        <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="n">business_text</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span> <span class="k">if</span> <span class="n">business_text</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;filing_date&quot;</span><span class="p">:</span> <span class="n">tenk</span><span class="o">.</span><span class="n">filing_date</span><span class="p">,</span>
+        <span class="s2">&quot;fiscal_year&quot;</span><span class="p">:</span> <span class="n">tenk</span><span class="o">.</span><span class="n">fiscal_year</span><span class="p">,</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h3 id="text-processing-tips">Text Processing Tips</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_first_paragraph</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the first substantial paragraph as a summary.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Split by double newlines</span>
+    <span class="n">paragraphs</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+
+    <span class="c1"># Find first paragraph with substantial content</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paragraphs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>  <span class="c1"># Skip short headers</span>
+            <span class="k">return</span> <span class="n">p</span>
+
+    <span class="k">return</span> <span class="n">paragraphs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">paragraphs</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_business_summary</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a concise business summary.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">tenk</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">latest_tenk</span>
+
+    <span class="k">if</span> <span class="n">tenk</span> <span class="ow">and</span> <span class="n">tenk</span><span class="o">.</span><span class="n">business</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">extract_first_paragraph</span><span class="p">(</span><span class="n">tenk</span><span class="o">.</span><span class="n">business</span><span class="p">)</span>
+
+    <span class="c1"># Fallback to industry description</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;This company operates in the </span><span class="si">{</span><span class="n">company</span><span class="o">.</span><span class="n">industry</span><span class="si">}</span><span class="s2"> industry.&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="4-multi-period-financial-statements">4. Multi-Period Financial Statements</h2>
+<p>Full financial statements across multiple periods for trend analysis.</p>
+<h3 id="access-via-entityfacts">Access via EntityFacts</h3>
+<div class="highlight"><pre><span></span><code><span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+
+<span class="c1"># Income Statement (4 annual periods)</span>
+<span class="n">income</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">income_statement</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Balance Sheet</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">balance_sheet</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Cash Flow Statement</span>
+<span class="n">cash_flow</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">cash_flow</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Quarterly data</span>
+<span class="n">quarterly_income</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">income_statement</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="access-via-xbrl-single-filing">Access via XBRL (Single Filing)</h3>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+<span class="n">xbrl</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">xbrl</span><span class="p">()</span>
+
+<span class="c1"># Statements from specific filing</span>
+<span class="n">income</span> <span class="o">=</span> <span class="n">xbrl</span><span class="o">.</span><span class="n">statements</span><span class="o">.</span><span class="n">income_statement</span><span class="p">()</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">xbrl</span><span class="o">.</span><span class="n">statements</span><span class="o">.</span><span class="n">balance_sheet</span><span class="p">()</span>
+<span class="n">cash</span> <span class="o">=</span> <span class="n">xbrl</span><span class="o">.</span><span class="n">statements</span><span class="o">.</span><span class="n">cashflow_statement</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="output-formats">Output Formats</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Rich table display (for CLI/terminal)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">income</span><span class="p">)</span>  <span class="c1"># Formatted table</span>
+
+<span class="c1"># DataFrame (for further processing)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">income_statement</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">as_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Concise format ($1.0B vs $1,000,000,000)</span>
+<span class="n">compact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">income_statement</span><span class="p">(</span><span class="n">concise_format</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="code-example_3">Code Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_financial_trends</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get multi-period financial data for trend charts.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">facts</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Get DataFrames for charting</span>
+    <span class="n">income_df</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">income_statement</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">as_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">balance_df</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">balance_sheet</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">as_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;income_statement&quot;</span><span class="p">:</span> <span class="n">income_df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">income_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;balance_sheet&quot;</span><span class="p">:</span> <span class="n">balance_df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">balance_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;periods&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">income_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="k">if</span> <span class="n">income_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[],</span>
+    <span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="5-recent-events-8-k-filings">5. Recent Events (8-K Filings)</h2>
+<p>Material events and corporate announcements from 8-K filings.</p>
+<h3 id="access-pattern_3">Access Pattern</h3>
+<div class="highlight"><pre><span></span><code><span class="n">filings</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">parsed_items</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="common-8-k-item-codes">Common 8-K Item Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.01</td>
+<td>Entry into Material Agreement</td>
+</tr>
+<tr>
+<td>1.02</td>
+<td>Termination of Material Agreement</td>
+</tr>
+<tr>
+<td>2.01</td>
+<td>Acquisition/Disposition of Assets</td>
+</tr>
+<tr>
+<td>2.02</td>
+<td>Results of Operations (Earnings)</td>
+</tr>
+<tr>
+<td>2.03</td>
+<td>Creation of Obligation</td>
+</tr>
+<tr>
+<td>5.02</td>
+<td>Director/Officer Changes</td>
+</tr>
+<tr>
+<td>5.07</td>
+<td>Shareholder Vote</td>
+</tr>
+<tr>
+<td>7.01</td>
+<td>Regulation FD Disclosure</td>
+</tr>
+<tr>
+<td>8.01</td>
+<td>Other Events</td>
+</tr>
+</tbody>
+</table>
+<h3 id="code-example_4">Code Example</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_recent_events</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get recent material events from 8-K filings.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">cutoff</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+    <span class="n">filings</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span> <span class="o">&lt;</span> <span class="n">cutoff</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="n">filing</span><span class="o">.</span><span class="n">parsed_items</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">describe_8k_items</span><span class="p">(</span><span class="n">filing</span><span class="o">.</span><span class="n">parsed_items</span><span class="p">),</span>
+            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">filing</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">events</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">describe_8k_items</span><span class="p">(</span><span class="n">items_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert item codes to human-readable description.&quot;&quot;&quot;</span>
+    <span class="n">item_descriptions</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;1.01&quot;</span><span class="p">:</span> <span class="s2">&quot;Material Agreement&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2.02&quot;</span><span class="p">:</span> <span class="s2">&quot;Earnings Release&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;5.02&quot;</span><span class="p">:</span> <span class="s2">&quot;Officer/Director Change&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;7.01&quot;</span><span class="p">:</span> <span class="s2">&quot;Press Release&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;8.01&quot;</span><span class="p">:</span> <span class="s2">&quot;Other Event&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items_str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Corporate Update&quot;</span>
+
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+    <span class="n">descriptions</span> <span class="o">=</span> <span class="p">[</span><span class="n">item_descriptions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">descriptions</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="6-risk-factors-10-k-item-1a">6. Risk Factors (10-K Item 1A)</h2>
+<p>Material risks and uncertainties facing the company.</p>
+<h3 id="access-pattern_4">Access Pattern</h3>
+<div class="highlight"><pre><span></span><code><span class="n">tenk</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">latest_tenk</span>
+<span class="n">risk_text</span> <span class="o">=</span> <span class="n">tenk</span><span class="o">.</span><span class="n">risk_factors</span>
+<span class="c1"># or</span>
+<span class="n">risk_text</span> <span class="o">=</span> <span class="n">tenk</span><span class="p">[</span><span class="s1">&#39;Item 1A&#39;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="code-example_5">Code Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_risk_summary</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_risks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract top risk factors from 10-K.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">tenk</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">latest_tenk</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenk</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">tenk</span><span class="o">.</span><span class="n">risk_factors</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">tenk</span><span class="o">.</span><span class="n">risk_factors</span>
+
+    <span class="c1"># Simple extraction: look for bold or capitalized headers</span>
+    <span class="c1"># More sophisticated: use NLP to extract risk categories</span>
+
+    <span class="c1"># For now, split by common risk section patterns</span>
+    <span class="n">risks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="c1"># Look for risk headers (often bold or capitalized)</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">):</span>
+            <span class="n">risks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">risks</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">max_risks</span><span class="p">:</span>
+                <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">risks</span>
+</code></pre></div>
+<hr />
+<h2 id="7-insider-activity-form-4">7. Insider Activity (Form 4)</h2>
+<p>Officer and director stock transactions.</p>
+<h3 id="access-pattern_5">Access Pattern</h3>
+<div class="highlight"><pre><span></span><code><span class="n">form4_filings</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;4&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">form4_filings</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="n">form4</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">form4</span><span class="o">.</span><span class="n">insider_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">form4</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="code-example_6">Code Example</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_insider_activity</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get recent insider transactions.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">filings</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;4&quot;</span><span class="p">)</span>
+
+    <span class="n">transactions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings</span><span class="p">[:</span><span class="n">limit</span><span class="p">]:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">form4</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+            <span class="c1"># Get transaction summary</span>
+            <span class="n">purchases</span> <span class="o">=</span> <span class="n">form4</span><span class="o">.</span><span class="n">common_stock_purchases</span>
+            <span class="n">sales</span> <span class="o">=</span> <span class="n">form4</span><span class="o">.</span><span class="n">common_stock_sales</span>
+
+            <span class="n">transactions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+                <span class="s2">&quot;insider&quot;</span><span class="p">:</span> <span class="n">form4</span><span class="o">.</span><span class="n">insider_name</span><span class="p">,</span>
+                <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">form4</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+                <span class="s2">&quot;has_purchases&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">purchases</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">purchases</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;has_sales&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">sales</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">sales</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="p">})</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">transactions</span>
+</code></pre></div>
+<hr />
+<h2 id="8-institutional-holdings-13f">8. Institutional Holdings (13F)</h2>
+<p>Institutional investor holdings (for investment management companies).</p>
+<h3 id="access-pattern_6">Access Pattern</h3>
+<div class="highlight"><pre><span></span><code><span class="n">thirteenf_filings</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;13F-HR&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">thirteenf_filings</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">portfolio</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+    <span class="n">holdings</span> <span class="o">=</span> <span class="n">portfolio</span><span class="o">.</span><span class="n">infotable</span>  <span class="c1"># DataFrame</span>
+</code></pre></div>
+<hr />
+<h2 id="complete-implementation-example">Complete Implementation Example</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CompanyOverview</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complete company overview data for a SaaS page.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ticker</span> <span class="o">=</span> <span class="n">ticker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_company</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_facts</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tenk</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">company</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_company</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ticker</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_company</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">facts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_facts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_facts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_facts</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tenk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tenk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tenk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">latest_tenk</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tenk</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Company identification data.&quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">company</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;ticker&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">tickers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">tickers</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;cik&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">cik</span><span class="si">:</span><span class="s2">010d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;industry&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">industry</span><span class="p">,</span>
+            <span class="s2">&quot;sic_code&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">sic</span><span class="p">,</span>
+            <span class="s2">&quot;exchanges&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">get_exchanges</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contact</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Company contact information.&quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">company</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">business_address</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span>
+            <span class="s2">&quot;website&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">website</span><span class="p">,</span>
+            <span class="s2">&quot;investor_website&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">investor_website</span><span class="p">,</span>
+            <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="k">if</span> <span class="n">addr</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;state_incorporation&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">state_of_incorporation</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_key_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Key financial metrics.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">facts</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;revenue&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facts</span><span class="o">.</span><span class="n">get_revenue</span><span class="p">()),</span>
+            <span class="s2">&quot;net_income&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facts</span><span class="o">.</span><span class="n">get_net_income</span><span class="p">()),</span>
+            <span class="s2">&quot;total_assets&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facts</span><span class="o">.</span><span class="n">get_total_assets</span><span class="p">()),</span>
+            <span class="s2">&quot;shareholders_equity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facts</span><span class="o">.</span><span class="n">get_shareholders_equity</span><span class="p">()),</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_business_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Business description from 10-K.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenk</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenk</span><span class="o">.</span><span class="n">business</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenk</span><span class="o">.</span><span class="n">business</span>
+            <span class="c1"># Extract first substantial paragraph</span>
+            <span class="n">paragraphs</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">]</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">paragraphs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">paragraphs</span> <span class="k">else</span> <span class="n">text</span><span class="p">[:</span><span class="mi">500</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;available&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="n">summary</span><span class="p">,</span>
+                <span class="s2">&quot;full_text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;10-K filed </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tenk</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="c1"># Fallback</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;available&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;This company operates in the </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">industry</span><span class="si">}</span><span class="s2"> industry.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;SEC SIC classification&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_recent_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recent 8-K material events.&quot;&quot;&quot;</span>
+        <span class="n">cutoff</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">filings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span> <span class="o">&lt;</span> <span class="n">cutoff</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+                <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="n">filing</span><span class="o">.</span><span class="n">parsed_items</span><span class="p">,</span>
+                <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">filing</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">events</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># Limit to 10 most recent</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all overview data in one call.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_header</span><span class="p">(),</span>
+            <span class="s2">&quot;contact&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_contact</span><span class="p">(),</span>
+            <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_key_metrics</span><span class="p">(),</span>
+            <span class="s2">&quot;business&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_business_summary</span><span class="p">(),</span>
+            <span class="s2">&quot;events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recent_events</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_format_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format large values as abbreviated strings.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">abs_val</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">abs_val</span> <span class="o">&gt;=</span> <span class="mf">1e12</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="o">/</span><span class="mf">1e12</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">T&quot;</span>
+        <span class="k">elif</span> <span class="n">abs_val</span> <span class="o">&gt;=</span> <span class="mf">1e9</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="o">/</span><span class="mf">1e9</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">B&quot;</span>
+        <span class="k">elif</span> <span class="n">abs_val</span> <span class="o">&gt;=</span> <span class="mf">1e6</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">M&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="c1"># Usage</span>
+<span class="n">overview</span> <span class="o">=</span> <span class="n">CompanyOverview</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">overview</span><span class="o">.</span><span class="n">get_all</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="parallel-loading">Parallel Loading</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_overview_parallel</span><span class="p">(</span><span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load overview data with parallel fetching.&quot;&quot;&quot;</span>
+    <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_facts</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tenk</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">company</span><span class="o">.</span><span class="n">latest_tenk</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_8ks</span><span class="p">():</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">facts_future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">get_facts</span><span class="p">)</span>
+        <span class="n">tenk_future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">get_tenk</span><span class="p">)</span>
+        <span class="n">events_future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">get_8ks</span><span class="p">)</span>
+
+        <span class="n">facts</span> <span class="o">=</span> <span class="n">facts_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="n">tenk</span> <span class="o">=</span> <span class="n">tenk_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">events_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">company</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;ticker&quot;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">},</span>
+        <span class="s2">&quot;facts&quot;</span><span class="p">:</span> <span class="n">facts</span><span class="p">,</span>
+        <span class="s2">&quot;tenk&quot;</span><span class="p">:</span> <span class="n">tenk</span><span class="p">,</span>
+        <span class="s2">&quot;events&quot;</span><span class="p">:</span> <span class="n">events</span><span class="p">,</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h3 id="caching-recommendations">Caching Recommendations</h3>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>Cache Duration</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Company basics</td>
+<td>24 hours</td>
+<td>Rarely changes</td>
+</tr>
+<tr>
+<td>Financial facts</td>
+<td>1 hour</td>
+<td>Updates with filings</td>
+</tr>
+<tr>
+<td>10-K content</td>
+<td>Forever</td>
+<td>Immutable after filing</td>
+</tr>
+<tr>
+<td>Recent filings</td>
+<td>15 minutes</td>
+<td>New filings possible</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="availability-notes">Availability Notes</h2>
+<table>
+<thead>
+<tr>
+<th>Data Source</th>
+<th>Availability</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Company core data</td>
+<td>100%</td>
+<td>Available for all SEC filers</td>
+</tr>
+<tr>
+<td>Key metrics</td>
+<td>~85%</td>
+<td>Not for investment companies</td>
+</tr>
+<tr>
+<td>10-K sections</td>
+<td>~90%</td>
+<td>Public operating companies only</td>
+</tr>
+<tr>
+<td>8-K events</td>
+<td>100%</td>
+<td>All public companies file 8-Ks</td>
+</tr>
+<tr>
+<td>Form 4 insider</td>
+<td>~70%</td>
+<td>Only if insiders trade</td>
+</tr>
+<tr>
+<td>13F holdings</td>
+<td>~5%</td>
+<td>Only investment managers</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><code>edgar/ai/skills/core/quickstart-by-task.md</code> - API quick reference</li>
+<li><code>edgar/ai/skills/core/data-objects.md</code> - Data object documentation</li>
+<li><code>docs/entity-facts-api-current-implementation.md</code> - EntityFacts details</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>

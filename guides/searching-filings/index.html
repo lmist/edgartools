@@ -1,0 +1,5153 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Search SEC EDGAR filings by form type, date range, company, and keywords.">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/guides/searching-filings/">
+      
+      
+        <link rel="prev" href="../working-with-filing/">
+      
+      
+        <link rel="next" href="../full-text-search/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Search & Filter - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#search-and-filter-sec-filings-by-form-date-and-company" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Search & Filter
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../working-with-filing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../working-with-filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-filing-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Filing Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Filing Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-recent-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Recent Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-by-filing-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Filing Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-by-date-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Date Range
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Search by Date Range">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specific-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specific Date
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date-ranges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date Ranges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#year-and-quarter-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Year and Quarter Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#company-specific-filing-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Company-Specific Filing Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Company-Specific Filing Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-all-company-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get All Company Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-company-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter Company Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-latest-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Latest Filing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Filtering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Filtering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filter-by-multiple-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter by Multiple Criteria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-by-accession-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter by Accession Number
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-by-file-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter by File Number
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-company-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Company Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-Company Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#search-by-industry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Industry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-by-exchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Exchange
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-by-ticker-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Ticker List
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specialized-filing-searches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specialized Filing Searches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Specialized Filing Searches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#insider-trading-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Insider Trading Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fund-holdings-13f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fund Holdings (13F)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#material-events-8-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Material Events (8-K)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipo-and-registration-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IPO and Registration Statements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-search-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with Search Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Search Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subset-and-sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subset and Sample
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-to-pandas-dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convert to Pandas DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-underlying-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Underlying Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#efficient-searching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Efficient Searching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caching-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#handle-missing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handle Missing Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-search-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate Search Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-search-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Search Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Search Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#earnings-season-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Earnings Season Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ma-activity-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M&amp;A Activity Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tend-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock-splits-eps-normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../xbrl/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/entity-facts-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-filing-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Filing Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Filing Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-recent-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Recent Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-by-filing-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Filing Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-by-date-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Date Range
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Search by Date Range">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specific-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specific Date
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date-ranges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date Ranges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#year-and-quarter-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Year and Quarter Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#company-specific-filing-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Company-Specific Filing Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Company-Specific Filing Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-all-company-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get All Company Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-company-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter Company Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-latest-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Latest Filing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Filtering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Filtering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filter-by-multiple-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter by Multiple Criteria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-by-accession-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter by Accession Number
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-by-file-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter by File Number
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-company-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Company Search
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-Company Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#search-by-industry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Industry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-by-exchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Exchange
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-by-ticker-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search by Ticker List
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specialized-filing-searches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specialized Filing Searches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Specialized Filing Searches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#insider-trading-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Insider Trading Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fund-holdings-13f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fund Holdings (13F)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#material-events-8-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Material Events (8-K)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipo-and-registration-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IPO and Registration Statements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-search-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with Search Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Search Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subset-and-sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subset and Sample
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-to-pandas-dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convert to Pandas DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-underlying-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Underlying Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#efficient-searching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Efficient Searching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caching-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#handle-missing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handle Missing Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-search-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate Search Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-search-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Search Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Search Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#earnings-season-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Earnings Season Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ma-activity-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M&amp;A Activity Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="search-and-filter-sec-filings-by-form-date-and-company">Search and Filter SEC Filings by Form, Date, and Company</h1>
+<p>Learn how to find the exact SEC filings you need using various search criteria and filtering methods.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Understanding of SEC filing types (10-K, 10-Q, 8-K, etc.)</li>
+</ul>
+<h2 id="basic-filing-search">Basic Filing Search</h2>
+<h3 id="get-recent-filings">Get Recent Filings</h3>
+<p>Start with the most recent filings across all companies:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_filings</span>
+
+<span class="c1"># Get the 50 most recent filings</span>
+<span class="n">recent_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">()</span>
+
+<span class="c1"># Display basic information</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">recent_filings</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">form</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Output:</strong>
+<div class="highlight"><pre><span></span><code>10-Q: Apple Inc. (2024-05-02)
+8-K: Microsoft Corporation (2024-05-01)
+10-K: Amazon.com Inc (2024-04-30)
+13F-HR: Berkshire Hathaway Inc (2024-04-29)
+4: Tesla Inc (2024-04-28)
+</code></pre></div></p>
+<h3 id="search-by-filing-type">Search by Filing Type</h3>
+<p>Find specific types of SEC forms:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get recent 10-K annual reports</span>
+<span class="n">annual_reports</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Get multiple form types</span>
+<span class="n">quarterly_and_annual</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;10-K&quot;</span><span class="p">,</span> <span class="s2">&quot;10-Q&quot;</span><span class="p">])</span>
+
+<span class="c1"># Exclude amendments (filings ending in /A)</span>
+<span class="n">original_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">,</span> <span class="n">amendments</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">annual_reports</span><span class="p">)</span><span class="si">}</span><span class="s2"> annual reports&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="search-by-date-range">Search by Date Range</h2>
+<h3 id="specific-date">Specific Date</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get all filings from a specific date</span>
+<span class="n">filings_jan_1</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">filing_date</span><span class="o">=</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filings_jan_1</span><span class="p">)</span><span class="si">}</span><span class="s2"> filings on 2024-01-01&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="date-ranges">Date Ranges</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get filings from a date range</span>
+<span class="n">q1_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">filing_date</span><span class="o">=</span><span class="s2">&quot;2024-01-01:2024-03-31&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get filings after a specific date</span>
+<span class="n">recent_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">filing_date</span><span class="o">=</span><span class="s2">&quot;2024-01-01:&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get filings before a specific date</span>
+<span class="n">older_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">filing_date</span><span class="o">=</span><span class="s2">&quot;:2023-12-31&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Q1 2024 filings: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">q1_filings</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="year-and-quarter-search">Year and Quarter Search</h3>
+<div class="admonition note">
+<p class="admonition-title">Calendar Year vs Fiscal Year</p>
+<p>The <code>year</code> and <code>quarter</code> parameters refer to <strong>when the filing was submitted to the SEC</strong> (calendar year),
+<strong>not</strong> the fiscal year the filing covers.</p>
+<p>For example, a company with a fiscal year ending March 31, 2024 would file their annual 10-K in
+May or June 2024. Using <code>get_filings(2024)</code> would find this filing because it was <strong>filed</strong> in
+calendar year 2024, even though the 10-K covers fiscal year 2024.</p>
+<p>To find filings by fiscal year, use the company's <code>get_filings()</code> method and filter by the
+filing's fiscal period information available in the XBRL data.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get filings for entire calendar year (by filing date)</span>
+<span class="n">filings_2023</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="mi">2023</span><span class="p">)</span>
+
+<span class="c1"># Get filings for specific calendar quarter</span>
+<span class="n">q4_2023</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Get multiple quarters</span>
+<span class="n">q3_q4_2023</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="c1"># Get multiple years</span>
+<span class="n">multi_year</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">([</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">2023</span><span class="p">])</span>
+
+<span class="c1"># Get range of years (excludes end year)</span>
+<span class="n">decade_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">2021</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2023 filings: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filings_2023</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Q4 2023 filings: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">q4_2023</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="company-specific-filing-search">Company-Specific Filing Search</h2>
+<h3 id="get-all-company-filings">Get All Company Filings</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+
+<span class="c1"># Get all filings for a company</span>
+<span class="n">apple</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">all_apple_filings</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Apple has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_apple_filings</span><span class="p">)</span><span class="si">}</span><span class="s2"> total filings&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="filter-company-filings">Filter Company Filings</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get specific form types for a company</span>
+<span class="n">apple_10k</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span>
+<span class="n">apple_quarterly</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;10-Q&quot;</span><span class="p">,</span> <span class="s2">&quot;10-K&quot;</span><span class="p">])</span>
+
+<span class="c1"># Get XBRL filings only</span>
+<span class="n">apple_xbrl</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">is_xbrl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Get inline XBRL filings</span>
+<span class="n">apple_ixbrl</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">is_inline_xbrl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Apple 10-K filings: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">apple_10k</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Apple XBRL filings: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">apple_xbrl</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="get-latest-filing">Get Latest Filing</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get the most recent filing of a specific type</span>
+<span class="n">latest_10k</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+<span class="n">latest_10q</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-Q&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Latest 10-K: </span><span class="si">{</span><span class="n">latest_10k</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Latest 10-Q: </span><span class="si">{</span><span class="n">latest_10q</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Chain the calls for conciseness</span>
+<span class="n">latest_annual</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;MSFT&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">See it live on edgar.tools</p>
+<p>The code above searches filings by form type, date, and company. <strong>edgar.tools</strong> puts the same search in a visual interface — filter by form, date range, and company with results updating in real time.</p>
+<ul>
+<li><strong><a href="https://app.edgar.tools/filings?utm_source=edgartools-docs&amp;utm_medium=see-live&amp;utm_content=searching-filings">Browse the real-time filing stream →</a></strong></li>
+<li><strong><a href="https://app.edgar.tools/companies/AAPL?utm_source=edgartools-docs&amp;utm_medium=see-live&amp;utm_content=searching-filings">Search Apple's full filing history →</a></strong></li>
+</ul>
+<p>Also includes a REST API with filing search endpoints. Free tier: 100 API calls/day. <a href="https://app.edgar.tools/pricing?utm_source=edgartools-docs&amp;utm_medium=see-live&amp;utm_content=searching-filings">Pricing →</a></p>
+</div>
+<h2 id="advanced-filtering">Advanced Filtering</h2>
+<h3 id="filter-by-multiple-criteria">Filter by Multiple Criteria</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get Apple&#39;s 10-K filings from 2023 that are XBRL</span>
+<span class="n">apple_filtered</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span>
+    <span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">,</span>
+    <span class="n">is_xbrl</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filing_date</span><span class="o">=</span><span class="s2">&quot;2023-01-01:2023-12-31&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtered results: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">apple_filtered</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="filter-by-accession-number">Filter by Accession Number</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Find specific filing by accession number</span>
+<span class="n">specific_filing</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span>
+    <span class="n">accession_number</span><span class="o">=</span><span class="s2">&quot;0000320193-23-000106&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found filing: </span><span class="si">{</span><span class="n">specific_filing</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">form</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="filter-by-file-number">Filter by File Number</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Filter by SEC file number</span>
+<span class="n">file_filtered</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span>
+    <span class="n">file_number</span><span class="o">=</span><span class="s2">&quot;001-36743&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filings with file number: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">file_filtered</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="cross-company-search">Cross-Company Search</h2>
+<h3 id="search-by-industry">Search by Industry</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get recent filings and filter by company characteristics</span>
+<span class="n">all_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">()</span>
+
+<span class="c1"># Filter for technology companies (requires loading each company)</span>
+<span class="n">tech_filings</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">all_filings</span><span class="p">[:</span><span class="mi">100</span><span class="p">]:</span>  <span class="c1"># Limit for performance</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">filing</span><span class="o">.</span><span class="n">cik</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;software&quot;</span> <span class="ow">in</span> <span class="n">company</span><span class="o">.</span><span class="n">industry</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;computer&quot;</span> <span class="ow">in</span> <span class="n">company</span><span class="o">.</span><span class="n">industry</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">tech_filings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filing</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">continue</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tech_filings</span><span class="p">)</span><span class="si">}</span><span class="s2"> filings from tech companies&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="search-by-exchange">Search by Exchange</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Filter existing filings by exchange</span>
+<span class="n">nasdaq_filings</span> <span class="o">=</span> <span class="n">all_filings</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s2">&quot;NASDAQ&quot;</span><span class="p">)</span>
+<span class="n">nyse_filings</span> <span class="o">=</span> <span class="n">all_filings</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="s2">&quot;NYSE&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NASDAQ filings: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nasdaq_filings</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NYSE filings: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nyse_filings</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="search-by-ticker-list">Search by Ticker List</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get filings for multiple specific companies</span>
+<span class="n">tickers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AAPL&quot;</span><span class="p">,</span> <span class="s2">&quot;MSFT&quot;</span><span class="p">,</span> <span class="s2">&quot;GOOGL&quot;</span><span class="p">,</span> <span class="s2">&quot;AMZN&quot;</span><span class="p">]</span>
+<span class="n">ticker_filings</span> <span class="o">=</span> <span class="n">all_filings</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ticker</span><span class="o">=</span><span class="n">tickers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filings from specified tickers: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ticker_filings</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="specialized-filing-searches">Specialized Filing Searches</h2>
+<h3 id="insider-trading-filings">Insider Trading Filings</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get recent insider trading filings</span>
+<span class="n">insider_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recent insider filings:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">insider_filings</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Form </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">form</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="fund-holdings-13f">Fund Holdings (13F)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get recent 13F filings (institutional investment managers)</span>
+<span class="n">fund_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;13F-HR&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recent fund holdings filings:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">fund_filings</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="material-events-8-k">Material Events (8-K)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get recent 8-K filings (material corporate events)</span>
+<span class="n">event_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recent material events:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">event_filings</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="ipo-and-registration-statements">IPO and Registration Statements</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get S-1 filings (IPO registrations)</span>
+<span class="n">ipo_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;S-1&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recent IPO filings:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">ipo_filings</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="working-with-search-results">Working with Search Results</h2>
+<h3 id="subset-and-sample">Subset and Sample</h3>
+<div class="highlight"><pre><span></span><code><span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get first 10 results</span>
+<span class="n">first_ten</span> <span class="o">=</span> <span class="n">filings</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Get last 10 results</span>
+<span class="n">last_ten</span> <span class="o">=</span> <span class="n">filings</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Get random sample of 5 results</span>
+<span class="n">random_sample</span> <span class="o">=</span> <span class="n">filings</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filings</span><span class="p">)</span><span class="si">}</span><span class="s2">, Sample: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">random_sample</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="convert-to-pandas-dataframe">Convert to Pandas DataFrame</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Convert filings to DataFrame for analysis</span>
+<span class="n">filings_df</span> <span class="o">=</span> <span class="n">filings</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+<span class="c1"># Analyze filing patterns</span>
+<span class="n">filing_counts</span> <span class="o">=</span> <span class="n">filings_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="s1">&#39;company_name&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filing counts by company and form:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filing_counts</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</code></pre></div>
+<h3 id="access-underlying-data">Access Underlying Data</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Access the PyArrow table directly</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
+
+<span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span>
+<span class="n">data_table</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span> <span class="o">=</span> <span class="n">filings</span><span class="o">.</span><span class="n">data</span>
+
+<span class="c1"># Convert to Pandas for advanced analysis</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">data_table</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns available: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="efficient-searching">Efficient Searching</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># More efficient: Use specific parameters in get_filings()</span>
+<span class="n">efficient</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">,</span> <span class="n">filing_date</span><span class="o">=</span><span class="s2">&quot;2023-01-01:&quot;</span><span class="p">)</span>
+
+<span class="c1"># Less efficient: Get all then filter</span>
+<span class="n">inefficient</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filing_date</span><span class="o">=</span><span class="s2">&quot;2023-01-01:&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Efficient approach found: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">efficient</span><span class="p">)</span><span class="si">}</span><span class="s2"> filings&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="caching-results">Caching Results</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Store frequently used searches</span>
+<span class="n">apple</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">apple_10k_cache</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span>
+
+<span class="c1"># Reuse cached results for different analyses</span>
+<span class="n">recent_10k</span> <span class="o">=</span> <span class="n">apple_10k_cache</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">oldest_10k</span> <span class="o">=</span> <span class="n">apple_10k_cache</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="handle-missing-data">Handle Missing Data</h3>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;INVALID-FORM&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filings</span><span class="p">)</span><span class="si">}</span><span class="s2"> filings&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error searching filings: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="validate-search-results">Validate Search Results</h3>
+<div class="highlight"><pre><span></span><code><span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No filings found matching criteria&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filings</span><span class="p">)</span><span class="si">}</span><span class="s2"> filings&quot;</span><span class="p">)</span>
+    <span class="c1"># Verify first result</span>
+    <span class="n">first_filing</span> <span class="o">=</span> <span class="n">filings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First result: </span><span class="si">{</span><span class="n">first_filing</span><span class="o">.</span><span class="n">form</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">first_filing</span><span class="o">.</span><span class="n">company_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="common-search-patterns">Common Search Patterns</h2>
+<h3 id="earnings-season-analysis">Earnings Season Analysis</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Find quarterly reports filed in typical earnings periods</span>
+<span class="n">earnings_dates</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;2024-01-15:2024-02-15&quot;</span><span class="p">,</span>  <span class="c1"># Q4 earnings</span>
+    <span class="s2">&quot;2024-04-15:2024-05-15&quot;</span><span class="p">,</span>  <span class="c1"># Q1 earnings</span>
+    <span class="s2">&quot;2024-07-15:2024-08-15&quot;</span><span class="p">,</span>  <span class="c1"># Q2 earnings</span>
+    <span class="s2">&quot;2024-10-15:2024-11-15&quot;</span>   <span class="c1"># Q3 earnings</span>
+<span class="p">]</span>
+
+<span class="n">earnings_filings</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">date_range</span> <span class="ow">in</span> <span class="n">earnings_dates</span><span class="p">:</span>
+    <span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-Q&quot;</span><span class="p">,</span> <span class="n">filing_date</span><span class="o">=</span><span class="n">date_range</span><span class="p">)</span>
+    <span class="n">earnings_filings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">filings</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">earnings_filings</span><span class="p">)</span><span class="si">}</span><span class="s2"> earnings period filings&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="ma-activity-monitoring">M&amp;A Activity Monitoring</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Look for 8-K filings that might indicate M&amp;A activity</span>
+<span class="n">ma_filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span>
+
+<span class="c1"># Filter for potential M&amp;A keywords (requires examining filing content)</span>
+<span class="n">potential_ma</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">ma_filings</span><span class="p">[:</span><span class="mi">50</span><span class="p">]:</span>  <span class="c1"># Limit for performance</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> 
+               <span class="p">[</span><span class="s1">&#39;acquisition&#39;</span><span class="p">,</span> <span class="s1">&#39;merger&#39;</span><span class="p">,</span> <span class="s1">&#39;tender offer&#39;</span><span class="p">,</span> <span class="s1">&#39;purchase agreement&#39;</span><span class="p">]):</span>
+            <span class="n">potential_ma</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filing</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">continue</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">potential_ma</span><span class="p">)</span><span class="si">}</span><span class="s2"> potential M&amp;A filings&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="next-steps">Next Steps</h2>
+<p>Now that you can search for filings effectively, learn how to:</p>
+<ul>
+<li><strong><a href="../filtering-filings/">Filter Filings by Date/Type</a></strong> - Advanced filtering techniques</li>
+<li><strong><a href="../filing-attachments/">Access Filing Attachments</a></strong> - Get supporting documents</li>
+</ul>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><strong><a href="../../api/filing/">Filing API Reference</a></strong> - Complete Filing class documentation</li>
+<li><strong><a href="../../api/filings/">Filings API Reference</a></strong> - Filings collection methods</li>
+<li><strong><a href="../working-with-filing/">Working with Filings</a></strong> - Original filing documentation</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>

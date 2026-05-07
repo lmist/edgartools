@@ -1,0 +1,7305 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Access and analyze SEC filings, financial statements, insider trading, and investment fund data">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/api/entity-facts-reference/">
+      
+      
+        <link rel="prev" href="../xbrl/">
+      
+      
+        <link rel="next" href="../../configuration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Entity Facts - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#entityfacts-api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Entity Facts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/working-with-filing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/working-with-filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/searching-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/tend-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/stock-splits-eps-normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../xbrl/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entityfacts-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EntityFacts Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EntityFacts Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cik-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cik: int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        name: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dei-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DEI Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shares_outstanding-optionalfloat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shares_outstanding: Optional[float]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public_float-optionalfloat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        public_float: Optional[float]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shares_outstanding_fact-optionalfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shares_outstanding_fact: Optional[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public_float_fact-optionalfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        public_float_fact: Optional[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        query() -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_factconcept-str-period-optionalstr-none-optionalfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_fact(concept: str, period: Optional[str] = None) -&gt; Optional[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#financial-statement-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Financial Statement Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Financial Statement Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#balance_sheetperiods-int-4-as_of-optionaldate-none-as_dataframe-bool-false-annual-bool-true" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        balance_sheet(periods: int = 4, as_of: Optional[date] = None, as_dataframe: bool = False, annual: bool = True)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cash_flowperiods-int-4-period_length-optionalint-none-as_dataframe-bool-false-annual-bool-true" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cash_flow(periods: int = 4, period_length: Optional[int] = None, as_dataframe: bool = False, annual: bool = True)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dei-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DEI Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DEI Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dei_factsas_of-optionaldate-none-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dei_facts(as_of: Optional[date] = None) -&gt; pd.DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entity_info-dictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        entity_info() -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aillm-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI/LLM Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI/LLM Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_contextfocus_areas-optionalliststr-none-time_period-str-recent-dictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context(focus_areas: Optional[List[str]] = None, time_period: str = "recent") -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_agent_tools-listdictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_agent_tools() -&gt; List[Dict[str, Any]]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#magic-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Magic Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Magic Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#__len__-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __len__() -&gt; int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__iter__-iteratorfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __iter__() -&gt; Iterator[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#factquery-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FactQuery Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FactQuery Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filtering Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filtering Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concept-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_conceptconcept-str-exact-bool-false-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_concept(concept: str, exact: bool = False) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_labellabel-str-fuzzy-bool-true-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_label(label: str, fuzzy: bool = True) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-based-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time-Based Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_fiscal_yearyear-int-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_fiscal_year(year: int) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_fiscal_periodperiod-str-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_fiscal_period(period: str) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_period_lengthmonths-int-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_period_length(months: int) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date_rangestart-date-end-date-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        date_range(start: date, end: date) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#as_ofas_of_date-date-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        as_of(as_of_date: date) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statement-and-form-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statement and Form Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_statement_typestatement_type-str-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_statement_type(statement_type: str) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_form_typeform_type-unionstr-liststr-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_form_type(form_type: Union[str, List[str]]) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high_quality_only-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        high_quality_only() -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#min_confidencethreshold-float-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        min_confidence(threshold: float) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Special Queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latest_instant-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        latest_instant() -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latest_periodsn-int-4-annual-bool-true-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        latest_periods(n: int = 4, annual: bool = True) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorting-and-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sorting and Limiting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sorting and Limiting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sort_byfield-str-ascending-bool-true-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sort_by(field: str, ascending: bool = True) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latestn-int-1-listfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        latest(n: int = 1) -&gt; List[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execution Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execute-listfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute() -&gt; List[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#count-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        count() -&gt; int
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_dataframecolumns-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dataframe(*columns) -&gt; pd.DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pivot_by_periodreturn_statement-bool-true-unionfinancialstatement-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pivot_by_period(return_statement: bool = True) -&gt; Union[FinancialStatement, pd.DataFrame]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_context-listdictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context() -&gt; List[Dict[str, Any]]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#financialstatement-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FinancialStatement Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FinancialStatement Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shape-tuple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shape: tuple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#columns-pdindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        columns: pd.Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-pdindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        index: pd.Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#empty-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        empty: bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_numeric-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_numeric() -&gt; pd.DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_conceptconcept_name-str-optionalpdseries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_concept(concept_name: str) -&gt; Optional[pd.Series]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculate_growthconcept_name-str-periods-int-2-optionalpdseries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        calculate_growth(concept_name: str, periods: int = 2) -&gt; Optional[pd.Series]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format_valuevalue-float-concept_label-str-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        format_value(value: float, concept_label: str) -&gt; str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_context-dictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context() -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#financialfact-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FinancialFact Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FinancialFact Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concept-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        concept: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taxonomy-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taxonomy: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        label: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-unionfloat-int-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        value: Union[float, int, str]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numeric_value-optionalfloat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        numeric_value: Optional[float]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unit: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-optionalint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scale: Optional[int]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporal-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temporal Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#period_start-optionaldate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        period_start: Optional[date]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#period_end-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        period_end: date
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#period_type-literalinstant-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        period_type: Literal['instant', 'duration']
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fiscal_year-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fiscal_year: int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fiscal_period-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fiscal_period: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filing-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filing Context
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filing Context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filing_date-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filing_date: date
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form_type-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        form_type: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accession-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        accession: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quality Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data_quality-dataquality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_quality: DataQuality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_audited-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_audited: bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confidence_score-float" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        confidence_score: float
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-ready-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI-Ready Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI-Ready Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#semantic_tags-liststr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        semantic_tags: List[str]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business_context-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        business_context: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_context-dictstr-any_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context() -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_formatted_value-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_formatted_value() -&gt; str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_display_period_key-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_display_period_key() -&gt; str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entityfactsparser-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EntityFactsParser Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EntityFactsParser Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parse_company_factsfacts_json-dictstr-any-entityfacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parse_company_facts(facts_json: Dict[str, Any]) -&gt; EntityFacts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dataquality-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DataQuality Enum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conceptmetadata-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConceptMetadata Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nocompanyfactsfound-exception" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoCompanyFactsFound Exception
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-chaining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method Chaining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entityfacts-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EntityFacts Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EntityFacts Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cik-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cik: int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        name: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dei-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DEI Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shares_outstanding-optionalfloat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shares_outstanding: Optional[float]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public_float-optionalfloat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        public_float: Optional[float]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shares_outstanding_fact-optionalfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shares_outstanding_fact: Optional[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public_float_fact-optionalfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        public_float_fact: Optional[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        query() -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_factconcept-str-period-optionalstr-none-optionalfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_fact(concept: str, period: Optional[str] = None) -&gt; Optional[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#financial-statement-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Financial Statement Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Financial Statement Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#balance_sheetperiods-int-4-as_of-optionaldate-none-as_dataframe-bool-false-annual-bool-true" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        balance_sheet(periods: int = 4, as_of: Optional[date] = None, as_dataframe: bool = False, annual: bool = True)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cash_flowperiods-int-4-period_length-optionalint-none-as_dataframe-bool-false-annual-bool-true" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cash_flow(periods: int = 4, period_length: Optional[int] = None, as_dataframe: bool = False, annual: bool = True)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dei-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DEI Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DEI Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dei_factsas_of-optionaldate-none-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dei_facts(as_of: Optional[date] = None) -&gt; pd.DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entity_info-dictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        entity_info() -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aillm-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI/LLM Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI/LLM Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_contextfocus_areas-optionalliststr-none-time_period-str-recent-dictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context(focus_areas: Optional[List[str]] = None, time_period: str = "recent") -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_agent_tools-listdictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_agent_tools() -&gt; List[Dict[str, Any]]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#magic-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Magic Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Magic Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#__len__-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __len__() -&gt; int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__iter__-iteratorfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __iter__() -&gt; Iterator[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#factquery-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FactQuery Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FactQuery Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtering-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filtering Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filtering Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concept-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_conceptconcept-str-exact-bool-false-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_concept(concept: str, exact: bool = False) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_labellabel-str-fuzzy-bool-true-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_label(label: str, fuzzy: bool = True) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-based-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time-Based Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_fiscal_yearyear-int-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_fiscal_year(year: int) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_fiscal_periodperiod-str-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_fiscal_period(period: str) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_period_lengthmonths-int-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_period_length(months: int) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date_rangestart-date-end-date-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        date_range(start: date, end: date) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#as_ofas_of_date-date-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        as_of(as_of_date: date) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statement-and-form-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statement and Form Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_statement_typestatement_type-str-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_statement_type(statement_type: str) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by_form_typeform_type-unionstr-liststr-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        by_form_type(form_type: Union[str, List[str]]) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high_quality_only-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        high_quality_only() -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#min_confidencethreshold-float-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        min_confidence(threshold: float) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Special Queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latest_instant-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        latest_instant() -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latest_periodsn-int-4-annual-bool-true-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        latest_periods(n: int = 4, annual: bool = True) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorting-and-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sorting and Limiting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sorting and Limiting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sort_byfield-str-ascending-bool-true-factquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sort_by(field: str, ascending: bool = True) -&gt; FactQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latestn-int-1-listfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        latest(n: int = 1) -&gt; List[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execution Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execute-listfinancialfact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        execute() -&gt; List[FinancialFact]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#count-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        count() -&gt; int
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_dataframecolumns-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dataframe(*columns) -&gt; pd.DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pivot_by_periodreturn_statement-bool-true-unionfinancialstatement-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pivot_by_period(return_statement: bool = True) -&gt; Union[FinancialStatement, pd.DataFrame]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_context-listdictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context() -&gt; List[Dict[str, Any]]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#financialstatement-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FinancialStatement Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FinancialStatement Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shape-tuple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shape: tuple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#columns-pdindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        columns: pd.Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-pdindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        index: pd.Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#empty-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        empty: bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_numeric-pddataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_numeric() -&gt; pd.DataFrame
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_conceptconcept_name-str-optionalpdseries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_concept(concept_name: str) -&gt; Optional[pd.Series]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculate_growthconcept_name-str-periods-int-2-optionalpdseries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        calculate_growth(concept_name: str, periods: int = 2) -&gt; Optional[pd.Series]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format_valuevalue-float-concept_label-str-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        format_value(value: float, concept_label: str) -&gt; str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_context-dictstr-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context() -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#financialfact-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FinancialFact Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FinancialFact Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concept-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        concept: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taxonomy-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        taxonomy: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        label: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-unionfloat-int-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        value: Union[float, int, str]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numeric_value-optionalfloat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        numeric_value: Optional[float]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unit: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-optionalint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scale: Optional[int]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporal-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temporal Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#period_start-optionaldate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        period_start: Optional[date]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#period_end-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        period_end: date
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#period_type-literalinstant-duration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        period_type: Literal['instant', 'duration']
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fiscal_year-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fiscal_year: int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fiscal_period-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fiscal_period: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filing-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filing Context
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filing Context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filing_date-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filing_date: date
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form_type-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        form_type: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accession-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        accession: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quality Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data_quality-dataquality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_quality: DataQuality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_audited-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_audited: bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confidence_score-float" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        confidence_score: float
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-ready-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI-Ready Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI-Ready Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#semantic_tags-liststr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        semantic_tags: List[str]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business_context-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        business_context: str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_llm_context-dictstr-any_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_llm_context() -&gt; Dict[str, Any]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_formatted_value-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_formatted_value() -&gt; str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_display_period_key-str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_display_period_key() -&gt; str
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entityfactsparser-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EntityFactsParser Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EntityFactsParser Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parse_company_factsfacts_json-dictstr-any-entityfacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parse_company_facts(facts_json: Dict[str, Any]) -&gt; EntityFacts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dataquality-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DataQuality Enum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conceptmetadata-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConceptMetadata Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nocompanyfactsfound-exception" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoCompanyFactsFound Exception
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-chaining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method Chaining
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="entityfacts-api-reference">EntityFacts API Reference</h1>
+<p>Complete API documentation for the enhanced EntityFacts system, including all classes, methods, and data models.</p>
+<h2 id="overview">Overview</h2>
+<p>The EntityFacts API provides structured access to SEC company financial data with AI-ready features, powerful querying capabilities, and professional formatting. The system consists of several key components:</p>
+<ul>
+<li><strong>EntityFacts</strong> - Main class for accessing company facts</li>
+<li><strong>FactQuery</strong> - Fluent query builder for advanced filtering</li>
+<li><strong>FinancialStatement</strong> - Formatted display wrapper for financial data</li>
+<li><strong>FinancialFact</strong> - Individual fact data model with rich metadata</li>
+</ul>
+<h2 id="entityfacts-class">EntityFacts Class</h2>
+<p>The main entry point for accessing company financial facts.</p>
+<h3 id="constructor">Constructor</h3>
+<div class="highlight"><pre><span></span><code><span class="n">EntityFacts</span><span class="p">(</span><span class="n">cik</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">facts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FinancialFact</span><span class="p">])</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>cik</code> (int): Company CIK number
+- <code>name</code> (str): Company name<br />
+- <code>facts</code> (List[FinancialFact]): List of financial facts</p>
+<h3 id="properties">Properties</h3>
+<h4 id="core-properties">Core Properties</h4>
+<h4 id="cik-int"><code>cik: int</code></h4>
+<p>The company's CIK (Central Index Key) number.</p>
+<div class="highlight"><pre><span></span><code><span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">facts</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">facts</span><span class="o">.</span><span class="n">cik</span><span class="p">)</span>  <span class="c1"># 320193</span>
+</code></pre></div>
+<h4 id="name-str"><code>name: str</code></h4>
+<p>The company's official name.</p>
+<div class="highlight"><pre><span></span><code><span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">facts</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">facts</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># &quot;Apple Inc.&quot;</span>
+</code></pre></div>
+<h4 id="dei-properties">DEI Properties</h4>
+<h4 id="shares_outstanding-optionalfloat"><code>shares_outstanding: Optional[float]</code></h4>
+<p>Number of common shares outstanding.</p>
+<div class="highlight"><pre><span></span><code><span class="n">shares</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">shares_outstanding</span>
+<span class="k">if</span> <span class="n">shares</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shares Outstanding: </span><span class="si">{</span><span class="n">shares</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="public_float-optionalfloat"><code>public_float: Optional[float]</code></h4>
+<p>Public float value in dollars.</p>
+<div class="highlight"><pre><span></span><code><span class="n">float_val</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">public_float</span>
+<span class="k">if</span> <span class="n">float_val</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Public Float: $</span><span class="si">{</span><span class="n">float_val</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="shares_outstanding_fact-optionalfinancialfact"><code>shares_outstanding_fact: Optional[FinancialFact]</code></h4>
+<p>Full fact object for shares outstanding with metadata.</p>
+<div class="highlight"><pre><span></span><code><span class="n">fact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">shares_outstanding_fact</span>
+<span class="k">if</span> <span class="n">fact</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shares: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">get_formatted_value</span><span class="p">()</span><span class="si">}</span><span class="s2"> as of </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">period_end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="public_float_fact-optionalfinancialfact"><code>public_float_fact: Optional[FinancialFact]</code></h4>
+<p>Full fact object for public float with metadata.</p>
+<div class="highlight"><pre><span></span><code><span class="n">fact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">public_float_fact</span>
+<span class="k">if</span> <span class="n">fact</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Float: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">get_formatted_value</span><span class="p">()</span><span class="si">}</span><span class="s2"> as of </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">period_end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="core-methods">Core Methods</h3>
+<h4 id="query-interface">Query Interface</h4>
+<h4 id="query-factquery"><code>query() -&gt; FactQuery</code></h4>
+<p>Start building a facts query using the fluent interface.</p>
+<div class="highlight"><pre><span></span><code><span class="n">query</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Returns:</strong> FactQuery builder instance</p>
+<h4 id="get_factconcept-str-period-optionalstr-none-optionalfinancialfact"><code>get_fact(concept: str, period: Optional[str] = None) -&gt; Optional[FinancialFact]</code></h4>
+<p>Get a single fact by concept name.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use the full XBRL concept name or the lowercase label</span>
+<span class="n">revenue_fact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_fact</span><span class="p">(</span><span class="s1">&#39;us-gaap:Revenues&#39;</span><span class="p">)</span>
+<span class="n">q1_revenue</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_fact</span><span class="p">(</span><span class="s1">&#39;us-gaap:Revenues&#39;</span><span class="p">,</span> <span class="s1">&#39;2024-Q1&#39;</span><span class="p">)</span>
+
+<span class="c1"># Lowercase labels also work</span>
+<span class="n">revenue_fact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_fact</span><span class="p">(</span><span class="s1">&#39;revenues&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>concept</code> (str): XBRL concept name (e.g. <code>'us-gaap:Revenues'</code>) or lowercase label (e.g. <code>'revenues'</code>). Use <code>search_concepts()</code> to find valid names.
+- <code>period</code> (str, optional): Period in format "YYYY-QN" or "YYYY-FY"</p>
+<p><strong>Returns:</strong> Most recent matching fact or None</p>
+<div class="highlight"><pre><span></span><code><span class="n">time_series</span><span class="p">(</span><span class="n">concept</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+</code></pre></div>
+<p>Get time series data for a concept.</p>
+<div class="highlight"><pre><span></span><code><span class="n">revenue_ts</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">time_series</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>concept</code> (str): Concept name or label
+- <code>periods</code> (int): Number of periods to retrieve (default: 20)</p>
+<p><strong>Returns:</strong> DataFrame with time series data</p>
+<h3 id="financial-statement-methods">Financial Statement Methods</h3>
+<div class="highlight"><pre><span></span><code><span class="n">income_statement</span><span class="p">(</span><span class="n">periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> 
+                 <span class="n">period_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">as_dataframe</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+                 <span class="n">annual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p>Get income statement facts formatted as a financial statement.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Default: 4 annual periods, formatted display</span>
+<span class="n">stmt</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">income_statement</span><span class="p">()</span>
+
+<span class="c1"># 8 quarterly periods as DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">income_statement</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">as_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>periods</code> (int): Number of periods to retrieve (default: 4)
+- <code>period_length</code> (int, optional): Filter by period length in months (3=quarterly, 12=annual)
+- <code>as_dataframe</code> (bool): If True, return DataFrame; if False, return FinancialStatement (default: False)
+- <code>annual</code> (bool): If True, prefer annual periods; if False, prefer quarterly (default: True)</p>
+<p><strong>Returns:</strong> FinancialStatement or DataFrame</p>
+<h4 id="balance_sheetperiods-int-4-as_of-optionaldate-none-as_dataframe-bool-false-annual-bool-true"><code>balance_sheet(periods: int = 4, as_of: Optional[date] = None, as_dataframe: bool = False, annual: bool = True)</code></h4>
+<p>Get balance sheet facts for periods or point-in-time.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Multi-period balance sheet</span>
+<span class="n">stmt</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">balance_sheet</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Point-in-time snapshot</span>
+<span class="n">snapshot</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">balance_sheet</span><span class="p">(</span><span class="n">as_of</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>periods</code> (int): Number of periods to retrieve (default: 4)
+- <code>as_of</code> (date, optional): Get snapshot as of specific date
+- <code>as_dataframe</code> (bool): If True, return DataFrame; if False, return FinancialStatement (default: False)
+- <code>annual</code> (bool): If True, prefer annual periods (default: True)</p>
+<p><strong>Returns:</strong> FinancialStatement or DataFrame</p>
+<h4 id="cash_flowperiods-int-4-period_length-optionalint-none-as_dataframe-bool-false-annual-bool-true"><code>cash_flow(periods: int = 4, period_length: Optional[int] = None, as_dataframe: bool = False, annual: bool = True)</code></h4>
+<p>Get cash flow statement facts.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Annual cash flow trends</span>
+<span class="n">stmt</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">cashflow_statement</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>periods</code> (int): Number of periods to retrieve (default: 4)
+- <code>period_length</code> (int, optional): Filter by period length in months
+- <code>as_dataframe</code> (bool): If True, return DataFrame; if False, return FinancialStatement (default: False)
+- <code>annual</code> (bool): If True, prefer annual periods (default: True)</p>
+<p><strong>Returns:</strong> FinancialStatement or DataFrame</p>
+<h3 id="dei-methods">DEI Methods</h3>
+<h4 id="dei_factsas_of-optionaldate-none-pddataframe"><code>dei_facts(as_of: Optional[date] = None) -&gt; pd.DataFrame</code></h4>
+<p>Get Document and Entity Information facts.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Latest DEI facts</span>
+<span class="n">dei</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">dei_facts</span><span class="p">()</span>
+
+<span class="c1"># DEI facts as of specific date</span>
+<span class="n">dei</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">dei_facts</span><span class="p">(</span><span class="n">as_of</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>as_of</code> (date, optional): Get facts as of specific date</p>
+<p><strong>Returns:</strong> DataFrame with DEI facts</p>
+<h4 id="entity_info-dictstr-any"><code>entity_info() -&gt; Dict[str, Any]</code></h4>
+<p>Get key entity information as a clean dictionary.</p>
+<div class="highlight"><pre><span></span><code><span class="n">info</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">entity_info</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;entity_name&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;shares_outstanding&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p><strong>Returns:</strong> Dictionary with entity information</p>
+<h3 id="aillm-methods">AI/LLM Methods</h3>
+<h4 id="to_llm_contextfocus_areas-optionalliststr-none-time_period-str-recent-dictstr-any"><code>to_llm_context(focus_areas: Optional[List[str]] = None, time_period: str = "recent") -&gt; Dict[str, Any]</code></h4>
+<p>Generate comprehensive context for LLM analysis.</p>
+<div class="highlight"><pre><span></span><code><span class="n">context</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">to_llm_context</span><span class="p">(</span>
+    <span class="n">focus_areas</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;profitability&#39;</span><span class="p">,</span> <span class="s1">&#39;growth&#39;</span><span class="p">],</span>
+    <span class="n">time_period</span><span class="o">=</span><span class="s1">&#39;5Y&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>focus_areas</code> (List[str], optional): Areas to emphasize (['profitability', 'growth', 'liquidity'])
+- <code>time_period</code> (str): Time period to analyze ('recent', '5Y', '10Y', 'all') (default: 'recent')</p>
+<p><strong>Returns:</strong> Dictionary with structured LLM context</p>
+<h4 id="to_agent_tools-listdictstr-any"><code>to_agent_tools() -&gt; List[Dict[str, Any]]</code></h4>
+<p>Export facts as MCP-compatible tools for AI agents.</p>
+<div class="highlight"><pre><span></span><code><span class="n">tools</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">to_agent_tools</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Returns:</strong> List of tool definitions</p>
+<h3 id="magic-methods">Magic Methods</h3>
+<h4 id="__len__-int"><code>__len__() -&gt; int</code></h4>
+<p>Get total number of facts.</p>
+<div class="highlight"><pre><span></span><code><span class="n">total_facts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">facts</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="__iter__-iteratorfinancialfact"><code>__iter__() -&gt; Iterator[FinancialFact]</code></h4>
+<p>Iterate over all facts.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">fact</span> <span class="ow">in</span> <span class="n">facts</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">concept</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">numeric_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="factquery-class">FactQuery Class</h2>
+<p>Fluent query builder for advanced fact filtering and analysis.</p>
+<h3 id="constructor_1">Constructor</h3>
+<p>Created via <code>EntityFacts.query()</code> method. Do not instantiate directly.</p>
+<h3 id="filtering-methods">Filtering Methods</h3>
+<h4 id="concept-filtering">Concept Filtering</h4>
+<h4 id="by_conceptconcept-str-exact-bool-false-factquery"><code>by_concept(concept: str, exact: bool = False) -&gt; FactQuery</code></h4>
+<p>Filter by concept name or pattern.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fuzzy matching (default)</span>
+<span class="n">revenue_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span>
+
+<span class="c1"># Exact matching  </span>
+<span class="n">exact_revenue</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;us-gaap:Revenue&#39;</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>concept</code> (str): Concept name or label to match
+- <code>exact</code> (bool): If True, require exact match (default: False)</p>
+<h4 id="by_labellabel-str-fuzzy-bool-true-factquery"><code>by_label(label: str, fuzzy: bool = True) -&gt; FactQuery</code></h4>
+<p>Filter by human-readable label.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fuzzy label matching</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_label</span><span class="p">(</span><span class="s1">&#39;Total Revenue&#39;</span><span class="p">,</span> <span class="n">fuzzy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Exact label matching</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_label</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">,</span> <span class="n">fuzzy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>label</code> (str): Label to match
+- <code>fuzzy</code> (bool): Use fuzzy matching (default: True)</p>
+<h4 id="time-based-filtering">Time-Based Filtering</h4>
+<h4 id="by_fiscal_yearyear-int-factquery"><code>by_fiscal_year(year: int) -&gt; FactQuery</code></h4>
+<p>Filter by fiscal year.</p>
+<div class="highlight"><pre><span></span><code><span class="n">fy2024_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_fiscal_year</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>year</code> (int): Fiscal year to filter by</p>
+<h4 id="by_fiscal_periodperiod-str-factquery"><code>by_fiscal_period(period: str) -&gt; FactQuery</code></h4>
+<p>Filter by fiscal period.</p>
+<div class="highlight"><pre><span></span><code><span class="n">q1_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_fiscal_period</span><span class="p">(</span><span class="s1">&#39;Q1&#39;</span><span class="p">)</span>
+<span class="n">fy_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_fiscal_period</span><span class="p">(</span><span class="s1">&#39;FY&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>period</code> (str): Fiscal period ('FY', 'Q1', 'Q2', 'Q3', 'Q4')</p>
+<h4 id="by_period_lengthmonths-int-factquery"><code>by_period_length(months: int) -&gt; FactQuery</code></h4>
+<p>Filter by period length in months.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Quarterly periods (3 months)</span>
+<span class="n">quarterly</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_period_length</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Annual periods (12 months)</span>
+<span class="n">annual</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_period_length</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>months</code> (int): Period length (3=quarterly, 12=annual, 9=YTD)</p>
+<h4 id="date_rangestart-date-end-date-factquery"><code>date_range(start: date, end: date) -&gt; FactQuery</code></h4>
+<p>Filter by date range.</p>
+<div class="highlight"><pre><span></span><code><span class="n">recent_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">end</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>start</code> (date): Start date (inclusive)
+- <code>end</code> (date): End date (inclusive)</p>
+<h4 id="as_ofas_of_date-date-factquery"><code>as_of(as_of_date: date) -&gt; FactQuery</code></h4>
+<p>Get facts as of specific date (point-in-time).</p>
+<div class="highlight"><pre><span></span><code><span class="n">snapshot</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">as_of</span><span class="p">(</span><span class="n">date</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>as_of_date</code> (date): Date for point-in-time view</p>
+<h4 id="statement-and-form-filtering">Statement and Form Filtering</h4>
+<h4 id="by_statement_typestatement_type-str-factquery"><code>by_statement_type(statement_type: str) -&gt; FactQuery</code></h4>
+<p>Filter by financial statement type.</p>
+<div class="highlight"><pre><span></span><code><span class="n">income_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_statement_type</span><span class="p">(</span><span class="s1">&#39;IncomeStatement&#39;</span><span class="p">)</span>
+<span class="n">balance_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_statement_type</span><span class="p">(</span><span class="s1">&#39;BalanceSheet&#39;</span><span class="p">)</span>
+<span class="n">cash_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_statement_type</span><span class="p">(</span><span class="s1">&#39;CashFlow&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>statement_type</code> (str): Statement type ('IncomeStatement', 'BalanceSheet', 'CashFlow')</p>
+<h4 id="by_form_typeform_type-unionstr-liststr-factquery"><code>by_form_type(form_type: Union[str, List[str]]) -&gt; FactQuery</code></h4>
+<p>Filter by SEC form type.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Single form type</span>
+<span class="n">annual_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_form_type</span><span class="p">(</span><span class="s1">&#39;10-K&#39;</span><span class="p">)</span>
+
+<span class="c1"># Multiple form types</span>
+<span class="n">periodic_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_form_type</span><span class="p">([</span><span class="s1">&#39;10-K&#39;</span><span class="p">,</span> <span class="s1">&#39;10-Q&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>form_type</code> (str or List[str]): Form type(s) to filter by</p>
+<h4 id="quality-filtering">Quality Filtering</h4>
+<h4 id="high_quality_only-factquery"><code>high_quality_only() -&gt; FactQuery</code></h4>
+<p>Filter to only high-quality, audited facts.</p>
+<div class="highlight"><pre><span></span><code><span class="n">quality_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">high_quality_only</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="min_confidencethreshold-float-factquery"><code>min_confidence(threshold: float) -&gt; FactQuery</code></h4>
+<p>Filter by minimum confidence score.</p>
+<div class="highlight"><pre><span></span><code><span class="n">confident_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">min_confidence</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>threshold</code> (float): Minimum confidence score (0.0 to 1.0)</p>
+<h4 id="special-queries">Special Queries</h4>
+<h4 id="latest_instant-factquery"><code>latest_instant() -&gt; FactQuery</code></h4>
+<p>Filter to most recent instant facts (for balance sheet items).</p>
+<div class="highlight"><pre><span></span><code><span class="n">latest_balance</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_statement_type</span><span class="p">(</span><span class="s1">&#39;BalanceSheet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">latest_instant</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="latest_periodsn-int-4-annual-bool-true-factquery"><code>latest_periods(n: int = 4, annual: bool = True) -&gt; FactQuery</code></h4>
+<p>Get facts from the n most recent periods.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Latest 4 annual periods only</span>
+<span class="n">recent</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">latest_periods</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Latest 8 periods, any type</span>
+<span class="n">recent</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">latest_periods</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>n</code> (int): Number of recent periods (default: 4)
+- <code>annual</code> (bool): If True, only use annual periods; if False, use all period types (default: True)</p>
+<h3 id="sorting-and-limiting">Sorting and Limiting</h3>
+<h4 id="sort_byfield-str-ascending-bool-true-factquery"><code>sort_by(field: str, ascending: bool = True) -&gt; FactQuery</code></h4>
+<p>Sort results by field.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Sort by filing date (newest first)</span>
+<span class="n">sorted_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">sort_by</span><span class="p">(</span><span class="s1">&#39;filing_date&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Sort by fiscal year</span>
+<span class="n">sorted_facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">sort_by</span><span class="p">(</span><span class="s1">&#39;fiscal_year&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>field</code> (str): Field name to sort by
+- <code>ascending</code> (bool): Sort order (default: True)</p>
+<h4 id="latestn-int-1-listfinancialfact"><code>latest(n: int = 1) -&gt; List[FinancialFact]</code></h4>
+<p>Get the n most recent facts.</p>
+<div class="highlight"><pre><span></span><code><span class="n">latest_revenue</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>n</code> (int): Number of facts to return (default: 1)</p>
+<p><strong>Returns:</strong> List of facts (executes query immediately)</p>
+<h3 id="execution-methods">Execution Methods</h3>
+<h4 id="execute-listfinancialfact"><code>execute() -&gt; List[FinancialFact]</code></h4>
+<p>Execute query and return matching facts.</p>
+<div class="highlight"><pre><span></span><code><span class="n">facts</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">by_fiscal_year</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Returns:</strong> List of FinancialFact objects</p>
+<h4 id="count-int"><code>count() -&gt; int</code></h4>
+<p>Get count of facts matching current filters.</p>
+<div class="highlight"><pre><span></span><code><span class="n">revenue_count</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Returns:</strong> Number of matching facts</p>
+<h3 id="output-methods">Output Methods</h3>
+<h4 id="to_dataframecolumns-pddataframe"><code>to_dataframe(*columns) -&gt; pd.DataFrame</code></h4>
+<p>Convert results to pandas DataFrame.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># All columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="c1"># Selected columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span>
+    <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;numeric_value&#39;</span><span class="p">,</span> <span class="s1">&#39;fiscal_period&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>*columns</code> (str): Optional column names to include</p>
+<p><strong>Returns:</strong> DataFrame with query results</p>
+<h4 id="pivot_by_periodreturn_statement-bool-true-unionfinancialstatement-pddataframe"><code>pivot_by_period(return_statement: bool = True) -&gt; Union[FinancialStatement, pd.DataFrame]</code></h4>
+<p>Pivot facts to show concepts as rows and periods as columns.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Formatted financial statement</span>
+<span class="n">stmt</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_statement_type</span><span class="p">(</span><span class="s1">&#39;IncomeStatement&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pivot_by_period</span><span class="p">()</span>
+
+<span class="c1"># Raw DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_statement_type</span><span class="p">(</span><span class="s1">&#39;IncomeStatement&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pivot_by_period</span><span class="p">(</span><span class="n">return_statement</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>return_statement</code> (bool): If True, return FinancialStatement; if False, return DataFrame (default: True)</p>
+<p><strong>Returns:</strong> FinancialStatement or DataFrame</p>
+<h4 id="to_llm_context-listdictstr-any"><code>to_llm_context() -&gt; List[Dict[str, Any]]</code></h4>
+<p>Convert results to LLM-friendly context.</p>
+<div class="highlight"><pre><span></span><code><span class="n">llm_data</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_llm_context</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Returns:</strong> List of fact contexts for LLM consumption</p>
+<h2 id="financialstatement-class">FinancialStatement Class</h2>
+<p>Wrapper around pandas DataFrame for financial statements with intelligent formatting.</p>
+<h3 id="constructor_2">Constructor</h3>
+<div class="highlight"><pre><span></span><code><span class="n">FinancialStatement</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">entity_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">period_lengths</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mixed_periods</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>data</code> (pd.DataFrame): Financial data
+- <code>statement_type</code> (str): Statement type
+- <code>entity_name</code> (str): Company name
+- <code>period_lengths</code> (List[str], optional): Period lengths in data
+- <code>mixed_periods</code> (bool): Whether data contains mixed period lengths</p>
+<h3 id="properties_1">Properties</h3>
+<h4 id="shape-tuple"><code>shape: tuple</code></h4>
+<p>Shape of the underlying DataFrame.</p>
+<div class="highlight"><pre><span></span><code><span class="n">stmt</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">income_statement</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stmt</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (10, 4)</span>
+</code></pre></div>
+<h4 id="columns-pdindex"><code>columns: pd.Index</code></h4>
+<p>Column names of the statement.</p>
+<div class="highlight"><pre><span></span><code><span class="n">periods</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">columns</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">periods</span><span class="p">))</span>  <span class="c1"># [&#39;FY 2024&#39;, &#39;FY 2023&#39;, &#39;FY 2022&#39;, &#39;FY 2021&#39;]</span>
+</code></pre></div>
+<h4 id="index-pdindex"><code>index: pd.Index</code></h4>
+<p>Row labels (concept names).</p>
+<div class="highlight"><pre><span></span><code><span class="n">concepts</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">index</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">concepts</span><span class="p">))</span>  <span class="c1"># [&#39;Revenue&#39;, &#39;Cost of Revenue&#39;, &#39;Gross Profit&#39;, ...]</span>
+</code></pre></div>
+<h4 id="empty-bool"><code>empty: bool</code></h4>
+<p>Whether the statement is empty.</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="ow">not</span> <span class="n">stmt</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Statement has data&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="methods">Methods</h3>
+<h4 id="to_numeric-pddataframe"><code>to_numeric() -&gt; pd.DataFrame</code></h4>
+<p>Get underlying numeric DataFrame for calculations.</p>
+<div class="highlight"><pre><span></span><code><span class="n">stmt</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">income_statement</span><span class="p">()</span>
+<span class="n">numeric_data</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">()</span>
+<span class="n">growth_rates</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="o">.</span><span class="n">pct_change</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Returns:</strong> DataFrame with original numeric values</p>
+<h4 id="get_conceptconcept_name-str-optionalpdseries"><code>get_concept(concept_name: str) -&gt; Optional[pd.Series]</code></h4>
+<p>Get data for specific concept across all periods.</p>
+<div class="highlight"><pre><span></span><code><span class="n">revenue_series</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">get_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">revenue_series</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">revenue_series</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>concept_name</code> (str): Name of concept to retrieve</p>
+<p><strong>Returns:</strong> Series with values across periods, or None</p>
+<h4 id="calculate_growthconcept_name-str-periods-int-2-optionalpdseries"><code>calculate_growth(concept_name: str, periods: int = 2) -&gt; Optional[pd.Series]</code></h4>
+<p>Calculate period-over-period growth for a concept.</p>
+<div class="highlight"><pre><span></span><code><span class="n">revenue_growth</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">calculate_growth</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>concept_name</code> (str): Name of concept
+- <code>periods</code> (int): Number of periods for growth calculation (default: 2)</p>
+<p><strong>Returns:</strong> Series with growth rates, or None</p>
+<h4 id="format_valuevalue-float-concept_label-str-str"><code>format_value(value: float, concept_label: str) -&gt; str</code></h4>
+<p>Format a single value based on its concept.</p>
+<div class="highlight"><pre><span></span><code><span class="n">formatted</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">format_value</span><span class="p">(</span><span class="mi">1234567</span><span class="p">,</span> <span class="s1">&#39;Revenue&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>  <span class="c1"># &quot;$1,234,567&quot;</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>value</code> (float): Numeric value to format
+- <code>concept_label</code> (str): Label of financial concept</p>
+<p><strong>Returns:</strong> Formatted string</p>
+<h4 id="to_llm_context-dictstr-any"><code>to_llm_context() -&gt; Dict[str, Any]</code></h4>
+<p>Generate LLM-friendly context from the statement.</p>
+<div class="highlight"><pre><span></span><code><span class="n">context</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">to_llm_context</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Returns:</strong> Dictionary with structured financial data</p>
+<h3 id="display-methods">Display Methods</h3>
+<p>The FinancialStatement class provides rich display capabilities:</p>
+<ul>
+<li><strong>Jupyter Notebooks</strong>: Automatic HTML rendering with professional styling</li>
+<li><strong>Console</strong>: Formatted text output with proper alignment</li>
+<li><strong>Rich Integration</strong>: Compatible with Rich library for enhanced terminal display</li>
+</ul>
+<h2 id="financialfact-class">FinancialFact Class</h2>
+<p>Individual financial fact with rich metadata and AI-ready features.</p>
+<h3 id="constructor_3">Constructor</h3>
+<div class="highlight"><pre><span></span><code><span class="n">FinancialFact</span><span class="p">(</span>
+    <span class="n">concept</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">taxonomy</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">numeric_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># ... additional parameters</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="core-attributes">Core Attributes</h3>
+<h4 id="concept-str"><code>concept: str</code></h4>
+<p>Standardized concept identifier (e.g., 'us-gaap:Revenue').</p>
+<h4 id="taxonomy-str"><code>taxonomy: str</code></h4>
+<p>Taxonomy namespace (us-gaap, ifrs, etc.).</p>
+<h4 id="label-str"><code>label: str</code></h4>
+<p>Human-readable label.</p>
+<h4 id="value-unionfloat-int-str"><code>value: Union[float, int, str]</code></h4>
+<p>The actual fact value.</p>
+<h4 id="numeric_value-optionalfloat"><code>numeric_value: Optional[float]</code></h4>
+<p>Numeric representation for calculations.</p>
+<h4 id="unit-str"><code>unit: str</code></h4>
+<p>Unit of measure (USD, shares, etc.).</p>
+<h4 id="scale-optionalint"><code>scale: Optional[int]</code></h4>
+<p>Scale factor (1000, 1000000, etc.).</p>
+<h3 id="temporal-attributes">Temporal Attributes</h3>
+<h4 id="period_start-optionaldate"><code>period_start: Optional[date]</code></h4>
+<p>Period start date (for duration facts).</p>
+<h4 id="period_end-date"><code>period_end: date</code></h4>
+<p>Period end date.</p>
+<h4 id="period_type-literalinstant-duration"><code>period_type: Literal['instant', 'duration']</code></h4>
+<p>Type of period.</p>
+<h4 id="fiscal_year-int"><code>fiscal_year: int</code></h4>
+<p>Fiscal year.</p>
+<h4 id="fiscal_period-str"><code>fiscal_period: str</code></h4>
+<p>Fiscal period (FY, Q1, Q2, Q3, Q4).</p>
+<h3 id="filing-context">Filing Context</h3>
+<h4 id="filing_date-date"><code>filing_date: date</code></h4>
+<p>Date the fact was filed with SEC.</p>
+<h4 id="form_type-str"><code>form_type: str</code></h4>
+<p>SEC form type (10-K, 10-Q, etc.).</p>
+<h4 id="accession-str"><code>accession: str</code></h4>
+<p>SEC accession number.</p>
+<h3 id="quality-indicators">Quality Indicators</h3>
+<h4 id="data_quality-dataquality"><code>data_quality: DataQuality</code></h4>
+<p>Data quality enum (HIGH, MEDIUM, LOW).</p>
+<h4 id="is_audited-bool"><code>is_audited: bool</code></h4>
+<p>Whether the fact is from audited filing.</p>
+<h4 id="confidence_score-float"><code>confidence_score: float</code></h4>
+<p>Confidence score (0.0 to 1.0).</p>
+<h3 id="ai-ready-attributes">AI-Ready Attributes</h3>
+<h4 id="semantic_tags-liststr"><code>semantic_tags: List[str]</code></h4>
+<p>Semantic tags for AI processing.</p>
+<h4 id="business_context-str"><code>business_context: str</code></h4>
+<p>Business context description.</p>
+<h3 id="methods_1">Methods</h3>
+<h4 id="to_llm_context-dictstr-any_1"><code>to_llm_context() -&gt; Dict[str, Any]</code></h4>
+<p>Generate rich context for LLM consumption.</p>
+<div class="highlight"><pre><span></span><code><span class="n">fact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_fact</span><span class="p">(</span><span class="s1">&#39;us-gaap:Revenues&#39;</span><span class="p">)</span>
+<span class="n">context</span> <span class="o">=</span> <span class="n">fact</span><span class="o">.</span><span class="n">to_llm_context</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;concept&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p><strong>Returns:</strong> Dictionary with formatted context</p>
+<h4 id="get_formatted_value-str"><code>get_formatted_value() -&gt; str</code></h4>
+<p>Format the numeric value for display.</p>
+<div class="highlight"><pre><span></span><code><span class="n">fact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_fact</span><span class="p">(</span><span class="s1">&#39;us-gaap:Revenues&#39;</span><span class="p">)</span>
+<span class="n">formatted</span> <span class="o">=</span> <span class="n">fact</span><span class="o">.</span><span class="n">get_formatted_value</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>  <span class="c1"># &quot;365,817,000,000&quot;</span>
+</code></pre></div>
+<p><strong>Returns:</strong> Formatted string representation</p>
+<h4 id="get_display_period_key-str"><code>get_display_period_key() -&gt; str</code></h4>
+<p>Generate display-friendly period key.</p>
+<div class="highlight"><pre><span></span><code><span class="n">fact</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">get_fact</span><span class="p">(</span><span class="s1">&#39;us-gaap:Revenues&#39;</span><span class="p">)</span>
+<span class="n">period</span> <span class="o">=</span> <span class="n">fact</span><span class="o">.</span><span class="n">get_display_period_key</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>  <span class="c1"># &quot;Q1 2024&quot;</span>
+</code></pre></div>
+<p><strong>Returns:</strong> Period key like "Q1 2024", "FY 2023"</p>
+<h2 id="entityfactsparser-class">EntityFactsParser Class</h2>
+<p>Parser for converting SEC JSON data to enhanced EntityFacts format.</p>
+<h3 id="static-methods">Static Methods</h3>
+<h4 id="parse_company_factsfacts_json-dictstr-any-entityfacts"><code>parse_company_facts(facts_json: Dict[str, Any]) -&gt; EntityFacts</code></h4>
+<p>Parse SEC company facts JSON to EntityFacts object.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar.entity.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityFactsParser</span>
+
+<span class="c1"># Download SEC JSON</span>
+<span class="n">facts_json</span> <span class="o">=</span> <span class="n">download_json</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://data.sec.gov/api/xbrl/companyfacts/CIK</span><span class="si">{</span><span class="n">cik</span><span class="si">:</span><span class="s2">010d</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
+
+<span class="c1"># Parse to enhanced format</span>
+<span class="n">entity_facts</span> <span class="o">=</span> <span class="n">EntityFactsParser</span><span class="o">.</span><span class="n">parse_company_facts</span><span class="p">(</span><span class="n">facts_json</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>facts_json</code> (Dict): SEC company facts JSON data</p>
+<p><strong>Returns:</strong> EntityFacts object</p>
+<h2 id="data-models">Data Models</h2>
+<h3 id="dataquality-enum">DataQuality Enum</h3>
+<p>Quality indicators for financial facts.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar.entity.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataQuality</span>
+
+<span class="n">DataQuality</span><span class="o">.</span><span class="n">HIGH</span>    <span class="c1"># Direct from XBRL, validated</span>
+<span class="n">DataQuality</span><span class="o">.</span><span class="n">MEDIUM</span>  <span class="c1"># Derived or calculated  </span>
+<span class="n">DataQuality</span><span class="o">.</span><span class="n">LOW</span>     <span class="c1"># Estimated or inferred</span>
+</code></pre></div>
+<h3 id="conceptmetadata-class">ConceptMetadata Class</h3>
+<p>Metadata about financial concepts.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConceptMetadata</span><span class="p">:</span>
+    <span class="n">concept</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">definition</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">parent_concepts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">child_concepts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1"># ... additional fields</span>
+</code></pre></div>
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="nocompanyfactsfound-exception">NoCompanyFactsFound Exception</h3>
+<p>Raised when company facts cannot be found.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar.entity.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoCompanyFactsFound</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">facts</span> <span class="o">=</span> <span class="n">get_company_facts</span><span class="p">(</span><span class="n">invalid_cik</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">NoCompanyFactsFound</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No facts found: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="type-hints">Type Hints</h2>
+<p>The API uses comprehensive type hints for better IDE support:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.entity.entity_facts</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityFacts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.entity.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FinancialFact</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.entity.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">FactQuery</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.entity.statement</span><span class="w"> </span><span class="kn">import</span> <span class="n">FinancialStatement</span>
+</code></pre></div>
+<h2 id="usage-patterns">Usage Patterns</h2>
+<h3 id="method-chaining">Method Chaining</h3>
+<p>All query methods return the query object for chaining:</p>
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">facts</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>\
+    <span class="o">.</span><span class="n">by_concept</span><span class="p">(</span><span class="s1">&#39;Revenue&#39;</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">by_fiscal_year</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">by_form_type</span><span class="p">(</span><span class="s1">&#39;10-K&#39;</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">sort_by</span><span class="p">(</span><span class="s1">&#39;filing_date&#39;</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="error-handling_1">Error Handling</h3>
+<p>The API uses graceful error handling:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Methods return None instead of raising exceptions</span>
+<span class="n">stmt</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">income_statement</span><span class="p">()</span>  <span class="c1"># Returns None if no data</span>
+<span class="k">if</span> <span class="n">stmt</span><span class="p">:</span>
+    <span class="c1"># Process statement</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<h3 id="performance-considerations">Performance Considerations</h3>
+<ul>
+<li>Use specific filters for better performance</li>
+<li>Leverage caching by reusing EntityFacts objects</li>
+<li>Use <code>count()</code> for existence checks before loading data</li>
+<li>Prefer <code>latest()</code> over <code>execute()</code> when you need recent data only</li>
+</ul>
+<hr />
+<p><em>This API reference documents EdgarTools EntityFacts system. For usage examples and tutorials, see the <a href="../../guides/company-facts/">Company Facts Guide</a>.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>

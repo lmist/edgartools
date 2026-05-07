@@ -1,0 +1,137 @@
+# EdgarTools - Python Library for SEC Data Analysis
+
+> Access and analyze SEC filings, financial statements, insider trading, and investment fund data
+
+This file maps the public EdgarTools documentation for language models and other automated readers.
+
+
+## Get Started
+
+- [Overview](https://lmist.github.io/edgartools/): Powerful Python library for SEC data analysis and financial research
+- [Installation](https://lmist.github.io/edgartools/installation/): Get started with edgartools in minutes. This guide covers all installation methods and system requirements.
+- [Quick Start](https://lmist.github.io/edgartools/quickstart/): Get up and running with EdgarTools in 5 minutes. By the end, you'll have a company's financial statements in Python.
+- [Complete Guide](https://lmist.github.io/edgartools/complete-guide/): Every public company in the United States is required to file financial reports with the Securities and Exchange Commission (SEC). These filings — annual reports (10 K), quarterly reports (10 Q), current event reports (8...
+- [Choosing the Right API](https://lmist.github.io/edgartools/xbrl/getting-started/choosing-the-right-api/): EdgarTools offers three different ways to access financial data. This guide helps you choose the right one for your needs.
+- [Common Pitfalls](https://lmist.github.io/edgartools/common-pitfalls/): New to EdgarTools? This page covers the most frequent mistakes and how to avoid them.
+- [Cheat Sheet](https://lmist.github.io/edgartools/quick-guide/): Common EdgarTools operations at a glance. For a step by step introduction, see the Quick Start.
+- [Key Concepts](https://lmist.github.io/edgartools/concepts/sec-filings/): The U.S. Securities and Exchange Commission (SEC) requires public companies, investment funds, and certain individuals to submit various regulatory filings. These documents provide transparency into financial performance...
+
+## Company
+
+- [Find a Company](https://lmist.github.io/edgartools/guides/finding-companies/): Learn how to locate companies in the SEC database using tickers, CIKs, or company names.
+- [Company Subsets](https://lmist.github.io/edgartools/company-subsets/): The edgar.reference.company subsets module provides powerful and flexible tools for creating subsets of companies from SEC reference data. This is especially useful for research, analysis, educational purposes, and machi...
+- [Track Insiders](https://lmist.github.io/edgartools/guides/company-insiders/): This guide shows how to get a list of insiders for a company by writing a simple script to loop through their Form 4 filings and getting the name and position .
+- [Entity API](https://lmist.github.io/edgartools/guides/entity-api-guide/): This guide covers the Entity and Company API improvements in EdgarTools v5.3.0, including filer category identification and company icon retrieval.
+- [Company Classification](https://lmist.github.io/edgartools/guides/company-classification/): EdgarTools automatically classifies every SEC entity across multiple dimensions: whether it is a domestic or foreign registrant, what kind of business it operates, and its regulatory filing status. These properties are d...
+- [Business Development Companies](https://lmist.github.io/edgartools/guides/bdc-guide/): Access and analyze Business Development Companies (BDCs) specialized investment companies that invest in small and mid sized private companies.
+- [Reference Data](https://lmist.github.io/edgartools/guides/reference-data/): EdgarTools ships with a comprehensive set of SEC reference data — ticker to CIK mappings, exchange listings, industry classifications, CUSIP lookups, place codes, and form descriptions. Most of this data is bundled with...
+
+## Filings
+
+- [Working with Filings](https://lmist.github.io/edgartools/guides/working-with-filing/): This guide shows you how to get, view, and extract data from individual SEC filings using the Filing class.
+- [Search & Filter](https://lmist.github.io/edgartools/guides/searching-filings/): Learn how to find the exact SEC filings you need using various search criteria and filtering methods.
+- [Full-Text Search & Grep](https://lmist.github.io/edgartools/guides/full-text-search/): EdgarTools provides two complementary tools for searching the text content of SEC filings:
+- [Filter by Criteria](https://lmist.github.io/edgartools/guides/filtering-filings/): Learn how to filter SEC filings by multiple criteria to find exactly what you need.
+- [Current Filings](https://lmist.github.io/edgartools/guides/current-filings/): Current filings represent the most recently submitted documents to the SEC, updated in real time as companies file their reports. This guide shows you how to access, filter, and efficiently process current filings using...
+- [Attachments](https://lmist.github.io/edgartools/guides/filing-attachments/): Once you have a Filing instance you can access the attachments for the filing using the attachments property.
+- [Examples](https://lmist.github.io/edgartools/examples/): Learn by doing. These examples show how to solve real problems with EdgarTools.
+
+## Filing Types
+
+- [Overview](https://lmist.github.io/edgartools/data-objects/): Every SEC filing can be parsed into a structured Python object with one call:
+- [Annual & Quarterly](https://lmist.github.io/edgartools/concepts/data-objects/): One of the most powerful features of edgartools is its Data Objects system. This system transforms raw SEC filing data into structured, easy to use Python objects that expose filing specific properties and methods. Inste...
+- [Current Events (8-K)](https://lmist.github.io/edgartools/eightk-filings/): Companies file 8 K current reports within four business days of material events acquisitions, executive changes, earnings releases, bankruptcy. EdgarTools parses these filings into structured Python objects so you can ac...
+- [Foreign Issuer Reports (6-K)](https://lmist.github.io/edgartools/guides/sixk-data-object-guide/): Form 6 K is the current report for non US companies listed on US exchanges. Where a US company files an 8 K for material events, a foreign private issuer files a 6 K. EdgarTools parses these filings into structured Pytho...
+- [Insider Trades (Form 4)](https://lmist.github.io/edgartools/insider-filings/): Know when insiders buy or sell their own company's stock. SEC Forms 3, 4, and 5 disclose every transaction by officers, directors, and major shareholders. EdgarTools parses these filings into structured Python objects wi...
+- [Track Insider Activity](https://lmist.github.io/edgartools/guides/track-form4/): Form 4 filings provide valuable insights into insider trading activity. When corporate insiders (directors, officers, or beneficial owners of more than 10% of a company's stock) buy or sell shares of their company, they...
+- [Beneficial Ownership (13D/G)](https://lmist.github.io/edgartools/guides/schedule13dg-data-object-guide/): Schedule 13D and Schedule 13G are SEC filings required when an investor acquires beneficial ownership of 5% or more of a company's voting securities.
+- [Institutional Holdings (13F)](https://lmist.github.io/edgartools/guides/thirteenf-data-object-guide/): See what the big funds are buying. SEC 13F filings disclose the equity holdings of institutional managers with over $100M in assets every quarter, publicly available. EdgarTools parses these filings into structured Pytho...
+- [Fund Portfolios (N-PORT)](https://lmist.github.io/edgartools/guides/nport-data-object-guide/): Every registered mutual fund and ETF files Form NPORT P with the SEC each month, disclosing their complete portfolio every stock, bond, swap, and option they hold. EdgarTools parses these filings into structured Python o...
+- [Money Market Funds (N-MFP)](https://lmist.github.io/edgartools/guides/moneymarketfund-data-object-guide/): Money market funds file Form N MFP monthly to report their complete portfolios, yields, net asset values, and liquidity metrics. EdgarTools parses both N MFP3 (June 2024+) and N MFP2 (2010–mid 2024) filings into structur...
+- [Fund Census (N-CEN)](https://lmist.github.io/edgartools/guides/fundcensus-data-object-guide/): Every registered investment company files Form N CEN annually a comprehensive census of fund operational data. EdgarTools parses these filings into structured Python objects, revealing fund series, service providers, boa...
+- [Fund Shareholder Reports (N-CSR)](https://lmist.github.io/edgartools/guides/fundshareholderreport-data-object-guide/): Registered investment companies file Form N CSR annually and Form N CSRS semiannually certified shareholder reports that include expense ratios, annual performance data, and top portfolio holdings for every share class....
+- [Fund Fee Notices (24F-2NT)](https://lmist.github.io/edgartools/guides/twentyfourf-data-object-guide/): Every registered investment company (mutual fund, ETF, closed end fund) must file a Form 24F 2NT each year reporting how much it sold and how much it owes the SEC in registration fees. EdgarTools parses these XML filings...
+- [Proxy Statements (DEF 14A)](https://lmist.github.io/edgartools/guides/proxystatement-data-object-guide/): Form DEF 14A is a definitive proxy statement filed by public companies before annual shareholder meetings. It contains critical information about executive compensation, board composition, shareholder voting matters, and...
+- [Private Offerings (Form D)](https://lmist.github.io/edgartools/guides/formd-data-object-guide/): Form D is an SEC filing used by companies seeking to raise capital through private placements under Regulation D exemptions. These filings provide critical insights into private fundraising activity, including offering a...
+- [Crowdfunding (Form C)](https://lmist.github.io/edgartools/guides/formc-data-object-guide/): Form C is an SEC filing used by companies raising capital through crowdfunding under Regulation Crowdfunding (Regulation CF). These filings provide insights into small business fundraising campaigns, including offering t...
+- [Sale Notices (Form 144)](https://lmist.github.io/edgartools/guides/form144-data-object-guide/): Form 144 is a notice of proposed sale of restricted securities under SEC Rule 144. Filed by company insiders (officers, directors, 10%+ shareholders) before selling restricted or control securities. This guide details al...
+- [Fund Voting (N-PX)](https://lmist.github.io/edgartools/guides/npx-data-object-guide/): Form N PX is an annual proxy voting record filed by registered investment companies (mutual funds) to report how they voted on proxy matters for securities they held during the 12 month period ending June 30. This guide...
+- [ABS Distribution (10-D)](https://lmist.github.io/edgartools/guides/tend-data-object-guide/): Form 10 D is an Asset Backed Issuer Distribution Report required under Sections 13 and 15(d) of the Securities Exchange Act of 1934. These filings disclose distribution and pool performance data for publicly offered asse...
+- [Prospectus Supplements (424B)](https://lmist.github.io/edgartools/guides/prospectus424b-data-object-guide/): 424B filings are prospectus supplements that companies file when they sell securities off a shelf registration (S 3/F 3). They contain the final deal terms: price, shares, proceeds, underwriting fees, and dilution impact...
+- [Shelf Registrations (S-3)](https://lmist.github.io/edgartools/guides/registration-s3-data-object-guide/): S 3 filings are shelf registration statements that allow companies to register securities for future offering. Rather than registering each deal separately, a company files an S 3 once and then draws down from it over th...
+- [Municipal Advisors (MA-I)](https://lmist.github.io/edgartools/guides/mai-data-object-guide/): Form MA I is an SEC filing required for individuals who work as municipal advisors. Municipal advisors provide advice to state and local governments on bond issuances and other municipal financial products. The SEC requi...
+- [SEC Correspondence (CORRESP)](https://lmist.github.io/edgartools/guides/correspondence-data-object-guide/): When the SEC reviews a filing, a back and forth conversation happens through CORRESP and UPLOAD filings. The SEC sends comment letters (UPLOAD), the company responds (CORRESP), and the cycle repeats until the review is c...
+
+## Financials
+
+- [Overview](https://lmist.github.io/edgartools/guides/financial-data/): Get financial statements from SEC filings in Python
+- [Extract Financial Statements](https://lmist.github.io/edgartools/guides/extract-statements/): Learn how to extract and work with financial statements from SEC filings using EdgarTools' powerful XBRL processing capabilities.
+- [Company Facts](https://lmist.github.io/edgartools/guides/company-facts/): The Company Facts API provides comprehensive access to SEC financial data through an intuitive, AI ready interface. Get financial statements, key metrics, and detailed company information with just a few lines of code.
+- [Multi-Period Analysis](https://lmist.github.io/edgartools/guides/multi-year-financial-data-api/): Learn how to access multiple years of financial statements and serve them through FastAPI endpoints for web applications and data analysis.
+- [Stock Splits & EPS Normalization](https://lmist.github.io/edgartools/guides/stock-splits-eps-normalization/): Stock splits change share counts and per share values, making historical comparisons difficult. A company reporting $10 EPS before a 2 for 1 split should show $5 adjusted EPS for that period but SEC filings contain both...
+- [Equity Statement Data Layers](https://lmist.github.io/edgartools/guides/equity-statement-data-layers/): SEC equity statements report the same activity at three distinct levels of detail, and each level carries different numbers by design. Users working with edgartools sometimes compare a face statement total against a disc...
+
+## XBRL Deep Dive
+
+- [Overview](https://lmist.github.io/edgartools/xbrl/index/): EdgarTools provides powerful, elegant tools for working with XBRL financial data from SEC filings. Extract financial statements, analyze multi period trends, and work with complex dimensional data all with a simple, intu...
+- [Query XBRL Facts](https://lmist.github.io/edgartools/xbrl-querying/): You can query the facts inside an XBRL instance using the XBRL query API. This allows you to get access to specific financial data, filter results and perform analysis on the financial facts contained within a single XBR...
+- [Getting XBRL Data](https://lmist.github.io/edgartools/getting-xbrl/): The edgar.xbrl module provides a powerful yet user friendly API for processing XBRL (eXtensible Business Reporting Language) financial data from SEC filings.
+- [Multi-Period Analysis](https://lmist.github.io/edgartools/xbrl/guides/multi-period-analysis/): Multi period financial analysis allows you to compare a company's performance across multiple years or quarters. The XBRLS class in edgartools makes this easy by automatically stitching together financial statements from...
+- [Dimensions](https://lmist.github.io/edgartools/xbrl/concepts/dimension-handling/): This guide explains how EdgarTools handles XBRL dimensions and how to get complete, accurate financial statements.
+- [Standardization](https://lmist.github.io/edgartools/xbrl/concepts/standardization/): This document describes the 95 standard concepts used by EdgarTools to normalize XBRL financial data across different companies. These concepts enable cross company comparison by mapping the ~18,000 possible SEC GAAP tax...
+- [Footnotes](https://lmist.github.io/edgartools/guides/xbrl-footnotes/): EdgarTools now supports parsing and accessing footnotes from XBRL documents. Footnotes provide additional context and explanations for specific facts in financial statements.
+- [SEC Interactive Viewer](https://lmist.github.io/edgartools/guides/sec-viewer-guide/): Every SEC filing with XBRL data has an Interactive Data Viewer on the SEC website — a structured view of financial statements, concepts, and calculation trees. EdgarTools gives you programmatic access to the same data.
+
+## AI Integration
+
+- [Overview](https://lmist.github.io/edgartools/ai/index/): EdgarTools gives AI agents direct access to every SEC filing, financial statement, and company disclosure. No API key, no paywall, no setup beyond a few lines of config.
+
+## MCP Server
+
+- [Setup](https://lmist.github.io/edgartools/ai/mcp-setup/): Get the EdgarTools MCP server running in under 2 minutes. Once connected, Claude can query any SEC filing, extract financial data, and analyze companies directly.
+- [Tools Reference](https://lmist.github.io/edgartools/ai/mcp-tools/): The EdgarTools MCP server provides 13 tools organized by intent what you actually want to do, not how APIs are structured.
+- [Workflows](https://lmist.github.io/edgartools/ai/mcp-workflows/): The EdgarTools MCP server ships with 7 pre built analysis workflows that chain tools together into multi step research patterns. These are MCP prompts templates that guide Claude through a complete analysis.
+
+## AI Integration
+
+- [Skills](https://lmist.github.io/edgartools/ai/skills/): Skills are structured documentation packages that teach Claude how to write better EdgarTools code. They guide Claude to use the right APIs, avoid common mistakes, and follow best practices.
+
+## Documentation
+
+- [Notebooks](https://lmist.github.io/edgartools/notebooks/): Access SEC EDGAR data with Python — completely free , no API key or paid subscription required. Every notebook runs instantly in Google Colab with one click. Install locally with pip install edgartools.
+
+## API Reference
+
+- [Company](https://lmist.github.io/edgartools/api/company/): The Company class is the primary interface for working with public companies in EdgarTools. It provides access to company information, SEC filings, and financial data.
+- [Filing](https://lmist.github.io/edgartools/api/filing/): The Filing class represents a single SEC filing and provides comprehensive access to its content, structured data, attachments, and metadata.
+- [Filings](https://lmist.github.io/edgartools/api/filings/): The Filings class represents a collection of SEC filings with powerful filtering, navigation, and batch processing capabilities.
+- [XBRL](https://lmist.github.io/edgartools/api/xbrl/): The XBRL module provides comprehensive parsing and processing of XBRL (eXtensible Business Reporting Language) data from SEC filings. It includes support for statement standardization, multi period analysis, and advanced...
+- [Entity Facts](https://lmist.github.io/edgartools/api/entity-facts-reference/): Complete API documentation for the enhanced EntityFacts system, including all classes, methods, and data models.
+
+## Advanced
+
+- [Configuration](https://lmist.github.io/edgartools/configuration/): EdgarTools provides extensive configuration options through environment variables and programmatic settings to customize behavior, optimize performance, and ensure SEC compliance.
+
+## Storage
+
+- [Local Storage](https://lmist.github.io/edgartools/guides/local-storage/): edgartools is designed for interactive queries against SEC Edgar , which means it normally makes HTTP requests to the SEC website to retrieve data. For example, when you call company.submissions or filing.attachments, it...
+- [Cloud Storage (S3)](https://lmist.github.io/edgartools/guides/cloud-storage/): This guide covers integrating EdgarTools with cloud storage providers (AWS S3, Google Cloud Storage, Azure Blob Storage) and S3 compatible services (Cloudflare R2, MinIO, DigitalOcean Spaces).
+
+## Advanced
+
+- [Advanced Search](https://lmist.github.io/edgartools/advanced-search/): EdgarTools provides advanced search capabilities with BM25 based ranking and semantic structure awareness. This is designed specifically for financial documents to help you find the most relevant information quickly.
+- [Customizing Standardization](https://lmist.github.io/edgartools/advanced/customizing-standardization/): Target Audience : Advanced users, financial analysts, quantitative researchers Prerequisites : Understanding of XBRL concepts, Python basics, JSON format Use Case : Custom taxonomies, 200+ companies, industry specific va...
+
+## Reference
+
+- [Form Types](https://lmist.github.io/edgartools/FormType-Quick-Reference/): `python from edgar import Company from edgar.enums import FormType
+- [Period Types](https://lmist.github.io/edgartools/PeriodType-Quick-Reference/): FEAT 003: PeriodType Enum for EdgarTools Enhanced developer experience through IDE autocomplete and parameter validation for financial reporting periods.
+- [Statement Types](https://lmist.github.io/edgartools/StatementType-Quick-Reference/): FEAT 005: Statement Type Classifications for EdgarTools Enhanced developer experience through IDE autocomplete and parameter validation for financial statement types.
+
+## Advanced
+
+- [SEC Compliance](https://lmist.github.io/edgartools/resources/sec-compliance/): The SEC EDGAR system is a valuable public resource that provides access to corporate filings. To ensure fair access for all users, the SEC has established guidelines and rate limits for automated access. This guide expla...
+- [Troubleshooting](https://lmist.github.io/edgartools/resources/troubleshooting/): This guide addresses the most common issues users encounter when working with edgartools and provides practical solutions.
+- [Performance](https://lmist.github.io/edgartools/resources/performance/): Working with SEC data can be resource intensive due to the volume of data, network latency, and SEC's rate limits. This guide provides strategies to optimize your edgartools workflows for better performance.
+- [Contributing](https://lmist.github.io/edgartools/contributing/): Thank you for your interest in contributing to EdgarTools! This open source project thrives on community contributions, and we appreciate any help you can provide. 🎉
+- [About the Creator](https://lmist.github.io/edgartools/about/): Dwight Gunning is a software engineer based in Ontario, Canada. He builds EdgarTools and works at the intersection of financial data, Python, and AI. Before open source, he spent 20 years building systems for banks, pens...

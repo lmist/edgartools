@@ -1,0 +1,5768 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Access and analyze SEC filings, financial statements, insider trading, and investment fund data">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/guides/xmlfiling-rendering-guide/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>XML Filing Rendering Guide - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#xml-filing-rendering-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              XML Filing Rendering Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../working-with-filing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../working-with-filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../searching-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tend-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock-splits-eps-normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../xbrl/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/entity-facts-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#24f-2nt-annual-notice-of-securities-sold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24F-2NT — Annual Notice of Securities Sold
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="24F-2NT — Annual Notice of Securities Sold">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Header Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fee-calculation-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fee Calculation Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#series-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Series Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fund-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fund Address
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#x-17a-5-broker-dealer-financial-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        X-17A-5 — Broker-Dealer Financial Report
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="X-17A-5 — Broker-Dealer Financial Report">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-card_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Header Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Business Address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accountant-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accountant Information
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ta-1-transfer-agent-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TA-1 — Transfer Agent Registration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TA-1 — Transfer Agent Registration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registrant-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registrant Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principal-office-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principal Office Address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-persons-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Persons Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disciplinary-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disciplinary History
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ta-2-transfer-agent-annual-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TA-2 — Transfer Agent Annual Report
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TA-2 — Transfer Agent Annual Report">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ta-w-transfer-agent-withdrawal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TA-W — Transfer Agent Withdrawal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TA-W — Transfer Agent Withdrawal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#withdrawal-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Withdrawal Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legal-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legal &amp; Records
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ma-municipal-advisor-firm-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MA — Municipal Advisor Firm Registration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MA — Municipal Advisor Firm Registration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firm-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firm Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principal-office-address_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principal Office Address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-offices-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Offices Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chief-compliance-officer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chief Compliance Officer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-person" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contact Person
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-affiliates-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Business Affiliates Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disclosure-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disclosure Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ma-w-municipal-advisor-withdrawal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MA-W — Municipal Advisor Withdrawal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MA-W — Municipal Advisor Withdrawal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#withdrawal-card_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Withdrawal Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-person_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contact Person
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cfportal-crowdfunding-portal-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CFPORTAL — Crowdfunding Portal Registration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CFPORTAL — Crowdfunding Portal Registration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portal-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portal Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portal-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portal Address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-names-and-websites-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Names and Websites Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-persons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Persons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escrow-agents-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escrow Agents Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disclosures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disclosures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sbse-security-based-swap-entity-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBSE — Security-Based Swap Entity Registration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SBSE — Security-Based Swap Entity Registration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entity-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entity Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Addresses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cco-and-contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CCO and Contact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prudential-regulators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prudential Regulators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disclosures_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disclosures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sbse-a-security-based-swap-entity-annual-amendment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBSE-A — Security-Based Swap Entity Annual Amendment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SBSE-A — Security-Based Swap Entity Annual Amendment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schedule-a-principals-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schedule A — Principals Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sbse-w-security-based-swap-entity-withdrawal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBSE-W — Security-Based Swap Entity Withdrawal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SBSE-W — Security-Based Swap Entity Withdrawal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#withdrawal-card_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Withdrawal Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ats-n-c-ats-cessation-of-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ATS-N-C — ATS Cessation of Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ATS-N-C — ATS Cessation of Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cessation-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cessation Card
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-rendering-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Rendering Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Rendering Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#address-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Address Block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yn-boolean-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Y/N Boolean Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disclosure-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disclosure Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signature Block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xslt-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XSLT Fallback
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="xml-filing-rendering-guide">XML Filing Rendering Guide</h1>
+<p>Rendering specifications for SEC XML filing types handled by <code>XmlFiling</code> and <code>FundFeeNotice</code>. Each form section describes the data layout, table structures, and display logic needed to render the filing in a downstream UI.</p>
+<p>All forms share the same access pattern:</p>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>        <span class="c1"># returns XmlFiling or FundFeeNotice</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">form_data</span>       <span class="c1"># nested dict of all form fields</span>
+<span class="n">obj</span><span class="p">[</span><span class="s1">&#39;fieldName&#39;</span><span class="p">]</span>    <span class="c1"># deep key lookup</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span>       <span class="c1"># SEC&#39;s official XSLT-rendered HTML (fallback reference)</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">header_data</span>     <span class="c1"># submission metadata</span>
+</code></pre></div>
+<p>Common header properties available on every <code>XmlFiling</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Form type</td>
+<td><code>obj.form</code></td>
+</tr>
+<tr>
+<td>Company name</td>
+<td><code>obj.company</code></td>
+</tr>
+<tr>
+<td>Filing date</td>
+<td><code>obj.filing_date</code></td>
+</tr>
+<tr>
+<td>Accession number</td>
+<td><code>obj.accession_number</code></td>
+</tr>
+<tr>
+<td>Is amendment</td>
+<td><code>obj.is_amendment</code></td>
+</tr>
+<tr>
+<td>Form description</td>
+<td><code>obj.description</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="24f-2nt-annual-notice-of-securities-sold">24F-2NT — Annual Notice of Securities Sold</h2>
+<p><strong>Class:</strong> <code>FundFeeNotice</code> (typed subclass of <code>XmlFiling</code>)
+<strong>Volume:</strong> ~2,100/year
+<strong>Purpose:</strong> Investment companies report annual fund sales, redemptions, and SEC registration fees.</p>
+<h3 id="header-card">Header Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Property</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fund Name</td>
+<td><code>notice.fund_name</code></td>
+<td>ADVISORS' INNER CIRCLE FUND</td>
+</tr>
+<tr>
+<td>Fiscal Year End</td>
+<td><code>notice.fiscal_year_end</code></td>
+<td>12/31/2025</td>
+</tr>
+<tr>
+<td>ICA File Number</td>
+<td><code>notice.investment_company_act_file_number</code></td>
+<td>811-06400</td>
+</tr>
+<tr>
+<td>Filed Late</td>
+<td><code>notice.is_filed_late</code></td>
+<td>False</td>
+</tr>
+<tr>
+<td>Final Filing</td>
+<td><code>notice.is_final_filing</code></td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Display note:</strong> Highlight <code>is_final_filing == True</code> — it signals the fund is deregistering.</p>
+<h3 id="fee-calculation-table">Fee Calculation Table</h3>
+<p>Render as a right-aligned financial table. This is the core data.</p>
+<table>
+<thead>
+<tr>
+<th>Row Label</th>
+<th>Property</th>
+<th>Format</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aggregate Sales</td>
+<td><code>notice.aggregate_sales</code></td>
+<td>Currency</td>
+<td>$418,915,624.00</td>
+</tr>
+<tr>
+<td>Redemptions (Current Year)</td>
+<td><code>notice.redemptions_current_year</code></td>
+<td>Currency</td>
+<td>$309,040,895.54</td>
+</tr>
+<tr>
+<td>Redemptions (Prior Years)</td>
+<td><code>notice.redemptions_prior_years</code></td>
+<td>Currency</td>
+<td>$0.00</td>
+</tr>
+<tr>
+<td>Total Redemption Credits</td>
+<td><code>notice.total_redemption_credits</code></td>
+<td>Currency</td>
+<td>$309,040,895.54</td>
+</tr>
+<tr>
+<td><strong>Net Sales</strong></td>
+<td><code>notice.net_sales</code></td>
+<td>Currency, bold</td>
+<td><strong>$109,874,728.46</strong></td>
+</tr>
+<tr>
+<td>Fee Multiplier</td>
+<td><code>notice.fee_multiplier</code></td>
+<td>Decimal (7 places)</td>
+<td>0.0001381</td>
+</tr>
+<tr>
+<td>Registration Fee</td>
+<td><code>notice.registration_fee</code></td>
+<td>Currency</td>
+<td>$15,173.70</td>
+</tr>
+<tr>
+<td>Interest Due</td>
+<td><code>notice.interest_due</code></td>
+<td>Currency, hide if 0</td>
+<td>$0.00</td>
+</tr>
+<tr>
+<td><strong>Total Due</strong></td>
+<td><code>notice.total_due</code></td>
+<td>Currency, bold</td>
+<td><strong>$15,173.70</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Display notes:</strong>
+- All values are in full dollars (not thousands).
+- Hide Interest Due row when zero.
+- Bold Net Sales and Total Due as the summary figures.
+- The formula is: <code>net_sales = aggregate_sales - total_redemption_credits</code>, then <code>registration_fee = net_sales * fee_multiplier</code>.</p>
+<h3 id="series-table">Series Table</h3>
+<p>Render when <code>notice.series</code> is non-empty.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Source</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Series ID</td>
+<td><code>s.series_id</code></td>
+<td>EDGAR identifier (S000XXXXXX)</td>
+</tr>
+<tr>
+<td>Series Name</td>
+<td><code>s.series_name</code></td>
+<td>Human-readable fund name</td>
+</tr>
+<tr>
+<td>All Classes</td>
+<td><code>s.include_all_classes</code></td>
+<td>Boolean — whether all share classes included</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Display note:</strong> The financial figures in the Fee Calculation table are aggregated across all series — they are not per-series.</p>
+<h3 id="fund-address">Fund Address</h3>
+<p>Available via <code>notice.fund_address</code> (dict):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Street</td>
+<td><code>street1</code></td>
+</tr>
+<tr>
+<td>City</td>
+<td><code>city</code></td>
+</tr>
+<tr>
+<td>State</td>
+<td><code>state</code></td>
+</tr>
+<tr>
+<td>Zip</td>
+<td><code>zipCode</code></td>
+</tr>
+<tr>
+<td>Country</td>
+<td><code>country</code> (code, e.g. <code>X1</code> = USA)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="x-17a-5-broker-dealer-financial-report">X-17A-5 — Broker-Dealer Financial Report</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~1,900/year
+<strong>Purpose:</strong> Annual broker-dealer report filing. The XML is a cover sheet only — the actual financial statements are in an attached PDF.</p>
+<h3 id="header-card_1">Header Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Broker-Dealer Name</td>
+<td><code>obj['brokerDealerName']</code></td>
+<td>ADVANCED ADVISOR GROUP, LLC</td>
+</tr>
+<tr>
+<td>Registrant Type</td>
+<td><code>obj['typeOfBDRegistrant']</code></td>
+<td>Broker-dealer</td>
+</tr>
+<tr>
+<td>Reporting Period Start</td>
+<td><code>obj['periodBegin']</code></td>
+<td>01-01-2025</td>
+</tr>
+<tr>
+<td>Reporting Period End</td>
+<td><code>obj['periodEnd']</code></td>
+<td>12-31-2025</td>
+</tr>
+<tr>
+<td>Material Weakness</td>
+<td><code>obj['materialWeakness']</code></td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="business-address">Business Address</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Street</td>
+<td><code>obj.form_data['registrantIdentification']['businessAddress']['street1']</code></td>
+</tr>
+<tr>
+<td>Street 2</td>
+<td><code>...['street2']</code></td>
+</tr>
+<tr>
+<td>City</td>
+<td><code>...['city']</code></td>
+</tr>
+<tr>
+<td>State</td>
+<td><code>...['stateOrCountry']</code></td>
+</tr>
+<tr>
+<td>Zip</td>
+<td><code>...['zipCode']</code></td>
+</tr>
+<tr>
+<td>Contact</td>
+<td><code>obj['contactPersonName']</code></td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>obj['contactPersonPhoneNumber']</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="accountant-information">Accountant Information</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accountant Name</td>
+<td><code>obj['accountantName']</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>obj['accountantType']</code> (e.g. "Certified Public Accountant")</td>
+</tr>
+<tr>
+<td>Address</td>
+<td><code>obj.form_data['accountantIdentification']['accountantAddress']</code> (same structure as above)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="signature">Signature</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signed By</td>
+<td><code>obj['signPersonName']</code></td>
+</tr>
+<tr>
+<td>Title</td>
+<td><code>obj['oathTitle']</code></td>
+</tr>
+<tr>
+<td>Date</td>
+<td><code>obj['signDate']</code></td>
+</tr>
+<tr>
+<td>Entity</td>
+<td><code>obj['entityName']</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Display note:</strong> The X-17A-5 XML is a cover form. The actual financial report is in an attached PDF (<code>filing.attachments</code> with <code>document_type='FULL'</code>). Consider linking to or displaying that PDF alongside the structured cover data.</p>
+<hr />
+<h2 id="ta-1-transfer-agent-registration">TA-1 — Transfer Agent Registration</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~55/year
+<strong>Purpose:</strong> Initial registration or amendment for transfer agents (entities that maintain shareholder records).</p>
+<h3 id="registrant-card">Registrant Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entity Name</td>
+<td><code>obj['entityName']</code></td>
+<td>VALIC RETIREMENT SERVICES CO</td>
+</tr>
+<tr>
+<td>Previous Name</td>
+<td><code>obj['previousEntityName']</code></td>
+<td>AIG RETIREMENT SERVICES CO</td>
+</tr>
+<tr>
+<td>FINS Number</td>
+<td><code>obj['finsNumber']</code></td>
+<td>502575</td>
+</tr>
+<tr>
+<td>Regulatory Agency</td>
+<td><code>obj['regulatoryAgency']</code></td>
+<td>SEC</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>obj['telephoneNumber']</code></td>
+<td>713-831-3150</td>
+</tr>
+<tr>
+<td>Is Self Transfer Agent</td>
+<td><code>obj['selfTransferAgent']</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>Uses Service Company</td>
+<td><code>obj['engagedServiceCompany']</code></td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="principal-office-address">Principal Office Address</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Street</td>
+<td><code>obj.form_data['registrant']['principalOfficeAddress']['street1']</code></td>
+</tr>
+<tr>
+<td>City</td>
+<td><code>...['city']</code></td>
+</tr>
+<tr>
+<td>State</td>
+<td><code>...['stateOrCountry']</code></td>
+</tr>
+<tr>
+<td>Zip</td>
+<td><code>...['zipCode']</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="control-persons-table">Control Persons Table</h3>
+<p>Source: <code>obj.form_data['independentRegistrant']['corporationPartnershipData']</code> (list)</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Key</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entity/Person Name</td>
+<td><code>entityName</code></td>
+<td>The Variable Annuity Life Insurance Company (VALIC)</td>
+</tr>
+<tr>
+<td>Relationship Start</td>
+<td><code>relationshipStartDate</code></td>
+<td>11/18/1996</td>
+</tr>
+<tr>
+<td>Title/Status</td>
+<td><code>titleOrStatus</code></td>
+<td>Owner</td>
+</tr>
+<tr>
+<td>Ownership Code</td>
+<td><code>ownershipCode</code></td>
+<td>E</td>
+</tr>
+<tr>
+<td>Control Person</td>
+<td><code>controlPerson</code></td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<h3 id="disciplinary-history">Disciplinary History</h3>
+<p>Source: <code>obj.form_data['disciplinaryHistory']</code></p>
+<p>Each sub-section (<code>felonyOrMisdemeanor</code>, <code>otherFelony</code>, <code>enjoinedInvestmentRelatedActivity</code>, <code>violationOfInvestmentRelatedRegulation</code>, <code>falseStatementOrOmission</code>) has:
+- <code>involved</code>: Y/N
+- If Y: detail records with <code>entityName</code>, <code>actionTitle</code>, <code>actionDate</code>, <code>courtOrBodyNameAndLocation</code>, <code>actionDescription</code></p>
+<p><strong>Display note:</strong> Only render the disciplinary section when any <code>involved == "Y"</code>. Show the detail narrative when present.</p>
+<hr />
+<h2 id="ta-2-transfer-agent-annual-report">TA-2 — Transfer Agent Annual Report</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~160/year
+<strong>Purpose:</strong> Annual operational update for registered transfer agents.</p>
+<h3 id="summary-card">Summary Card</h3>
+<p>This is a simple form with only three sections:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service Company Used</td>
+<td><code>obj.form_data['engagedServiceCompany']['serviceCompany']</code></td>
+<td>All</td>
+</tr>
+<tr>
+<td>Service Company Name</td>
+<td><code>obj['entityName']</code> (under serviceCompanyTransferAgent)</td>
+<td>Broadridge Corporate Issuer Solutions, LLC</td>
+</tr>
+<tr>
+<td>Service Company File No.</td>
+<td><code>obj['fileNumber']</code> (under serviceCompanyTransferAgent)</td>
+<td>084-01007</td>
+</tr>
+<tr>
+<td>Regulatory Agency</td>
+<td><code>obj['regulatoryAgency']</code></td>
+<td>Securities and Exchange Commission</td>
+</tr>
+<tr>
+<td>Amendment Filed</td>
+<td><code>obj['amendmentFiled']</code></td>
+<td>Not applicable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="signature_1">Signature</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signed By</td>
+<td><code>obj['signatureName']</code></td>
+</tr>
+<tr>
+<td>Title</td>
+<td><code>obj['signatureTitle']</code></td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>obj['signaturePhoneNumber']</code></td>
+</tr>
+<tr>
+<td>Date</td>
+<td><code>obj['signatureDate']</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ta-w-transfer-agent-withdrawal">TA-W — Transfer Agent Withdrawal</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~1/year
+<strong>Purpose:</strong> Notice of withdrawal from transfer agent registration.</p>
+<h3 id="withdrawal-card">Withdrawal Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entity Name</td>
+<td><code>obj['entityName']</code></td>
+<td>Harbor Digital Transfer Agent LLC</td>
+</tr>
+<tr>
+<td>File Number</td>
+<td><code>obj['fileNumber']</code></td>
+<td>084-06655</td>
+</tr>
+<tr>
+<td>Reason</td>
+<td><code>obj['withdrawalDescription']</code></td>
+<td>Registrant never conducted any transfer agent functions...</td>
+</tr>
+<tr>
+<td>Last Action Date</td>
+<td><code>obj['lastActionDate']</code></td>
+<td>02/27/2020</td>
+</tr>
+<tr>
+<td>Future TA Functions</td>
+<td><code>obj['futureTransferAgentFunctions']</code></td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="address">Address</h3>
+<p>Standard address block under <code>obj.form_data['registrant']['businessAddress']</code>.</p>
+<h3 id="legal-records">Legal &amp; Records</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Legal Actions Involved</td>
+<td><code>obj.form_data['legalAction']['involved']</code></td>
+</tr>
+<tr>
+<td>Unsatisfied Judgments</td>
+<td><code>obj.form_data['legalAction']['unsatisfiedJudgmentsInvolved']</code></td>
+</tr>
+<tr>
+<td>Successor Transfer Agents</td>
+<td><code>obj.form_data['documentRetention']['successorTransferAgents']</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ma-municipal-advisor-firm-registration">MA — Municipal Advisor Firm Registration</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~240/year
+<strong>Purpose:</strong> Registration for municipal advisor firms (not individuals — MA-I has its own typed parser).</p>
+<h3 id="firm-card">Firm Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Firm Name</td>
+<td><code>obj['firmName']</code></td>
+<td>SOUTHSTATE SECURITIES CORP.</td>
+</tr>
+<tr>
+<td>CRD Number</td>
+<td><code>obj['firmCrdNumber']</code></td>
+<td>6950</td>
+</tr>
+<tr>
+<td>IRS Number</td>
+<td><code>obj['irsNum']</code></td>
+<td>62-0804968</td>
+</tr>
+<tr>
+<td>Website</td>
+<td><code>obj['primaryWebAddress']</code></td>
+<td>southstatesec.com</td>
+</tr>
+<tr>
+<td>Employees</td>
+<td><code>obj['numberOfEmployees']</code></td>
+<td>95</td>
+</tr>
+<tr>
+<td>MA Employees</td>
+<td><code>obj['employeesEngagedInMAA']</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>Fiscal Year End</td>
+<td><code>obj['monthOfFiscalYearEnd']</code></td>
+<td>December</td>
+</tr>
+<tr>
+<td>Date Organized</td>
+<td><code>obj['dateOfOrganization']</code></td>
+<td>03-27-1969</td>
+</tr>
+<tr>
+<td>Jurisdiction</td>
+<td><code>obj.form_data['organizedJurisdiction']['stateOrCountry']</code></td>
+<td>TN</td>
+</tr>
+</tbody>
+</table>
+<h3 id="principal-office-address_1">Principal Office Address</h3>
+<p>Source: <code>obj.form_data['principalOfficeAddress']['addressInfo']['address']</code></p>
+<p>Standard address fields: <code>street1</code>, <code>street2</code>, <code>city</code>, <code>stateOrCountry</code>, <code>zipCode</code>.
+Phone: <code>obj.form_data['principalOfficeAddress']['phoneNumber']</code></p>
+<h3 id="additional-offices-table">Additional Offices Table</h3>
+<p>Source: <code>obj.form_data['additionalOffices']['additionalOffice']</code> (list)</p>
+<p>Each entry has <code>officeInfo.addressInfo.address</code> (standard address) and <code>officeInfo.phoneNumber</code>.
+Also has <code>addDeleteAmend</code> indicating whether this is an add/amend/delete action.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Address</td>
+<td><code>entry['officeInfo']['addressInfo']['address']</code></td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>entry['officeInfo']['phoneNumber']</code></td>
+</tr>
+<tr>
+<td>Action</td>
+<td><code>entry['addDeleteAmend']</code> — keys: <code>add</code>, <code>amend</code>, or <code>delete</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="chief-compliance-officer">Chief Compliance Officer</h3>
+<p>Source: <code>obj.form_data['cco']</code></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>cco['name']</code> — <code>firstName</code>, <code>middleName</code>, <code>lastName</code></td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>cco['phoneNumber']</code></td>
+</tr>
+<tr>
+<td>Email</td>
+<td><code>cco['email']</code></td>
+</tr>
+<tr>
+<td>Address</td>
+<td><code>cco['address']['address']</code> (standard)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="contact-person">Contact Person</h3>
+<p>Same structure as CCO under <code>obj.form_data['contactPerson']</code>, plus <code>titles.title</code>.</p>
+<h3 id="business-affiliates-table">Business Affiliates Table</h3>
+<p>Source: <code>obj.form_data['businessAffiliates']['businessAffiliate']</code> (list)</p>
+<h3 id="disclosure-answers">Disclosure Answers</h3>
+<p>Source: <code>obj.form_data['disclosureAnswers']</code></p>
+<p>Sections: <code>criminalDisclosure</code>, <code>regulatoryActionDisclosure</code>, <code>civilJudicialActionDisclosure</code>.
+Each section has Y/N flags. Only render detail if any flag is Y.</p>
+<hr />
+<h2 id="ma-w-municipal-advisor-withdrawal">MA-W — Municipal Advisor Withdrawal</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~7/year
+<strong>Purpose:</strong> Notice of withdrawal from municipal advisor registration.</p>
+<h3 id="withdrawal-card_1">Withdrawal Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Firm Name</td>
+<td><code>obj['fullLegalName']</code></td>
+<td>Warbird Municipal Advisors, LLC</td>
+</tr>
+<tr>
+<td>File Number</td>
+<td><code>obj['fileNumber']</code></td>
+<td>867-02349</td>
+</tr>
+<tr>
+<td>Advisory Contracts Outstanding</td>
+<td><code>obj['isAdvisoryContract']</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>Unsatisfied Judgments</td>
+<td><code>obj['isUnsatisfiedJudgementsOrLiens']</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>Prepaid Fees Received</td>
+<td><code>obj['isReceivedAnyPrepaidFee']</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>Borrowed Not Repaid</td>
+<td><code>obj['isBorrowedNotRepaid']</code></td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="contact-person_1">Contact Person</h3>
+<p>Source: <code>obj.form_data['contactPersonInfo']['nameAddressPhone']</code></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>individualName</code> — <code>firstName</code>, <code>middleName</code>, <code>lastName</code></td>
+</tr>
+<tr>
+<td>Address</td>
+<td><code>addressInfo.address</code> (standard)</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>phoneNumber</code></td>
+</tr>
+<tr>
+<td>Email</td>
+<td><code>obj.form_data['contactPersonInfo']['email']</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cfportal-crowdfunding-portal-registration">CFPORTAL — Crowdfunding Portal Registration</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~6/year
+<strong>Purpose:</strong> Registration for funding portals operating under Regulation Crowdfunding.</p>
+<h3 id="portal-card">Portal Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Portal Name</td>
+<td><code>obj['nameOfPortal']</code></td>
+<td>PicMii Crowdfunding LLC</td>
+</tr>
+<tr>
+<td>IRS EIN</td>
+<td><code>obj['irsEmployerIdNumber']</code></td>
+<td>84-3982617</td>
+</tr>
+<tr>
+<td>Contact Phone</td>
+<td><code>obj['portalContactPhone']</code></td>
+<td>717-723-9145</td>
+</tr>
+<tr>
+<td>Contact Email</td>
+<td><code>obj['portalContactEmail']</code></td>
+<td>support@picmiicrowdfunding.com</td>
+</tr>
+<tr>
+<td>Fiscal Year End</td>
+<td><code>obj['fiscalYearEnd']</code></td>
+<td>December</td>
+</tr>
+<tr>
+<td>Previous Registrations</td>
+<td><code>obj['anyPreviousRegistrations']</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>Foreign Registrations</td>
+<td><code>obj['anyForeignRegistrations']</code></td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="portal-address">Portal Address</h3>
+<p>Source: <code>obj.form_data['identifyingInformation']['portalAddress']</code> — standard address fields.</p>
+<h3 id="other-names-and-websites-table">Other Names and Websites Table</h3>
+<p>Source: <code>obj.form_data['identifyingInformation']['otherNamesAndWebsiteUrls']</code> (list)</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Key</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>otherNamesUsedPortal</code></td>
+<td>Highlander Crowdfunding</td>
+</tr>
+<tr>
+<td>Website</td>
+<td><code>webSiteOfPortal</code></td>
+<td>www.highlander.ai</td>
+</tr>
+</tbody>
+</table>
+<h3 id="organization">Organization</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Legal Status</td>
+<td><code>obj['legalStatusForm']</code></td>
+<td>Limited Liability Company</td>
+</tr>
+<tr>
+<td>Jurisdiction</td>
+<td><code>obj['jurisdictionOrganization']</code></td>
+<td>PA</td>
+</tr>
+<tr>
+<td>Date Incorporated</td>
+<td><code>obj['dateIncorporation']</code></td>
+<td>06-03-2019</td>
+</tr>
+</tbody>
+</table>
+<h3 id="control-persons">Control Persons</h3>
+<p>Source: <code>obj.form_data['controlRelationships']['fullLegalNames']</code> (list)</p>
+<p>Each entry has <code>fullLegalName</code> — render as a simple list of names.</p>
+<h3 id="escrow-agents-table">Escrow Agents Table</h3>
+<p>Source: <code>obj.form_data['escrowArrangements']['investorFundsContacts']</code> (list)</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Key</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>investorFundsContactName</code></td>
+<td>Enterprise Bank and Trust</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>investorFundsContactPhone</code></td>
+<td>949-373-7335</td>
+</tr>
+<tr>
+<td>Address</td>
+<td><code>investorFundsAddress</code> (standard)</td>
+<td>San Juan Capistrano, CA</td>
+</tr>
+</tbody>
+</table>
+<h3 id="disclosures">Disclosures</h3>
+<p>Same pattern as MA: <code>criminalDisclosure</code>, <code>regulatoryActionDisclosure</code>, <code>civilJudicialActionDisclosure</code>, <code>financialDisclosure</code>. All Y/N flags. Only render detail when Y.</p>
+<hr />
+<h2 id="sbse-security-based-swap-entity-registration">SBSE — Security-Based Swap Entity Registration</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~4/year
+<strong>Purpose:</strong> Registration of security-based swap dealers and major swap participants under Dodd-Frank.</p>
+<h3 id="entity-card">Entity Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>obj['fullApplicantName']</code></td>
+<td>CAPITOLIS LIQUID GLOBAL MARKETS LLC</td>
+</tr>
+<tr>
+<td>Tax ID</td>
+<td><code>obj['taxIdentificationNo']</code></td>
+<td>88-4400323</td>
+</tr>
+<tr>
+<td>CIK</td>
+<td><code>obj['applicantCik']</code></td>
+<td>0002094379</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td><code>obj['businessTelephoneNumber']</code></td>
+<td>646-831-5471</td>
+</tr>
+<tr>
+<td>Website</td>
+<td><code>obj['websiteUrl']</code></td>
+<td>capitolis.com</td>
+</tr>
+<tr>
+<td>Is Swap Dealer</td>
+<td><code>obj['isSwapDealer']</code></td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Is Major Swap Participant</td>
+<td><code>obj['isSwapParticipant']</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>Non-Resident Entity</td>
+<td><code>obj['isNonResidentEntity']</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>Business Description</td>
+<td><code>obj['descriptionBusiness']</code></td>
+<td>(narrative text)</td>
+</tr>
+<tr>
+<td>Legal Status</td>
+<td><code>obj['legalStatus']</code></td>
+<td>Limited Liability Company</td>
+</tr>
+<tr>
+<td>State of Formation</td>
+<td><code>obj['stateOfFormation']</code></td>
+<td>DE</td>
+</tr>
+<tr>
+<td>Date of Formation</td>
+<td><code>obj['dateOfFormation']</code></td>
+<td>12-14-2022</td>
+</tr>
+<tr>
+<td>Fiscal Year End Month</td>
+<td><code>obj['monthApplicantFiscalEnds']</code></td>
+<td>January</td>
+</tr>
+</tbody>
+</table>
+<h3 id="addresses">Addresses</h3>
+<p>Main and mailing addresses under <code>applicantDataPageOne</code> — standard <code>street1</code>, <code>city</code>, <code>stateOrCountry</code>, <code>zipCode</code>.</p>
+<h3 id="cco-and-contact">CCO and Contact</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contact Name</td>
+<td><code>contactEmployee.contactEmployeeName</code> — <code>firstName</code>, <code>lastName</code></td>
+</tr>
+<tr>
+<td>Contact Title</td>
+<td><code>contactEmployee.title</code></td>
+</tr>
+<tr>
+<td>Contact Phone</td>
+<td><code>contactEmployee.phone</code></td>
+</tr>
+<tr>
+<td>Contact Email</td>
+<td><code>contactEmployee.emailAddress</code></td>
+</tr>
+<tr>
+<td>CCO Name</td>
+<td><code>chiefComplianceOfficer.officerName</code> — same structure</td>
+</tr>
+<tr>
+<td>CCO Title/Phone/Email</td>
+<td>Same pattern</td>
+</tr>
+</tbody>
+</table>
+<h3 id="prudential-regulators">Prudential Regulators</h3>
+<p>Source: <code>obj.form_data['applicant']['applicantDataPageTwo']['prudentialRegulators']['prudentialRegulator']</code> (list of strings)</p>
+<p>Render as a bullet list. Examples: "The Federal Reserve Board", "The Federal Deposit Insurance Corporation".</p>
+<h3 id="disclosures_1">Disclosures</h3>
+<p>Spread across <code>applicantDataPageThree</code> and <code>applicantDataPageFour</code>:
+- <code>criminalDisclosure</code> — standard Y/N flags
+- <code>regulatoryActionDisclosure</code> — standard Y/N flags</p>
+<hr />
+<h2 id="sbse-a-security-based-swap-entity-annual-amendment">SBSE-A — Security-Based Swap Entity Annual Amendment</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~27/year
+<strong>Purpose:</strong> Annual amendment to SBSE registration with updated personnel and business data.</p>
+<p>Follows the same structure as SBSE with these additions:</p>
+<h3 id="schedule-a-principals-table">Schedule A — Principals Table</h3>
+<p>Source: <code>obj.form_data['scheduleA']['scheduleAInfo']</code> (list)</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Key</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>individualName</code> — <code>firstName</code>, <code>middleName</code>, <code>lastName</code></td>
+<td>Robert Edward Lynch</td>
+</tr>
+<tr>
+<td>Title/Status</td>
+<td><code>titleOrStatus</code></td>
+<td>Head of a Business Unit</td>
+</tr>
+<tr>
+<td>Date Acquired</td>
+<td><code>dateTitleOrStatusAcquired</code></td>
+<td>04/2020</td>
+</tr>
+<tr>
+<td>Date Began</td>
+<td><code>dateBeganWorking</code></td>
+<td>11/2013</td>
+</tr>
+<tr>
+<td>Ownership Interest</td>
+<td><code>haveOwnershipInterest</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>NFA ID</td>
+<td><code>nfaIdentificationNo</code></td>
+<td>494793</td>
+</tr>
+<tr>
+<td>CRD Number</td>
+<td><code>crdNo</code></td>
+<td>002981333</td>
+</tr>
+</tbody>
+</table>
+<p>This is often the largest table in an SBSE-A — can have 20+ rows.</p>
+<hr />
+<h2 id="sbse-w-security-based-swap-entity-withdrawal">SBSE-W — Security-Based Swap Entity Withdrawal</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~2/year
+<strong>Purpose:</strong> Notice of withdrawal from SBSE registration.</p>
+<h3 id="withdrawal-card_2">Withdrawal Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key Path</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>obj['fullName']</code></td>
+<td>CAPITOLIS LIQUID GLOBAL MARKETS LLC</td>
+</tr>
+<tr>
+<td>Tax ID</td>
+<td><code>obj['irsEmplIdentNo']</code></td>
+<td>88-4400323</td>
+</tr>
+<tr>
+<td>SEC File Number</td>
+<td><code>obj['secFileNumber']</code></td>
+<td>026-00226</td>
+</tr>
+<tr>
+<td>Registration Type</td>
+<td><code>obj['registrationType']</code></td>
+<td>Security-based Swap Dealer</td>
+</tr>
+<tr>
+<td>Date Ceased Business</td>
+<td><code>obj['dateCeasedBusiness']</code></td>
+<td>02-26-2026</td>
+</tr>
+<tr>
+<td>Reason</td>
+<td><code>obj.form_data['sbseW']['reasonsToWithdraw']['reasonToWithdraw']</code></td>
+<td>Other</td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>obj['description']</code></td>
+<td>(narrative)</td>
+</tr>
+<tr>
+<td>Holds Collateral</td>
+<td><code>obj['isHoldCollateral']</code></td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Number of Counterparties</td>
+<td><code>obj['numberOfCounterparties']</code></td>
+<td>6</td>
+</tr>
+<tr>
+<td>Amount of Money</td>
+<td><code>obj['amountOfMoney']</code></td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>Market Value</td>
+<td><code>obj['marketValue']</code></td>
+<td>186093434.00</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ats-n-c-ats-cessation-of-operations">ATS-N-C — ATS Cessation of Operations</h2>
+<p><strong>Class:</strong> <code>XmlFiling</code>
+<strong>Volume:</strong> ~2/year
+<strong>Purpose:</strong> Notice that an Alternative Trading System is ceasing operations.</p>
+<p><strong>Special case:</strong> This form has all meaningful data in <code>header_data</code>, not <code>form_data</code>. The <code>formData</code> element is empty.</p>
+<h3 id="cessation-card">Cessation Card</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Source</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ATS Name</td>
+<td><code>obj.header_data</code> → <code>filerInfo.filer.NMSStockATSName</code></td>
+<td>Luminex ATS</td>
+</tr>
+<tr>
+<td>MPID</td>
+<td><code>obj.header_data</code> → <code>filerInfo.filer.MPID</code></td>
+<td>LMNX</td>
+</tr>
+<tr>
+<td>CIK</td>
+<td><code>obj.header_data</code> → <code>filerInfo.filer.filerCredentials.cik</code></td>
+<td>0001609177</td>
+</tr>
+<tr>
+<td>Date Cease to Operate</td>
+<td><code>obj.header_data['dateCeaseToOperate']</code></td>
+<td>03/27/2026</td>
+</tr>
+<tr>
+<td>Contact Name</td>
+<td><code>obj.header_data</code> → <code>filerInfo.contact.contactName</code></td>
+<td>James C. Dolan</td>
+</tr>
+<tr>
+<td>Contact Phone</td>
+<td><code>obj.header_data</code> → <code>filerInfo.contact.contactPhoneNumber</code></td>
+<td>6172868082</td>
+</tr>
+<tr>
+<td>Contact Email</td>
+<td><code>obj.header_data</code> → <code>filerInfo.contact.contactEmailAddress</code></td>
+<td>james.dolan@levelmarkets.com</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Display note:</strong> Since <code>form_data</code> is empty, the generic <code>XmlFiling</code> Rich display will show no Form Data table. The rendering code should check <code>header_data</code> for ATS-N-C forms.</p>
+<hr />
+<h2 id="common-rendering-patterns">Common Rendering Patterns</h2>
+<h3 id="address-block">Address Block</h3>
+<p>Many forms share the same address structure. Render as a compact block:</p>
+<div class="highlight"><pre><span></span><code>street1
+street2 (if present)
+city, stateOrCountry zipCode
+</code></pre></div>
+<p>State codes follow SEC conventions (two-letter US state codes, <code>X1</code> = USA for country field).</p>
+<h3 id="yn-boolean-fields">Y/N Boolean Fields</h3>
+<p>XML booleans appear as <code>"Y"</code>, <code>"N"</code>, <code>"true"</code>, <code>"false"</code>. Render as:
+- <code>Y</code> / <code>true</code> → checkmark or "Yes"
+- <code>N</code> / <code>false</code> → dash or "No"</p>
+<h3 id="disclosure-sections">Disclosure Sections</h3>
+<p>Most registration forms (MA, CFPORTAL, SBSE, TA-1) have disclosure sections with identical patterns:
+- <code>criminalDisclosure</code> — felony/misdemeanor convictions and charges
+- <code>regulatoryActionDisclosure</code> — SEC/regulatory actions
+- <code>civilJudicialActionDisclosure</code> — injunctions and civil proceedings
+- <code>financialDisclosure</code> — bankruptcy, liens, bonds</p>
+<p>Default rendering: collapse all disclosures when all flags are N. Expand and highlight when any flag is Y, showing the detail narrative.</p>
+<h3 id="signature-block">Signature Block</h3>
+<p>Most forms end with a signature. Render as:</p>
+<div class="highlight"><pre><span></span><code>Signed by: [name]
+Title:     [title]
+Date:      [date]
+</code></pre></div>
+<h3 id="xslt-fallback">XSLT Fallback</h3>
+<p>Every form can be rendered via the SEC's XSLT endpoint as a fallback:</p>
+<div class="highlight"><pre><span></span><code><span class="n">html</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span>  <span class="c1"># Returns the SEC&#39;s official HTML rendering</span>
+</code></pre></div>
+<p>This is the authoritative rendering. Use it as a reference or as a "View original" link when the structured rendering above doesn't cover edge cases.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>

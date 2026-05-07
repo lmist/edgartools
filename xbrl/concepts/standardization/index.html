@@ -1,0 +1,6114 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Access and analyze SEC filings, financial statements, insider trading, and investment fund data">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/xbrl/concepts/standardization/">
+      
+      
+        <link rel="prev" href="../dimension-handling/">
+      
+      
+        <link rel="next" href="../../../guides/xbrl-footnotes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Standardization - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#xbrl-standardization-concepts-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Standardization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../guides/finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../guides/working-with-filing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../guides/financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api/company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/working-with-filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/searching-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/tend-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/stock-splits-eps-normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-standardization-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Standardization Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#industry-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Industry Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standard-concepts-by-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Concepts by Statement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard Concepts by Statement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-current-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Current Assets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-non-current-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Non-Current Assets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-current-liabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Current Liabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-non-current-liabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Non-Current Liabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-equity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Equity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-revenue-gross-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement - Revenue &amp; Gross Profit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-operating-expenses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement - Operating Expenses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-non-operating-tax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement - Non-Operating &amp; Tax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cash-flow-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cash Flow &amp; Capital
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-share-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per Share Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operating-lease-commitments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating Lease Commitments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intangible-amortization-forecast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intangible Amortization Forecast
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concept-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Concept Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Balance Sheet Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-vs-non-current-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current vs Non-Current Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operating-vs-non-operating-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating vs Non-Operating Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Income Statement Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revenue-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revenue Recognition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cost-of-revenue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cost of Revenue
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operating-lease-accounting-asc-842" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating Lease Accounting (ASC 842)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provisions-and-reserves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provisions and Reserves
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ambiguous-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ambiguous Tags
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ambiguous Tags">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-ambiguity-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Ambiguity Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excluded-tags-dropthisitem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Excluded Tags (DropThisItem)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecated-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecated Tags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api-v590" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python API (v5.9.0+)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python API (v5.9.0+)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#module-level-singletons-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module-Level Singletons (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standardconcept-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StandardConcept Enum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standardizationcache-per-xbrl-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StandardizationCache (Per-XBRL Caching)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-index-api-low-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse Index API (Low-Level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checking-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checking Coverage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-aware-disambiguation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context-Aware Disambiguation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Context-Aware Disambiguation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-calculation-parent-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Calculation Parent Derivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bottom-up-section-scanning-mpreiss9-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bottom-Up Section Scanning (mpreiss9 method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passing-context-to-the-mapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passing Context to the Mapper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context Keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version History
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credits
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/entity-facts-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-standardization-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Standardization Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#industry-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Industry Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standard-concepts-by-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Concepts by Statement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard Concepts by Statement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-current-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Current Assets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-non-current-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Non-Current Assets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-current-liabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Current Liabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-non-current-liabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Non-Current Liabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-equity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet - Equity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-revenue-gross-profit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement - Revenue &amp; Gross Profit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-operating-expenses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement - Operating Expenses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-non-operating-tax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement - Non-Operating &amp; Tax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cash-flow-capital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cash Flow &amp; Capital
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-share-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per Share Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operating-lease-commitments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating Lease Commitments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intangible-amortization-forecast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intangible Amortization Forecast
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concept-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Concept Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#balance-sheet-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Balance Sheet Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Balance Sheet Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-vs-non-current-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current vs Non-Current Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operating-vs-non-operating-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating vs Non-Operating Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#income-statement-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Income Statement Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Income Statement Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revenue-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revenue Recognition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cost-of-revenue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cost of Revenue
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operating-lease-accounting-asc-842" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating Lease Accounting (ASC 842)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provisions-and-reserves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provisions and Reserves
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ambiguous-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ambiguous Tags
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ambiguous Tags">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-ambiguity-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Ambiguity Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excluded-tags-dropthisitem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Excluded Tags (DropThisItem)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecated-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecated Tags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api-v590" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python API (v5.9.0+)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python API (v5.9.0+)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#module-level-singletons-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module-Level Singletons (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standardconcept-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StandardConcept Enum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standardizationcache-per-xbrl-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StandardizationCache (Per-XBRL Caching)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-index-api-low-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse Index API (Low-Level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checking-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checking Coverage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-aware-disambiguation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context-Aware Disambiguation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Context-Aware Disambiguation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-calculation-parent-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Calculation Parent Derivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bottom-up-section-scanning-mpreiss9-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bottom-Up Section Scanning (mpreiss9 method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passing-context-to-the-mapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passing Context to the Mapper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context Keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version History
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credits
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="xbrl-standardization-concepts-reference">XBRL Standardization Concepts Reference</h1>
+<p>This document describes the 95 standard concepts used by EdgarTools to normalize
+XBRL financial data across different companies. These concepts enable cross-company
+comparison by mapping the ~18,000 possible SEC GAAP taxonomy tags to a consistent
+set of standardized line items.</p>
+<h2 id="how-standardization-works">How Standardization Works</h2>
+<p><strong>Labels are always preserved</strong> - the company's original presentation is shown exactly as filed.</p>
+<p>Standardization adds a <code>standard_concept</code> column to DataFrames, mapping each line item to
+one of 95 standard categories:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get a statement DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="c1"># Labels show original company presentation</span>
+<span class="c1"># standard_concept maps to standard categories for analysis</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;standard_concept&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="c1">#                          label           standard_concept</span>
+<span class="c1"># 0        Cash and cash items  CashAndMarketableSecurities</span>
+<span class="c1"># 1      Trade receivables, net             TradeReceivables</span>
+<span class="c1"># 2        Prepaid expenses       OtherNonOperatingCurrentAssets</span>
+
+<span class="c1"># Aggregate by standard concept for cross-company comparison</span>
+<span class="n">standardized</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;standard_concept&#39;</span><span class="p">)[[</span><span class="s1">&#39;2024-09-30&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="overview">Overview</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total Standard Concepts</strong></td>
+<td>95</td>
+</tr>
+<tr>
+<td><strong>XBRL Tags Mapped</strong></td>
+<td>2,067</td>
+</tr>
+<tr>
+<td><strong>Coverage</strong></td>
+<td>~95% of common financial statement tags</td>
+</tr>
+<tr>
+<td><strong>Source</strong></td>
+<td>mpreiss9's production taxonomy (390+ companies)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture">Architecture</h2>
+<div class="highlight"><pre><span></span><code>XBRL Tag (e.g., AccountsPayableCurrent)
+    ↓ gaap_mappings.json (2,067 mappings)
+Standard Concept (e.g., TradePayables)
+    ↓ display_names.json (95 mappings)
+Display Name (e.g., &quot;Accounts Payable&quot;)
+</code></pre></div>
+<h2 id="industry-context">Industry Context</h2>
+<p>The number of standardized concepts varies by provider:</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Line Items</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EdgarTools</td>
+<td>95</td>
+<td>Production-tested on 390+ companies</td>
+</tr>
+<tr>
+<td>Capital IQ</td>
+<td>~100-150</td>
+<td>Varies by data package</td>
+</tr>
+<tr>
+<td>Bloomberg</td>
+<td>~80-120</td>
+<td>Core financial line items</td>
+</tr>
+<tr>
+<td>Refinitiv</td>
+<td>~100-200</td>
+<td>Standardized fundamentals</td>
+</tr>
+<tr>
+<td>Morningstar</td>
+<td>~80-100</td>
+<td>Balance/Income/Cash Flow</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="standard-concepts-by-statement">Standard Concepts by Statement</h2>
+<h3 id="balance-sheet-current-assets">Balance Sheet - Current Assets</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CashAndMarketableSecurities</code></td>
+<td>Cash and Cash Equivalents</td>
+<td>61</td>
+<td><code>AssetBackedSecuritiesAtCarryingValue</code>, <code>AvailableForSaleDebtSecuritiesAmortizedCostBasis</code>, <code>AvailableForSaleSecurities</code>, ...</td>
+</tr>
+<tr>
+<td><code>TradeReceivables</code></td>
+<td>Accounts Receivable</td>
+<td>34</td>
+<td><code>AccountsAndNotesReceivableNet</code>, <code>AccountsAndOtherReceivablesNetCurrent</code>, <code>AccountsNotesAndLoansReceivableNetCurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>Inventories</code></td>
+<td>Inventory</td>
+<td>66</td>
+<td><code>AgriculturalRelatedInventory</code>, <code>AgriculturalRelatedInventoryFeedAndSupplies</code>, <code>AgriculturalRelatedInventoryGrowingCrops</code>, ...</td>
+</tr>
+<tr>
+<td><code>DeferredTaxCurrentAssets</code></td>
+<td>Deferred Tax Assets, Current</td>
+<td>44</td>
+<td><code>DeferredIncomeTaxesAndOtherAssetsCurrent</code>, <code>DeferredIncomeTaxesAndOtherTaxReceivableCurrent</code>, <code>DeferredTaxAssetsDeferredIncome</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherOperatingCurrentAssets</code></td>
+<td>Other Current Assets</td>
+<td>50</td>
+<td><code>AdvanceRoyaltiesCurrent</code>, <code>AdvancesOnInventoryPurchases</code>, <code>AmountOfDeferredCostsRelatedToLongTermContracts</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherNonOperatingCurrentAssets</code></td>
+<td>Other Non-Operating Current Assets</td>
+<td>131</td>
+<td><code>AccountsReceivableRelatedParties</code>, <code>AccountsReceivableRelatedPartiesCurrent</code>, <code>AllowanceForDoubtfulOtherReceivablesCurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>RetirementRelatedCurrentAssets</code></td>
+<td>Retirement Related Assets, Current</td>
+<td>1</td>
+<td><code>DefinedBenefitPlanCurrentAssets</code></td>
+</tr>
+<tr>
+<td><code>CurrentAssetsTotal</code></td>
+<td>Total Current Assets</td>
+<td>1</td>
+<td><code>AssetsCurrent</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="balance-sheet-non-current-assets">Balance Sheet - Non-Current Assets</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PlantPropertyEquipmentNet</code></td>
+<td>Property, Plant and Equipment</td>
+<td>53</td>
+<td><code>AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment</code>, <code>AcquisitionCostsCumulative</code>, <code>BuildingsAndImprovementsGross</code>, ...</td>
+</tr>
+<tr>
+<td><code>Goodwill</code></td>
+<td>Goodwill</td>
+<td>10</td>
+<td><code>Goodwill</code>, <code>GoodwillGross</code>, <code>GoodwillImpairedAccumulatedImpairmentLoss</code>, ...</td>
+</tr>
+<tr>
+<td><code>IntangibleAssets</code></td>
+<td>Intangible Assets</td>
+<td>17</td>
+<td><code>BusinessCombinationRecognizedIdentifiableAssetsAcquiredAndLiabilitiesAssumedIntangibles</code>, <code>FiniteLivedCustomerListsGross</code>, <code>FiniteLivedCustomerRelationshipsGross</code>, ...</td>
+</tr>
+<tr>
+<td><code>LongtermInvestments</code></td>
+<td>Long-Term Investments</td>
+<td>60</td>
+<td><code>AdvancesToAffiliate</code>, <code>AuctionRateSecuritiesNoncurrent</code>, <code>AvailableForSaleSecuritiesDebtMaturitiesAfterFiveThroughTenYearsFairValue</code>, ...</td>
+</tr>
+<tr>
+<td><code>DeferredTaxNoncurrentAssets</code></td>
+<td>Deferred Tax Assets, Non-Current</td>
+<td>45</td>
+<td><code>DeferredIncomeTaxAssetsNet</code>, <code>DeferredIncomeTaxesAndOtherAssetsNoncurrent</code>, <code>DeferredTaxAssetsCapitalLossCarryforwards</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherOperatingNonCurrentAssets</code></td>
+<td>Other Non-Current Assets</td>
+<td>49</td>
+<td><code>AccountsReceivableExcludingAccruedInterestAfterAllowanceForCreditLossNoncurrent</code>, <code>AccountsReceivableGross</code>, <code>AccountsReceivableGrossNoncurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherNonOperatingNonCurrentAssets</code></td>
+<td>Other Non-Operating Non-Current Assets</td>
+<td>140</td>
+<td><code>AccountsReceivableRelatedParties</code>, <code>AccountsReceivableRelatedPartiesNoncurrent</code>, <code>AccruedFeesAndOtherRevenueReceivable</code>, ...</td>
+</tr>
+<tr>
+<td><code>OperatingLeaseRightOfUseAsset</code></td>
+<td>Operating Lease Right-of-Use Asset</td>
+<td>1</td>
+<td><code>OperatingLeaseRightOfUseAsset</code></td>
+</tr>
+<tr>
+<td><code>RetirementRelatedNonCurrentAssets</code></td>
+<td>Retirement Related Assets, Non-Current</td>
+<td>4</td>
+<td><code>AssetRetirementObligationLegallyRestrictedAssetsFairValue</code>, <code>DeferredCompensationPlanAssets</code>, <code>DefinedBenefitPlanAmountsRecognizedInBalanceSheet</code>, ...</td>
+</tr>
+<tr>
+<td><code>NonCurrentAssetsTotal</code></td>
+<td>Total Non-Current Assets</td>
+<td>2</td>
+<td><code>AssetsNoncurrent</code>, <code>NoncurrentAssets</code></td>
+</tr>
+<tr>
+<td><code>Assets</code></td>
+<td>Total Assets</td>
+<td>2</td>
+<td><code>Assets</code>, <code>AssetsNet</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="balance-sheet-current-liabilities">Balance Sheet - Current Liabilities</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TradePayables</code></td>
+<td>Accounts Payable</td>
+<td>27</td>
+<td><code>AccountsPayableAndAccruedLiabilitiesCurrent</code>, <code>AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent</code>, <code>AccountsPayableAndOtherAccruedLiabilities</code>, ...</td>
+</tr>
+<tr>
+<td><code>ShortTermDebt</code></td>
+<td>Short-Term Debt</td>
+<td>62</td>
+<td><code>BankLoans</code>, <code>BankOverdrafts</code>, <code>BorrowingsUnderGuaranteedInvestmentAgreements</code>, ...</td>
+</tr>
+<tr>
+<td><code>DeferredTaxCurrentLiabilities</code></td>
+<td>Deferred Tax Liabilities, Current</td>
+<td>20</td>
+<td><code>DeferredIncomeTaxLiabilities</code>, <code>DeferredIncomeTaxLiabilitiesNet</code>, <code>DeferredTaxAssetsLiabilitiesNetCurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>TaxesPayable</code></td>
+<td>Taxes Payable</td>
+<td>7</td>
+<td><code>AccrualForTaxesOtherThanIncomeTaxesCurrent</code>, <code>AccruedIncomeTaxes</code>, <code>AccruedIncomeTaxesCurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>DividendsPayable</code></td>
+<td>Dividends Payable</td>
+<td>2</td>
+<td><code>DividendsPayableCurrent</code>, <code>DividendsPayableCurrentAndNoncurrent</code></td>
+</tr>
+<tr>
+<td><code>OtherOperatingCurrentLiabilities</code></td>
+<td>Other Current Liabilities</td>
+<td>68</td>
+<td><code>AccrualForEnvironmentalLossContingencies</code>, <code>AccruedAdvertisingCurrent</code>, <code>AccruedAdvertisingCurrentAndNoncurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherNonOperatingCurrentLiabilities</code></td>
+<td>Other Non-Operating Current Liabilities</td>
+<td>82</td>
+<td><code>AccountsPayableOtherCurrentAndNoncurrent</code>, <code>AccrualForTaxesOtherThanIncomeTaxesCurrentAndNoncurrent</code>, <code>AccruedCappingClosurePostClosureAndEnvironmentalCosts</code>, ...</td>
+</tr>
+<tr>
+<td><code>RetirementRelatedCurrentLiabilities</code></td>
+<td>Retirement Related Liabilities, Current</td>
+<td>18</td>
+<td><code>DeferredCompensationCashBasedArrangementsLiabilityCurrent</code>, <code>DeferredCompensationLiabilityCurrent</code>, <code>DeferredCompensationLiabilityCurrentAndNoncurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>OperatingLeaseCurrentDebtEquivalent</code></td>
+<td>Operating Lease Liability, Current</td>
+<td>2</td>
+<td><code>OperatingLeaseLiability</code>, <code>OperatingLeaseLiabilityCurrent</code></td>
+</tr>
+<tr>
+<td><code>CurrentLiabilitiesTotal</code></td>
+<td>Total Current Liabilities</td>
+<td>1</td>
+<td><code>LiabilitiesCurrent</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="balance-sheet-non-current-liabilities">Balance Sheet - Non-Current Liabilities</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LongTermDebt</code></td>
+<td>Long-Term Debt</td>
+<td>71</td>
+<td><code>CapitalLeaseObligations</code>, <code>CapitalLeaseObligationsNoncurrent</code>, <code>CommercialPaperNoncurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>DeferredTaxNonCurrentLiabilities</code></td>
+<td>Deferred Tax Liabilities, Non-Current</td>
+<td>35</td>
+<td><code>AccruedIncomeTaxes</code>, <code>AccruedIncomeTaxesNoncurrent</code>, <code>AccumulatedDeferredInvestmentTaxCredit</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherOperatingNonCurrentLiabilities</code></td>
+<td>Other Non-Current Liabilities</td>
+<td>31</td>
+<td><code>AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent</code>, <code>AccountsPayableAndAccruedLiabilitiesNoncurrent</code>, <code>AccountsPayableAndOtherAccruedLiabilities</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherNonOperatingNonCurrentLiabilities</code></td>
+<td>Other Non-Operating Non-Current Liabilities</td>
+<td>81</td>
+<td><code>AccountsPayableOtherCurrentAndNoncurrent</code>, <code>AccrualForTaxesOtherThanIncomeTaxesCurrentAndNoncurrent</code>, <code>AccruedEmployeeBenefitsCurrentAndNoncurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>RetirementRelatedNonCurrentLiabilities</code></td>
+<td>Retirement Related Liabilities, Non-Current</td>
+<td>18</td>
+<td><code>AssetRetirementObligation</code>, <code>DeferredCompensationLiabilityClassifiedNoncurrent</code>, <code>DeferredCompensationLiabilityCurrentAndNoncurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>OperatingLeaseNonCurrentDebtEquivalent</code></td>
+<td>Operating Lease Liability, Non-Current</td>
+<td>3</td>
+<td><code>OperatingLeaseLiability</code>, <code>OperatingLeaseLiabilityNoncurrent</code>, <code>OperatingLeaseLiabilityStatementOfFinancialPositionExtensibleList</code></td>
+</tr>
+<tr>
+<td><code>OngoingOperatingProvisions(WarrantiesEtc)</code></td>
+<td>Warranty and Other Provisions</td>
+<td>22</td>
+<td><code>ContractWithCustomerRefundLiability</code>, <code>ContractWithCustomerRefundLiabilityNoncurrent</code>, <code>CustomerAdvancesAndDeposits</code>, ...</td>
+</tr>
+<tr>
+<td><code>DefiniteLivedOperatingProvisions(DecommissioningEtc)</code></td>
+<td>Asset Retirement Obligations</td>
+<td>10</td>
+<td><code>AccruedCappingClosurePostClosureAndEnvironmentalCosts</code>, <code>AccruedCappingClosurePostClosureAndEnvironmentalCostsNoncurrent</code>, <code>AssetRetirementObligationsNoncurrent</code>, ...</td>
+</tr>
+<tr>
+<td><code>RestructuringProvisions</code></td>
+<td>Restructuring Provisions</td>
+<td>2</td>
+<td><code>RestructuringReserve</code>, <code>RestructuringReserveNoncurrent</code></td>
+</tr>
+<tr>
+<td><code>NonCurrentLiabilitiesTotal</code></td>
+<td>Total Non-Current Liabilities</td>
+<td>1</td>
+<td><code>LiabilitiesNoncurrent</code></td>
+</tr>
+<tr>
+<td><code>Liabilities</code></td>
+<td>Total Liabilities</td>
+<td>1</td>
+<td><code>Liabilities</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="balance-sheet-equity">Balance Sheet - Equity</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CommonEquity</code></td>
+<td>Total Stockholders' Equity</td>
+<td>50</td>
+<td><code>AccumulatedOtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax</code>, <code>AccumulatedOtherComprehensiveIncomeLossCumulativeChangesInNetGainLossFromCashFlowHedgesEffectNetOfTax</code>, <code>AccumulatedOtherComprehensiveIncomeLossDefinedBenefitPensionAndOtherPostretirementPlansNetOfTax</code>, ...</td>
+</tr>
+<tr>
+<td><code>PreferredStock</code></td>
+<td>Preferred Stock</td>
+<td>6</td>
+<td><code>AdditionalPaidInCapitalPreferredStock</code>, <code>PreferredStockRedemptionAmount</code>, <code>PreferredStockSharesSubscribedButUnissuedSubscriptionsReceivable</code>, ...</td>
+</tr>
+<tr>
+<td><code>TreasuryShares</code></td>
+<td>Treasury Stock</td>
+<td>2</td>
+<td><code>TreasuryStockCommonShares</code>, <code>TreasuryStockShares</code></td>
+</tr>
+<tr>
+<td><code>MinorityInterestBalance</code></td>
+<td>Noncontrolling Interest</td>
+<td>10</td>
+<td><code>MembersEquityAttributableToNoncontrollingInterest</code>, <code>MinorityInterest</code>, <code>MinorityInterestInJointVentures</code>, ...</td>
+</tr>
+<tr>
+<td><code>TemporaryAndMezzanineFinancing</code></td>
+<td>Temporary Equity</td>
+<td>11</td>
+<td><code>RedeemableNoncontrollingInterestEquityCarryingAmount</code>, <code>RedeemableNoncontrollingInterestEquityCommonCarryingAmount</code>, <code>RedeemableNoncontrollingInterestEquityCommonFairValue</code>, ...</td>
+</tr>
+<tr>
+<td><code>AllEquityBalance</code></td>
+<td>Total Equity</td>
+<td>1</td>
+<td><code>StockholdersEquity</code></td>
+</tr>
+<tr>
+<td><code>AllEquityBalanceIncludingMinorityInterest</code></td>
+<td>Total Equity Including Noncontrolling Interest</td>
+<td>4</td>
+<td><code>AociIncludingPortionAttributableToNoncontrollingInterestTax</code>, <code>DefinedBenefitPlanAccumulatedOtherComprehensiveIncomeBeforeTax</code>, <code>LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest</code>, ...</td>
+</tr>
+<tr>
+<td><code>LiabilitiesAndEquity</code></td>
+<td>Total Liabilities and Equity</td>
+<td>1</td>
+<td><code>LiabilitiesAndStockholdersEquity</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="income-statement-revenue-gross-profit">Income Statement - Revenue &amp; Gross Profit</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Revenue</code></td>
+<td>Revenue</td>
+<td>139</td>
+<td><code>AdmissionsRevenue</code>, <code>AdvertisingRevenue</code>, <code>BinderSalesRevenue</code>, ...</td>
+</tr>
+<tr>
+<td><code>CostOfGoodsAndServicesSold</code></td>
+<td>Cost of Revenue</td>
+<td>142</td>
+<td><code>AdvertisingRevenueCost</code>, <code>AffiliateCosts</code>, <code>AircraftRentalAndLandingFees</code>, ...</td>
+</tr>
+<tr>
+<td><code>GrossProfit</code></td>
+<td>Gross Profit</td>
+<td>1</td>
+<td><code>GrossProfit</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="income-statement-operating-expenses">Income Statement - Operating Expenses</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ResearchAndDevelopmentExpenses</code></td>
+<td>Research and Development Expense</td>
+<td>6</td>
+<td><code>ExplorationExpense</code>, <code>ResearchAndDevelopmentAssetAcquiredOtherThanThroughBusinessCombinationWrittenOff</code>, <code>ResearchAndDevelopmentExpense</code>, ...</td>
+</tr>
+<tr>
+<td><code>SellingGeneralAndAdminExpenses</code></td>
+<td>Selling, General and Administrative Expense</td>
+<td>16</td>
+<td><code>CommunicationsAndInformationTechnology</code>, <code>GeneralAndAdministrativeExpense</code>, <code>GeneralInsuranceExpense</code>, ...</td>
+</tr>
+<tr>
+<td><code>MarketingExpenses</code></td>
+<td>Marketing Expense</td>
+<td>4</td>
+<td><code>AdvertisingExpense</code>, <code>CooperativeAdvertisingExpense</code>, <code>MarketingAndAdvertisingExpense</code>, ...</td>
+</tr>
+<tr>
+<td><code>DepreciationExpense</code></td>
+<td>Depreciation Expense</td>
+<td>13</td>
+<td><code>CapitalizedComputerSoftwareAmortization</code>, <code>CapitalizedComputerSoftwareImpairments</code>, <code>CostDepreciationAmortizationAndDepletion</code>, ...</td>
+</tr>
+<tr>
+<td><code>AmortizationOfIntangibles</code></td>
+<td>Amortization of Intangibles</td>
+<td>4</td>
+<td><code>AmortizationOfIntangibleAssets</code>, <code>ImpairmentOfIntangibleAssetsExcludingGoodwill</code>, <code>ImpairmentOfIntangibleAssetsFinitelived</code>, ...</td>
+</tr>
+<tr>
+<td><code>OtherOperatingExpense</code></td>
+<td>Other Operating Expense</td>
+<td>45</td>
+<td><code>AccretionExpense</code>, <code>AcquisitionCosts</code>, <code>AllocatedShareBasedCompensationExpense</code>, ...</td>
+</tr>
+<tr>
+<td><code>RestructuringExpenseBenefit</code></td>
+<td>Restructuring Expense</td>
+<td>32</td>
+<td><code>AmortizationOfAcquisitionCosts</code>, <code>BusinessCombinationAcquisitionRelatedCosts</code>, <code>BusinessCombinationIntegrationRelatedCosts</code>, ...</td>
+</tr>
+<tr>
+<td><code>GoodwillWriteoffs</code></td>
+<td>Goodwill Impairment</td>
+<td>9</td>
+<td><code>AdjustmentForAmortization</code>, <code>AssetImpairmentCharges</code>, <code>CostOfGoodsAndServicesSoldAmortization</code>, ...</td>
+</tr>
+<tr>
+<td><code>CostsSubtotal</code></td>
+<td>Total Costs and Expenses</td>
+<td>5</td>
+<td><code>BenefitsLossesAndExpenses</code>, <code>CostsAndExpenses</code>, <code>EmployeeBenefitsAndShareBasedCompensation</code>, ...</td>
+</tr>
+<tr>
+<td><code>OperatingIncomeLoss</code></td>
+<td>Operating Income</td>
+<td>1</td>
+<td><code>OperatingIncomeLoss</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="income-statement-non-operating-tax">Income Statement - Non-Operating &amp; Tax</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>InterestExpense</code></td>
+<td>Interest Expense</td>
+<td>38</td>
+<td><code>AmortizationOfDebtDiscountPremium</code>, <code>AmortizationOfDeferredHedgeGains</code>, <code>AmortizationOfFinancingCosts</code>, ...</td>
+</tr>
+<tr>
+<td><code>InterestIncome</code></td>
+<td>Interest Income</td>
+<td>20</td>
+<td><code>InterestAndDividendIncomeOperating</code>, <code>InterestAndOtherIncome</code>, <code>InterestIncomeExpenseAfterProvisionForLoanLoss</code>, ...</td>
+</tr>
+<tr>
+<td><code>NonoperatingIncomeExpense</code></td>
+<td>Non-Operating Income (Expense)</td>
+<td>199</td>
+<td><code>AccretionAmortizationOfDiscountsAndPremiumsInvestments</code>, <code>AccretionExpenseIncludingAssetRetirementObligations</code>, <code>AvailableForSaleSecuritiesGrossRealizedGainLossNet</code>, ...</td>
+</tr>
+<tr>
+<td><code>SpecialItemsIncomeExpense(Pretax)</code></td>
+<td>Special Items</td>
+<td>2</td>
+<td><code>UnusualOrInfrequentItemInsuranceProceeds</code>, <code>UnusualOrInfrequentItemNetOfInsuranceProceeds</code></td>
+</tr>
+<tr>
+<td><code>PretaxIncomeLoss</code></td>
+<td>Income Before Tax</td>
+<td>1</td>
+<td><code>IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest</code></td>
+</tr>
+<tr>
+<td><code>IncomeTaxes</code></td>
+<td>Income Tax Expense</td>
+<td>78</td>
+<td><code>AdjustmentsToAdditionalPaidInCapitalTaxEffectFromShareBasedCompensation</code>, <code>CurrentFederalStateAndLocalTaxExpenseBenefit</code>, <code>CurrentFederalTaxExpenseBenefit</code>, ...</td>
+</tr>
+<tr>
+<td><code>IncomeLossContinuingOperations</code></td>
+<td>Income from Continuing Operations</td>
+<td>1</td>
+<td><code>IncomeLossFromContinuingOperations</code></td>
+</tr>
+<tr>
+<td><code>ExtraordinaryItemsIncomeExpense(PostTax)</code></td>
+<td>Extraordinary Items</td>
+<td>35</td>
+<td><code>DiscontinuedOperationAmountOfAdjustmentToPriorPeriodGainLossOnDisposalBeforeIncomeTax</code>, <code>DiscontinuedOperationAmountOfAdjustmentToPriorPeriodGainLossOnDisposalNetOfTax</code>, <code>DiscontinuedOperationAmountOfOtherIncomeLossFromDispositionOfDiscontinuedOperationNetOfTax</code>, ...</td>
+</tr>
+<tr>
+<td><code>MinorityInterestIncomeExpense</code></td>
+<td>Net Income Attributable to Noncontrolling Interest</td>
+<td>10</td>
+<td><code>ComprehensiveIncomeNetOfTaxAttributableToNoncontrollingInterest</code>, <code>EquityMethodInvestmentOtherThanTemporaryImpairment</code>, <code>IncomeLossFromContinuingOperationsAttributableToNoncontrollingEntity</code>, ...</td>
+</tr>
+<tr>
+<td><code>NetIncome</code></td>
+<td>Net Income</td>
+<td>2</td>
+<td><code>IncomeLossAttributableToParent</code>, <code>NetIncomeLoss</code></td>
+</tr>
+<tr>
+<td><code>NetIncomeToCommonShareholders</code></td>
+<td>Net Income to Common Shareholders</td>
+<td>3</td>
+<td><code>NetIncomeLossAvailableToCommonStockholdersBasic</code>, <code>NetIncomeLossFromContinuingOperationsAvailableToCommonShareholdersBasic</code>, <code>ParticipatingSecuritiesDistributedAndUndistributedEarnings</code></td>
+</tr>
+<tr>
+<td><code>PreferredDividendExpense</code></td>
+<td>Preferred Dividends</td>
+<td>13</td>
+<td><code>DividendsPreferredStock</code>, <code>DividendsPreferredStockCash</code>, <code>DividendsPreferredStockStock</code>, ...</td>
+</tr>
+<tr>
+<td><code>ProfitLoss</code></td>
+<td>Profit or Loss</td>
+<td>1</td>
+<td><code>ProfitLoss</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cash-flow-capital">Cash Flow &amp; Capital</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CapitalExpenses</code></td>
+<td>Capital Expenditures</td>
+<td>4</td>
+<td><code>PaymentsToAcquireOtherProductiveAssets</code>, <code>PaymentsToAcquireOtherPropertyPlantAndEquipment</code>, <code>PaymentsToAcquireProductiveAssets</code>, ...</td>
+</tr>
+<tr>
+<td><code>CommonDividendsPaid</code></td>
+<td>Dividends Paid</td>
+<td>4</td>
+<td><code>Dividends</code>, <code>DividendsCash</code>, <code>DividendsCommonStock</code>, ...</td>
+</tr>
+<tr>
+<td><code>EquityExpenseIncome(BuybackIssued)</code></td>
+<td>Stock Repurchases (Issuances)</td>
+<td>4</td>
+<td><code>PaymentsForRepurchaseOfCommonStock</code>, <code>ProceedsFromIssuanceOfCommonStock</code>, <code>ProceedsFromSaleOfTreasuryStock</code>, ...</td>
+</tr>
+</tbody>
+</table>
+<h3 id="per-share-data">Per Share Data</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CommonDividendsPerShare</code></td>
+<td>Dividends Per Share</td>
+<td>3</td>
+<td><code>CommonStockDividendsPerShareCashPaid</code>, <code>CommonStockDividendsPerShareDeclared</code>, <code>DividendsPayableAmountPerShare</code></td>
+</tr>
+<tr>
+<td><code>SharesAverage</code></td>
+<td>Weighted Average Shares Outstanding</td>
+<td>2</td>
+<td><code>WeightedAverageBasicSharesOutstandingProForma</code>, <code>WeightedAverageNumberOfSharesOutstandingBasic</code></td>
+</tr>
+<tr>
+<td><code>SharesDilutionAdjustment</code></td>
+<td>Dilution Adjustment</td>
+<td>2</td>
+<td><code>IncrementalCommonSharesAttributableToShareBasedPaymentArrangements</code>, <code>WeightedAverageNumberDilutedSharesOutstandingAdjustment</code></td>
+</tr>
+<tr>
+<td><code>SharesFullyDilutedAverage</code></td>
+<td>Weighted Average Shares Outstanding, Diluted</td>
+<td>2</td>
+<td><code>WeightedAverageNumberOfDilutedSharesOutstanding</code>, <code>WeightedAverageNumberOfShareOutstandingBasicAndDiluted</code></td>
+</tr>
+<tr>
+<td><code>SharesIssued</code></td>
+<td>Shares Issued</td>
+<td>2</td>
+<td><code>CommonStockSharesIssued</code>, <code>SharesIssued</code></td>
+</tr>
+<tr>
+<td><code>SharesYearEnd</code></td>
+<td>Shares Outstanding</td>
+<td>3</td>
+<td><code>CommonStockSharesOutstanding</code>, <code>EntityCommonStockSharesOutstanding</code>, <code>SharesOutstanding</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operating-lease-commitments">Operating Lease Commitments</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OperatingLeaseCommitmentYear1</code></td>
+<td>Operating Lease Commitment, Year 1</td>
+<td>1</td>
+<td><code>OperatingLeasesFutureMinimumPaymentsDueCurrent</code></td>
+</tr>
+<tr>
+<td><code>OperatingLeaseCommitmentYear2</code></td>
+<td>Operating Lease Commitment, Year 2</td>
+<td>1</td>
+<td><code>OperatingLeasesFutureMinimumPaymentsDueInTwoYears</code></td>
+</tr>
+<tr>
+<td><code>OperatingLeaseCommitmentYear3</code></td>
+<td>Operating Lease Commitment, Year 3</td>
+<td>1</td>
+<td><code>OperatingLeasesFutureMinimumPaymentsDueInThreeYears</code></td>
+</tr>
+<tr>
+<td><code>OperatingLeaseCommitmentYear4</code></td>
+<td>Operating Lease Commitment, Year 4</td>
+<td>1</td>
+<td><code>OperatingLeasesFutureMinimumPaymentsDueInFourYears</code></td>
+</tr>
+<tr>
+<td><code>OperatingLeaseCommitmentYear5</code></td>
+<td>Operating Lease Commitment, Year 5</td>
+<td>1</td>
+<td><code>OperatingLeasesFutureMinimumPaymentsDueInFiveYears</code></td>
+</tr>
+<tr>
+<td><code>OperatingLeaseCommitmentAfterYear5</code></td>
+<td>Operating Lease Commitment, Thereafter</td>
+<td>1</td>
+<td><code>OperatingLeasesFutureMinimumPaymentsDueThereafter</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="intangible-amortization-forecast">Intangible Amortization Forecast</h3>
+<table>
+<thead>
+<tr>
+<th>Standard Concept</th>
+<th>Display Name</th>
+<th>XBRL Tags</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ForecastedIntangibleAmortizationYear1</code></td>
+<td>Forecasted Amortization, Year 1</td>
+<td>3</td>
+<td><code>FiniteLivedIntangibleAssetsAmortizationExpenseNextRollingTwelveMonths</code>, <code>FiniteLivedIntangibleAssetsAmortizationExpenseNextTwelveMonths</code>, <code>FiniteLivedIntangibleAssetsAmortizationExpenseRemainderOfFiscalYear</code></td>
+</tr>
+<tr>
+<td><code>ForecastedIntangibleAmortizationYear2</code></td>
+<td>Forecasted Amortization, Year 2</td>
+<td>2</td>
+<td><code>FiniteLivedIntangibleAssetsAmortizationExpenseRollingYearTwo</code>, <code>FiniteLivedIntangibleAssetsAmortizationExpenseYearTwo</code></td>
+</tr>
+<tr>
+<td><code>ForecastedIntangibleAmortizationYear3</code></td>
+<td>Forecasted Amortization, Year 3</td>
+<td>2</td>
+<td><code>FiniteLivedIntangibleAssetsAmortizationExpenseRollingYearThree</code>, <code>FiniteLivedIntangibleAssetsAmortizationExpenseYearThree</code></td>
+</tr>
+<tr>
+<td><code>ForecastedIntangibleAmortizationYear4</code></td>
+<td>Forecasted Amortization, Year 4</td>
+<td>1</td>
+<td><code>FiniteLivedIntangibleAssetsAmortizationExpenseYearFour</code></td>
+</tr>
+<tr>
+<td><code>ForecastedIntangibleAmortizationYear5</code></td>
+<td>Forecasted Amortization, Year 5</td>
+<td>1</td>
+<td><code>FiniteLivedIntangibleAssetsAmortizationExpenseYearFive</code></td>
+</tr>
+<tr>
+<td><code>ForecastedIntangibleAmortizationAfterYear5</code></td>
+<td>Forecasted Amortization, Thereafter</td>
+<td>2</td>
+<td><code>FiniteLivedIntangibleAssetsAmortizationExpenseAfterYearFive</code>, <code>FiniteLivedIntangibleAssetsAmortizationExpenseRollingAfterYearFive</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="concept-details">Concept Details</h2>
+<h3 id="balance-sheet-concepts">Balance Sheet Concepts</h3>
+<h4 id="current-vs-non-current-classification">Current vs Non-Current Classification</h4>
+<p>The taxonomy distinguishes between current (due within 1 year) and non-current items:</p>
+<ul>
+<li><strong>Current Assets</strong>: <code>CashAndMarketableSecurities</code>, <code>TradeReceivables</code>, <code>Inventories</code>, etc.</li>
+<li><strong>Non-Current Assets</strong>: <code>PlantPropertyEquipmentNet</code>, <code>Goodwill</code>, <code>LongtermInvestments</code>, etc.</li>
+<li><strong>Current Liabilities</strong>: <code>TradePayables</code>, <code>ShortTermDebt</code>, etc.</li>
+<li><strong>Non-Current Liabilities</strong>: <code>LongTermDebt</code>, <code>DeferredTaxNonCurrentLiabilities</code>, etc.</li>
+</ul>
+<h4 id="operating-vs-non-operating-classification">Operating vs Non-Operating Classification</h4>
+<p>Items are also classified by their relationship to core operations:</p>
+<ul>
+<li><strong>Operating</strong>: Related to primary business activities (e.g., <code>OtherOperatingCurrentAssets</code>)</li>
+<li><strong>Non-Operating</strong>: Related to financing/investing activities (e.g., <code>OtherNonOperatingCurrentAssets</code>)</li>
+</ul>
+<h3 id="income-statement-concepts">Income Statement Concepts</h3>
+<h4 id="revenue-recognition">Revenue Recognition</h4>
+<p>All revenue-related XBRL tags (139 variations) map to the single <code>Revenue</code> concept.
+This includes:
+- <code>RevenueFromContractWithCustomerExcludingAssessedTax</code>
+- <code>Revenues</code>
+- <code>SalesRevenueNet</code>
+- <code>SalesRevenueGoodsNet</code>
+- And 135 more industry-specific variations</p>
+<h4 id="cost-of-revenue">Cost of Revenue</h4>
+<p>Cost tags (142 variations) map to <code>CostOfGoodsAndServicesSold</code>:
+- <code>CostOfRevenue</code>
+- <code>CostOfGoodsAndServicesSold</code>
+- <code>CostOfGoodsSold</code>
+- <code>CostOfServices</code></p>
+<h3 id="operating-lease-accounting-asc-842">Operating Lease Accounting (ASC 842)</h3>
+<p>Following the ASC 842 lease accounting standard, the taxonomy includes:</p>
+<ul>
+<li><strong>Right-of-Use Asset</strong>: <code>OperatingLeaseRightOfUseAsset</code></li>
+<li><strong>Current Liability</strong>: <code>OperatingLeaseCurrentDebtEquivalent</code></li>
+<li><strong>Non-Current Liability</strong>: <code>OperatingLeaseNonCurrentDebtEquivalent</code></li>
+<li><strong>Future Commitments</strong>: Years 1-5 and thereafter</li>
+</ul>
+<h3 id="provisions-and-reserves">Provisions and Reserves</h3>
+<p>The taxonomy distinguishes between:</p>
+<ul>
+<li><strong>Ongoing Provisions</strong>: <code>OngoingOperatingProvisions(WarrantiesEtc)</code> - recurring obligations</li>
+<li><strong>Definite-Lived Provisions</strong>: <code>DefiniteLivedOperatingProvisions(DecommissioningEtc)</code> - asset retirement</li>
+<li><strong>Restructuring</strong>: <code>RestructuringProvisions</code> - one-time reorganization costs</li>
+</ul>
+<hr />
+<h2 id="ambiguous-tags">Ambiguous Tags</h2>
+<p>Some XBRL tags can map to multiple concepts depending on context. These are flagged
+as "ambiguous" and require context-aware resolution (Phase 4 of implementation).</p>
+<p><strong>Total Ambiguous Tags</strong>: 215 (9.2% of mapped tags)</p>
+<h3 id="common-ambiguity-types">Common Ambiguity Types</h3>
+<ol>
+<li><strong>Current/Non-Current Ambiguity</strong> (202 tags)</li>
+<li>Example: <code>AccountsPayableCurrentAndNoncurrent</code> → <code>TradePayables</code> OR <code>OtherOperatingNonCurrentLiabilities</code></li>
+<li>
+<p>Resolution: Based on balance sheet section placement</p>
+</li>
+<li>
+<p><strong>Asset/Liability Ambiguity</strong> (12 tags)</p>
+</li>
+<li>Example: <code>DeferredTaxAssetsLiabilitiesNet</code> → <code>DeferredTaxNoncurrentAssets</code> OR <code>DeferredTaxNonCurrentLiabilities</code></li>
+<li>
+<p>Resolution: Based on sign (positive = asset, negative = liability)</p>
+</li>
+<li>
+<p><strong>Operating/Non-Operating Ambiguity</strong></p>
+</li>
+<li>Example: <code>OtherAssetsNoncurrent</code> → <code>OtherOperatingNonCurrentAssets</code> OR <code>OtherNonOperatingNonCurrentAssets</code></li>
+<li>Resolution: Based on statement section context</li>
+</ol>
+<hr />
+<h2 id="excluded-tags-dropthisitem">Excluded Tags (DropThisItem)</h2>
+<p>276 XBRL tags are explicitly excluded from standardization because they:
+- Confuse financial analysis (EPS details, pro-forma metrics)
+- Are redundant with other tags
+- Don't map cleanly to standard concepts</p>
+<p><strong>Examples of excluded tags:</strong>
+- <code>AcceleratedShareRepurchasesFinalPricePaidPerShare</code>
+- <code>BasicEarningsPerShareProForma</code>
+- <code>BusinessAcquisitionProFormaEarningsPerShareBasic</code>
+- Various per-share calculation details</p>
+<hr />
+<h2 id="deprecated-tags">Deprecated Tags</h2>
+<p>410 XBRL tags are marked as deprecated by the SEC with the year of deprecation.
+The mapping still works for historical filings, but these tags should not appear
+in recent filings.</p>
+<p><strong>Example:</strong>
+- <code>Revenues</code> (deprecated 2018) → Still maps to <code>Revenue</code>
+- <code>AccountsPayableRelatedPartiesCurrent</code> (deprecated 2023) → Still maps to <code>TradePayables</code></p>
+<hr />
+<h2 id="python-api-v590">Python API (v5.9.0+)</h2>
+<p>EdgarTools provides several APIs for working with standardized concepts:</p>
+<h3 id="module-level-singletons-recommended">Module-Level Singletons (Recommended)</h3>
+<p>For best performance, use the module-level singletons which load mappings once per session:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar.xbrl.standardization</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_default_mapper</span><span class="p">,</span>
+    <span class="n">get_default_store</span><span class="p">,</span>
+    <span class="n">StandardConcept</span><span class="p">,</span>
+    <span class="n">StandardizationCache</span>
+<span class="p">)</span>
+
+<span class="c1"># Get the singleton mapper - eliminates redundant file I/O</span>
+<span class="n">mapper</span> <span class="o">=</span> <span class="n">get_default_mapper</span><span class="p">()</span>
+
+<span class="c1"># Map a company concept to standardized label</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">map_concept</span><span class="p">(</span>
+    <span class="s2">&quot;us-gaap_AccountsPayableCurrent&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accounts Payable&quot;</span><span class="p">,</span>
+    <span class="p">{</span><span class="s2">&quot;statement_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BalanceSheet&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="c1"># Returns: &quot;Accounts Payable&quot;</span>
+</code></pre></div>
+<h3 id="standardconcept-enum">StandardConcept Enum</h3>
+<p>Type-safe enum for all standardized concepts:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar.xbrl.standardization</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardConcept</span>
+
+<span class="c1"># Access standard concept labels</span>
+<span class="n">StandardConcept</span><span class="o">.</span><span class="n">REVENUE</span><span class="o">.</span><span class="n">value</span>           <span class="c1"># &quot;Revenue&quot;</span>
+<span class="n">StandardConcept</span><span class="o">.</span><span class="n">NET_INCOME</span><span class="o">.</span><span class="n">value</span>        <span class="c1"># &quot;Net Income&quot;</span>
+<span class="n">StandardConcept</span><span class="o">.</span><span class="n">TOTAL_ASSETS</span><span class="o">.</span><span class="n">value</span>      <span class="c1"># &quot;Total Assets&quot;</span>
+<span class="n">StandardConcept</span><span class="o">.</span><span class="n">ACCOUNTS_PAYABLE</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># &quot;Accounts Payable&quot;</span>
+
+<span class="c1"># Look up a concept by its label</span>
+<span class="n">concept</span> <span class="o">=</span> <span class="n">StandardConcept</span><span class="o">.</span><span class="n">get_from_label</span><span class="p">(</span><span class="s2">&quot;Revenue&quot;</span><span class="p">)</span>
+<span class="c1"># Returns: StandardConcept.REVENUE</span>
+
+<span class="c1"># Get all available standard values</span>
+<span class="n">all_values</span> <span class="o">=</span> <span class="n">StandardConcept</span><span class="o">.</span><span class="n">get_all_values</span><span class="p">()</span>
+<span class="c1"># Returns: {&#39;Revenue&#39;, &#39;Net Income&#39;, &#39;Total Assets&#39;, ...}</span>
+</code></pre></div>
+<h3 id="standardizationcache-per-xbrl-caching">StandardizationCache (Per-XBRL Caching)</h3>
+<p>For high-performance workflows, use <code>StandardizationCache</code> which caches results per XBRL instance:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># The cache is automatically attached to XBRL instances</span>
+<span class="n">xbrl</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">xbrl</span><span class="p">()</span>
+
+<span class="c1"># Access via the standardization property</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="n">xbrl</span><span class="o">.</span><span class="n">standardization</span>
+
+<span class="c1"># Get cached label lookups</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get_standard_label</span><span class="p">(</span>
+    <span class="s2">&quot;us-gaap_Revenue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Total Revenue&quot;</span><span class="p">,</span>
+    <span class="p">{</span><span class="s2">&quot;statement_type&quot;</span><span class="p">:</span> <span class="s2">&quot;IncomeStatement&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Standardize entire statement with caching</span>
+<span class="n">raw_data</span> <span class="o">=</span> <span class="n">xbrl</span><span class="o">.</span><span class="n">get_statement_data</span><span class="p">(</span><span class="s2">&quot;IncomeStatement&quot;</span><span class="p">)</span>
+<span class="n">standardized</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">standardize_statement_data</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="s2">&quot;IncomeStatement&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check cache statistics</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cache</span><span class="o">.</span><span class="n">cache_stats</span><span class="p">)</span>
+<span class="c1"># {&#39;label_cache_size&#39;: 42, &#39;statement_cache_size&#39;: 1, &#39;cached_statements&#39;: [&#39;IncomeStatement&#39;]}</span>
+
+<span class="c1"># Clear cache when needed</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>  <span class="c1"># Clear all</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">(</span><span class="s2">&quot;IncomeStatement&quot;</span><span class="p">)</span>  <span class="c1"># Clear specific statement</span>
+</code></pre></div>
+<h3 id="reverse-index-api-low-level">Reverse Index API (Low-Level)</h3>
+<p>Direct O(1) lookup for XBRL tags:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar.xbrl.standardization.reverse_index</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_standard_concept</span><span class="p">,</span>
+    <span class="n">get_display_name</span><span class="p">,</span>
+    <span class="n">lookup</span>
+<span class="p">)</span>
+
+<span class="c1"># Simple lookup</span>
+<span class="n">concept</span> <span class="o">=</span> <span class="n">get_standard_concept</span><span class="p">(</span><span class="s2">&quot;AccountsPayableCurrent&quot;</span><span class="p">)</span>
+<span class="c1"># Returns: &quot;TradePayables&quot;</span>
+
+<span class="n">display</span> <span class="o">=</span> <span class="n">get_display_name</span><span class="p">(</span><span class="s2">&quot;AccountsPayableCurrent&quot;</span><span class="p">)</span>
+<span class="c1"># Returns: &quot;Accounts Payable&quot;</span>
+
+<span class="c1"># Full result with metadata</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;AccountsPayableCurrentAndNoncurrent&quot;</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">is_ambiguous</span>          <span class="c1"># True</span>
+<span class="n">result</span><span class="o">.</span><span class="n">standard_concepts</span>     <span class="c1"># [&#39;TradePayables&#39;, &#39;OtherOperatingNonCurrentLiabilities&#39;]</span>
+<span class="n">result</span><span class="o">.</span><span class="n">display_names</span>         <span class="c1"># [&#39;Accounts Payable&#39;, &#39;Other Non-Current Liabilities&#39;]</span>
+<span class="n">result</span><span class="o">.</span><span class="n">comment</span>               <span class="c1"># &#39;Curr/NonCurr ambiguity&#39;</span>
+</code></pre></div>
+<h3 id="checking-coverage">Checking Coverage</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar.xbrl.standardization.reverse_index</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_reverse_index</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">get_reverse_index</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">stats</span><span class="p">)</span>
+<span class="c1"># {&#39;total_mappings&#39;: 2067, &#39;ambiguous_count&#39;: 215, &#39;deprecated_count&#39;: 410, &#39;excluded_count&#39;: 276}</span>
+</code></pre></div>
+<hr />
+<h2 id="context-aware-disambiguation">Context-Aware Disambiguation</h2>
+<p>Starting in v5.9.0, EdgarTools uses context-aware disambiguation to resolve ambiguous tags.</p>
+<h3 id="how-it-works">How It Works</h3>
+<p>Ambiguous tags (e.g., <code>AccountsPayableCurrentAndNoncurrent</code>) can map to multiple concepts.
+EdgarTools uses two complementary strategies to disambiguate:</p>
+<h4 id="1-calculation-parent-derivation">1. Calculation Parent Derivation</h4>
+<p>When an item has a <code>calculation_parent</code>, EdgarTools infers its section:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Item with calculation_parent=&quot;us-gaap:AssetsCurrent&quot;</span>
+<span class="c1"># → Inferred section: &quot;Current Assets&quot;</span>
+<span class="c1"># → Resolves ambiguity toward current asset concepts</span>
+
+<span class="c1"># Supported parent → section mappings:</span>
+<span class="c1"># AssetsCurrent → &quot;Current Assets&quot;</span>
+<span class="c1"># AssetsNoncurrent → &quot;Non-Current Assets&quot;</span>
+<span class="c1"># LiabilitiesCurrent → &quot;Current Liabilities&quot;</span>
+<span class="c1"># LiabilitiesNoncurrent → &quot;Non-Current Liabilities&quot;</span>
+<span class="c1"># StockholdersEquity → &quot;Equity&quot;</span>
+</code></pre></div>
+<h4 id="2-bottom-up-section-scanning-mpreiss9-method">2. Bottom-Up Section Scanning (mpreiss9 method)</h4>
+<p>For items without calculation parents, EdgarTools scans the statement from bottom to top,
+using subtotals as section boundaries:</p>
+<div class="highlight"><pre><span></span><code>Total Current Assets        ← Defines boundary for &quot;Current Assets&quot; section
+  ↑
+  All items above until next subtotal belong to &quot;Current Assets&quot;
+  ↑
+Property, Plant &amp; Equipment ← This item gets assigned &quot;Current Assets&quot;
+                              section based on its position relative to subtotal
+</code></pre></div>
+<h3 id="passing-context-to-the-mapper">Passing Context to the Mapper</h3>
+<p>When calling the mapper directly, you can provide context for disambiguation:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mapper</span> <span class="o">=</span> <span class="n">get_default_mapper</span><span class="p">()</span>
+
+<span class="c1"># Provide context for accurate disambiguation</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">map_concept</span><span class="p">(</span>
+    <span class="s2">&quot;us-gaap_OtherAssetsNoncurrent&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Other Assets&quot;</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;statement_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BalanceSheet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;section&quot;</span><span class="p">:</span> <span class="s2">&quot;Non-Current Assets&quot;</span><span class="p">,</span>  <span class="c1"># Helps resolve operating vs non-operating</span>
+        <span class="s2">&quot;calculation_parent&quot;</span><span class="p">:</span> <span class="s2">&quot;us-gaap:AssetsNoncurrent&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;is_total&quot;</span><span class="p">:</span> <span class="kc">False</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="context-keys">Context Keys</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Used For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>statement_type</code></td>
+<td>"BalanceSheet", "IncomeStatement", etc.</td>
+<td>Statement-specific matching</td>
+</tr>
+<tr>
+<td><code>section</code></td>
+<td>"Current Assets", "Equity", etc.</td>
+<td>Disambiguating current/non-current</td>
+</tr>
+<tr>
+<td><code>calculation_parent</code></td>
+<td>Parent concept in calculation tree</td>
+<td>Deriving section automatically</td>
+</tr>
+<tr>
+<td><code>level</code></td>
+<td>Indentation level (0-5)</td>
+<td>Identifying subtotals vs details</td>
+</tr>
+<tr>
+<td><code>is_total</code></td>
+<td>True for subtotal/total rows</td>
+<td>Section boundary detection</td>
+</tr>
+<tr>
+<td><code>balance</code></td>
+<td>"debit" or "credit"</td>
+<td>Sign-based disambiguation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="files">Files</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gaap_mappings.json</code></td>
+<td>2,067 XBRL tag → standard concept mappings</td>
+</tr>
+<tr>
+<td><code>display_names.json</code></td>
+<td>95 standard concept → display name mappings</td>
+</tr>
+<tr>
+<td><code>exclusions.py</code></td>
+<td>276 excluded (DropThisItem) tags</td>
+</tr>
+<tr>
+<td><code>reverse_index.py</code></td>
+<td>O(1) lookup implementation</td>
+</tr>
+<tr>
+<td><code>core.py</code></td>
+<td>StandardConcept enum, MappingStore, ConceptMapper, standardize_statement</td>
+</tr>
+<tr>
+<td><code>cache.py</code></td>
+<td>StandardizationCache for per-XBRL instance caching</td>
+</tr>
+<tr>
+<td><code>sections.py</code></td>
+<td>Section classification for disambiguation</td>
+</tr>
+<tr>
+<td><code>__init__.py</code></td>
+<td>Module exports and singleton accessors</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="version-history">Version History</h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.9.0</td>
+<td>2026-01</td>
+<td>Context-aware disambiguation, bottom-up section scanning, StandardizationCache</td>
+</tr>
+<tr>
+<td>5.8.0</td>
+<td>2026-01</td>
+<td>Module-level singletons (get_default_mapper, get_default_store)</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>2026-01</td>
+<td>Initial release with 95 concepts, 2,067 mappings</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="related-resources">Related Resources</h2>
+<ul>
+<li><a href="../../">XBRL Documentation Hub</a> - Central navigation for all XBRL docs</li>
+<li><a href="../../../guides/extract-statements/">Extract Financial Statements Guide</a> - Complete guide to extracting financial data</li>
+<li><a href="../dimension-handling/">Dimension Handling Guide</a> - Understanding dimensional data and segment breakdowns</li>
+<li><a href="../../guides/multi-period-analysis/">Multi-Period Analysis Guide</a> - Working with XBRLS for multi-period comparison</li>
+</ul>
+<hr />
+<div class="admonition tip">
+<p class="admonition-title">Need help scaling XBRL standardization?</p>
+<p>EdgarTools maps 2,067 XBRL tags to 95 standard concepts. But production pipelines hit custom extensions, deprecated tags, and taxonomy version changes that go beyond standard mappings.</p>
+<ul>
+<li><strong><a href="https://www.edgar.tools/consulting/xbrl?utm_source=edgartools-docs&amp;utm_medium=see-live&amp;utm_content=xbrl-standardization">XBRL consulting for AI &amp; data teams →</a></strong></li>
+<li><strong><a href="https://www.edgar.tools/consulting?utm_source=edgartools-docs&amp;utm_medium=see-live&amp;utm_content=xbrl-standardization">See all SEC data consulting services →</a></strong></li>
+</ul>
+<p>From the creator of edgartools. <a href="https://www.edgar.tools/consulting/xbrl?utm_source=edgartools-docs&amp;utm_medium=see-live&amp;utm_content=xbrl-standardization#contact">Book a call →</a></p>
+</div>
+<h2 id="credits">Credits</h2>
+<p>The standardization taxonomy is based on the production mappings shared by
+<a href="https://github.com/mpreiss9">@mpreiss9</a>, tested across 390+ companies.</p>
+<p>See: <a href="https://github.com/dgunning/edgartools/issues/494">GitHub Issue #494</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,4730 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Detect stock splits from SEC filings and normalize per-share metrics with Python. Automatically adjust EPS and share counts using edgartools split detection.">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/guides/stock-splits-eps-normalization/">
+      
+      
+        <link rel="prev" href="../multi-year-financial-data-api/">
+      
+      
+        <link rel="next" href="../equity-statement-data-layers/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Stock Splits & EPS Normalization - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stock-splits-detect-split-events-and-normalize-per-share-metrics-with-python" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stock Splits & EPS Normalization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../working-with-filing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../working-with-filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../searching-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tend-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detect-stock-splits-from-xbrl-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detect Stock Splits from XBRL Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detect Stock Splits from XBRL Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-split-detection-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Split Detection Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#find-stock-split-announcements-in-8-k-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find Stock Split Announcements in 8-K Filings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalize-per-share-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalize Per-Share Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalize Per-Share Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-gets-adjusted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Gets Adjusted
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retroactive-adjustment-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retroactive Adjustment Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-split-handling-in-ttm-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic Split Handling in TTM Calculations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-workflow-nvidia-10-for-1-split-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Workflow: NVIDIA 10-for-1 Split Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-analysis-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Analysis Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Analysis Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#track-split-history-across-multiple-companies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Track Split History Across Multiple Companies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-split-adjusted-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Split-Adjusted Time Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-split-adjustments-against-company-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate Split Adjustments Against Company Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculate-split-adjusted-market-cap-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculate Split-Adjusted Market Cap History
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Quick Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detection-and-adjustment-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection and Adjustment Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#company-methods-with-automatic-split-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Company Methods with Automatic Split Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split-detection-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Split Detection Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#things-to-know" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Things to Know
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../xbrl/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/entity-facts-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detect-stock-splits-from-xbrl-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detect Stock Splits from XBRL Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detect Stock Splits from XBRL Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-split-detection-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Split Detection Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#find-stock-split-announcements-in-8-k-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find Stock Split Announcements in 8-K Filings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalize-per-share-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalize Per-Share Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalize Per-Share Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-gets-adjusted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Gets Adjusted
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retroactive-adjustment-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retroactive Adjustment Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-split-handling-in-ttm-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic Split Handling in TTM Calculations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-workflow-nvidia-10-for-1-split-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Workflow: NVIDIA 10-for-1 Split Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-analysis-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Analysis Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Analysis Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#track-split-history-across-multiple-companies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Track Split History Across Multiple Companies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-split-adjusted-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Split-Adjusted Time Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-split-adjustments-against-company-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate Split Adjustments Against Company Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculate-split-adjusted-market-cap-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculate Split-Adjusted Market Cap History
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Quick Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detection-and-adjustment-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection and Adjustment Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#company-methods-with-automatic-split-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Company Methods with Automatic Split Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split-detection-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Split Detection Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#things-to-know" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Things to Know
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="stock-splits-detect-split-events-and-normalize-per-share-metrics-with-python">Stock Splits: Detect Split Events and Normalize Per-Share Metrics with Python</h1>
+<p>Stock splits change share counts and per-share values, making historical comparisons difficult. A company reporting $10 EPS before a 2-for-1 split should show $5 adjusted EPS for that period -- but SEC filings contain both adjusted and unadjusted values depending on when they were filed. EdgarTools detects splits from XBRL data and automatically normalizes per-share metrics so you can build consistent time series.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span>
+
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;NVDA&quot;</span><span class="p">)</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;ratio&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-for-1 split&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>A few lines to find every stock split in a company's SEC filing history.</p>
+<hr />
+<h2 id="detect-stock-splits-from-xbrl-data">Detect Stock Splits from XBRL Data</h2>
+<p>EdgarTools finds splits by looking for <code>StockSplitConversionRatio</code> facts in XBRL filings. These facts appear in 10-Q, 10-K, and 8-K reports whenever a company reports a split event.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span>
+
+<span class="n">nvidia</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;NVDA&quot;</span><span class="p">)</span>
+<span class="n">entity_facts</span> <span class="o">=</span> <span class="n">nvidia</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">entity_facts</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">()</span>
+
+<span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Date: </span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Ratio: </span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;ratio&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code>Date: 2021-07-20, Ratio: 4.0
+Date: 2024-06-10, Ratio: 10.0
+</code></pre></div></p>
+<h3 id="how-split-detection-works">How Split Detection Works</h3>
+<p>The <code>detect_splits()</code> function:</p>
+<ol>
+<li><strong>Finds split facts</strong> - Searches for <code>StockSplitConversionRatio</code> in XBRL concepts</li>
+<li><strong>Filters stale data</strong> - Rejects facts filed &gt;280 days after the split date (historical echoes)</li>
+<li><strong>Validates duration</strong> - Accepts instant facts or short-duration facts (≤31 days), rejects quarterly/annual aggregations</li>
+<li><strong>Deduplicates</strong> - One split per year/ratio combination (same split reported in multiple filings)</li>
+</ol>
+<p>The ratio represents the multiplier applied to share counts. A 10-for-1 split has <code>ratio=10.0</code>.</p>
+<hr />
+<h2 id="find-stock-split-announcements-in-8-k-filings">Find Stock Split Announcements in 8-K Filings</h2>
+<p>Companies typically announce splits via 8-K current reports, usually under Item 8.01 ("Other Events") or occasionally Item 5.03 ("Amendments to Articles of Incorporation").</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+
+<span class="n">apple</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">filings_8k</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span>
+
+<span class="c1"># Filter to filings that might contain split announcements</span>
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings_8k</span><span class="p">[:</span><span class="mi">50</span><span class="p">]:</span>  <span class="c1"># Check recent 50 filings</span>
+    <span class="n">eight_k</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+    <span class="c1"># Look for Item 8.01 (where most splits are announced)</span>
+    <span class="k">if</span> <span class="s1">&#39;Item 8.01&#39;</span> <span class="ow">in</span> <span class="n">eight_k</span><span class="o">.</span><span class="n">items</span> <span class="ow">or</span> <span class="s1">&#39;Item 5.03&#39;</span> <span class="ow">in</span> <span class="n">eight_k</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">eight_k</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;8.01&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">eight_k</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;5.03&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;split&#39;</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">accession_no</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Items: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eight_k</span><span class="o">.</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Press releases attached as EX-99 exhibits often contain the split announcement details:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">eight_k</span><span class="o">.</span><span class="n">has_press_release</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">release</span> <span class="ow">in</span> <span class="n">eight_k</span><span class="o">.</span><span class="n">press_releases</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">release</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;stock split&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Split announced: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>  <span class="c1"># First 500 chars</span>
+</code></pre></div>
+<hr />
+<h2 id="normalize-per-share-metrics">Normalize Per-Share Metrics</h2>
+<p>Once you've detected splits, use <code>apply_split_adjustments()</code> to retroactively adjust historical data. This makes pre-split and post-split values directly comparable.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span><span class="p">,</span> <span class="n">apply_split_adjustments</span>
+
+<span class="n">tesla</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;TSLA&quot;</span><span class="p">)</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">tesla</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">()</span>
+
+<span class="c1"># Detect splits</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="p">)</span>
+
+<span class="c1"># Apply adjustments</span>
+<span class="n">adjusted_facts</span> <span class="o">=</span> <span class="n">apply_split_adjustments</span><span class="p">(</span><span class="n">facts</span><span class="p">,</span> <span class="n">splits</span><span class="p">)</span>
+
+<span class="c1"># Compare original vs adjusted EPS</span>
+<span class="n">eps_facts</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">facts</span> <span class="k">if</span> <span class="s1">&#39;EarningsPerShare&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">concept</span><span class="p">]</span>
+<span class="n">eps_adjusted</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">adjusted_facts</span> <span class="k">if</span> <span class="s1">&#39;EarningsPerShare&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">concept</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">orig</span><span class="p">,</span> <span class="n">adj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">eps_facts</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">eps_adjusted</span><span class="p">[:</span><span class="mi">3</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">orig</span><span class="o">.</span><span class="n">period_end</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">orig</span><span class="o">.</span><span class="n">numeric_value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> → $</span><span class="si">{</span><span class="n">adj</span><span class="o">.</span><span class="n">numeric_value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Output shows EPS before and after split adjustment:
+<div class="highlight"><pre><span></span><code>2021-12-31: $4.90 → $1.63
+2022-03-31: $3.22 → $1.07
+2022-06-30: $2.27 → $0.76
+</code></pre></div></p>
+<h3 id="what-gets-adjusted">What Gets Adjusted</h3>
+<p>The adjustment logic depends on the fact's unit and concept:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Unit Pattern</th>
+<th>Adjustment</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Per-share metrics</strong></td>
+<td><code>/share</code> in unit or <code>EarningsPerShare</code> in concept</td>
+<td>Divide by ratio</td>
+<td>EPS, Dividends per share, Book value per share</td>
+</tr>
+<tr>
+<td><strong>Share counts</strong></td>
+<td><code>shares</code> in unit (but not per-share)</td>
+<td>Multiply by ratio</td>
+<td>Shares outstanding, Weighted average shares</td>
+</tr>
+<tr>
+<td><strong>Other metrics</strong></td>
+<td>All others</td>
+<td>No adjustment</td>
+<td>Revenue, Net Income, Assets</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># Per-share: Divide by split ratio</span>
+<span class="c1"># If 10-for-1 split, $10 EPS becomes $1 EPS</span>
+<span class="n">adjusted_eps</span> <span class="o">=</span> <span class="n">original_eps</span> <span class="o">/</span> <span class="mf">10.0</span>
+
+<span class="c1"># Share counts: Multiply by split ratio</span>
+<span class="c1"># If 10-for-1 split, 100M shares becomes 1B shares</span>
+<span class="n">adjusted_shares</span> <span class="o">=</span> <span class="n">original_shares</span> <span class="o">*</span> <span class="mf">10.0</span>
+</code></pre></div>
+<h3 id="retroactive-adjustment-rules">Retroactive Adjustment Rules</h3>
+<p>Splits only adjust facts from periods <strong>before</strong> the split date. The function applies cumulative ratios for multiple splits:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example: Company had two splits</span>
+<span class="c1"># 2021-07-20: 4-for-1 split</span>
+<span class="c1"># 2024-06-10: 10-for-1 split</span>
+
+<span class="c1"># For a fact from 2020:</span>
+<span class="c1"># - Both splits occurred after 2020</span>
+<span class="c1"># - Cumulative ratio = 4.0 * 10.0 = 40.0</span>
+<span class="c1"># - Adjust by dividing by 40</span>
+
+<span class="c1"># For a fact from 2022:</span>
+<span class="c1"># - Only 2024 split occurred after 2022</span>
+<span class="c1"># - Cumulative ratio = 10.0</span>
+<span class="c1"># - Adjust by dividing by 10</span>
+
+<span class="c1"># For a fact from 2024-07:</span>
+<span class="c1"># - No splits after this date</span>
+<span class="c1"># - No adjustment needed (already post-split values)</span>
+</code></pre></div>
+<p>The function also checks filing dates. If a fact was filed <strong>after</strong> the split, it's already adjusted by the company and doesn't need further modification.</p>
+<hr />
+<h2 id="automatic-split-handling-in-ttm-calculations">Automatic Split Handling in TTM Calculations</h2>
+<p>TTM (Trailing Twelve Months) methods automatically detect and apply split adjustments. You don't need to call <code>detect_splits()</code> or <code>apply_split_adjustments()</code> manually when using these methods.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+
+<span class="n">nvidia</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;NVDA&quot;</span><span class="p">)</span>
+
+<span class="c1"># TTM calculations handle splits automatically</span>
+<span class="n">ttm_revenue</span> <span class="o">=</span> <span class="n">nvidia</span><span class="o">.</span><span class="n">get_ttm_revenue</span><span class="p">()</span>
+<span class="n">ttm_net_income</span> <span class="o">=</span> <span class="n">nvidia</span><span class="o">.</span><span class="n">get_ttm_net_income</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TTM Revenue: $</span><span class="si">{</span><span class="n">ttm_revenue</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e9</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">B&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TTM Net Income: $</span><span class="si">{</span><span class="n">ttm_net_income</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e9</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">B&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;As of: </span><span class="si">{</span><span class="n">ttm_revenue</span><span class="o">.</span><span class="n">as_of_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Periods: </span><span class="si">{</span><span class="n">ttm_revenue</span><span class="o">.</span><span class="n">periods</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>For any XBRL concept:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Per-share metrics are automatically split-adjusted</span>
+<span class="n">ttm_eps</span> <span class="o">=</span> <span class="n">nvidia</span><span class="o">.</span><span class="n">get_ttm</span><span class="p">(</span><span class="s2">&quot;EarningsPerShareBasic&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TTM EPS: $</span><span class="si">{</span><span class="n">ttm_eps</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Share counts are automatically adjusted too</span>
+<span class="n">ttm_shares</span> <span class="o">=</span> <span class="n">nvidia</span><span class="o">.</span><span class="n">get_ttm</span><span class="p">(</span><span class="s2">&quot;WeightedAverageNumberOfSharesOutstandingBasic&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weighted Avg Shares: </span><span class="si">{</span><span class="n">ttm_shares</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e9</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">B&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Behind the scenes, <code>get_ttm()</code> calls the internal method <code>_get_split_adjusted_facts()</code> which:
+1. Gets all facts for the company
+2. Detects splits using <code>detect_splits()</code>
+3. Applies adjustments using <code>apply_split_adjustments()</code>
+4. Returns normalized facts for TTM calculation</p>
+<hr />
+<h2 id="complete-workflow-nvidia-10-for-1-split-example">Complete Workflow: NVIDIA 10-for-1 Split Example</h2>
+<p>NVIDIA executed a 10-for-1 stock split on June 10, 2024. Let's build a complete workflow that detects this split, normalizes historical EPS, and validates the adjustments.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span><span class="p">,</span> <span class="n">apply_split_adjustments</span>
+
+<span class="c1"># Step 1: Get NVIDIA data</span>
+<span class="n">nvidia</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;NVDA&quot;</span><span class="p">)</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">nvidia</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">()</span>
+
+<span class="c1"># Step 2: Detect splits</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">splits</span><span class="p">)</span><span class="si">}</span><span class="s2"> splits:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;ratio&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-for-1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Step 3: Filter to EPS facts</span>
+<span class="n">eps_facts</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">facts</span>
+             <span class="k">if</span> <span class="s1">&#39;EarningsPerShareBasic&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">concept</span>
+             <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">period_end</span>
+             <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">numeric_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+
+<span class="c1"># Sort by period</span>
+<span class="n">eps_facts</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">period_end</span><span class="p">)</span>
+
+<span class="c1"># Step 4: Apply split adjustments</span>
+<span class="n">adjusted_facts</span> <span class="o">=</span> <span class="n">apply_split_adjustments</span><span class="p">(</span><span class="n">eps_facts</span><span class="p">,</span> <span class="n">splits</span><span class="p">)</span>
+
+<span class="c1"># Step 5: Compare pre-split periods</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">EPS Comparison (split-adjusted):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Period&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Original&#39;</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Adjusted&#39;</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Cumulative Ratio&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">58</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">orig</span><span class="p">,</span> <span class="n">adj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">eps_facts</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">:],</span> <span class="n">adjusted_facts</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]):</span>
+    <span class="c1"># Calculate cumulative ratio from the adjustment context</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">calculation_context</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;split_adj_ratio&quot;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">orig</span><span class="o">.</span><span class="n">period_end</span><span class="si">!s:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> $</span><span class="si">{</span><span class="n">orig</span><span class="o">.</span><span class="n">numeric_value</span><span class="si">:</span><span class="s2">&gt;11.2f</span><span class="si">}</span><span class="s2"> &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">adj</span><span class="o">.</span><span class="n">numeric_value</span><span class="si">:</span><span class="s2">&gt;11.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ratio</span><span class="si">:</span><span class="s2">&gt;17.1f</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Expected output:
+<div class="highlight"><pre><span></span><code>Found 2 splits:
+  2021-07-20: 4-for-1
+  2024-06-10: 10-for-1
+
+EPS Comparison (split-adjusted):
+Period       Original     Adjusted   Cumulative Ratio
+----------------------------------------------------------
+2022-01-30   $    4.44   $    0.11             40.0x
+2022-05-01   $    1.36   $    0.03             40.0x
+2022-07-31   $    0.51   $    0.01             40.0x
+2022-10-30   $    0.58   $    0.01             40.0x
+2023-01-29   $    0.88   $    0.02             40.0x
+2023-04-30   $    1.09   $    0.03             40.0x
+2023-07-30   $    2.70   $    0.07             40.0x
+2024-01-28   $    5.16   $    0.13             40.0x
+</code></pre></div></p>
+<p>Periods before both splits get cumulative adjustment of 40x (4 × 10). Periods between the splits would get 10x adjustment. Periods after June 2024 need no adjustment.</p>
+<hr />
+<h2 id="common-analysis-patterns">Common Analysis Patterns</h2>
+<h3 id="track-split-history-across-multiple-companies">Track Split History Across Multiple Companies</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span>
+
+<span class="n">tech_stocks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AAPL&quot;</span><span class="p">,</span> <span class="s2">&quot;MSFT&quot;</span><span class="p">,</span> <span class="s2">&quot;GOOGL&quot;</span><span class="p">,</span> <span class="s2">&quot;AMZN&quot;</span><span class="p">,</span> <span class="s2">&quot;NVDA&quot;</span><span class="p">,</span> <span class="s2">&quot;TSLA&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="n">tech_stocks</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+        <span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span>
+        <span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">splits</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">company</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">):&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">split</span><span class="p">[</span><span class="s1">&#39;ratio&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">-for-1&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">: No splits detected&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">: Error - </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="build-split-adjusted-time-series">Build Split-Adjusted Time Series</h3>
+<p>Compare EPS over multiple years with consistent per-share values:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span><span class="p">,</span> <span class="n">apply_split_adjustments</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">()</span>
+
+<span class="c1"># Get splits and adjust facts</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="p">)</span>
+<span class="n">adjusted_facts</span> <span class="o">=</span> <span class="n">apply_split_adjustments</span><span class="p">(</span><span class="n">facts</span><span class="p">,</span> <span class="n">splits</span><span class="p">)</span>
+
+<span class="c1"># Extract EPS time series</span>
+<span class="n">eps_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">adjusted_facts</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;EarningsPerShareBasic&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">concept</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">fiscal_period</span> <span class="o">==</span> <span class="s1">&#39;FY&#39;</span><span class="p">:</span>
+        <span class="n">eps_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;fiscal_year&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">fiscal_year</span><span class="p">,</span>
+            <span class="s1">&#39;period_end&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">period_end</span><span class="p">,</span>
+            <span class="s1">&#39;eps&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">numeric_value</span>
+        <span class="p">})</span>
+
+<span class="c1"># Create DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">eps_data</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;fiscal_year&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># Calculate growth rates on split-adjusted data</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;yoy_growth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Average EPS growth: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;yoy_growth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="validate-split-adjustments-against-company-reports">Validate Split Adjustments Against Company Reports</h3>
+<p>Companies publish adjusted historical data after splits. You can validate the adjustment logic:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span><span class="p">,</span> <span class="n">apply_split_adjustments</span>
+
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;NVDA&quot;</span><span class="p">)</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">()</span>
+
+<span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="p">)</span>
+<span class="n">adjusted</span> <span class="o">=</span> <span class="n">apply_split_adjustments</span><span class="p">(</span><span class="n">facts</span><span class="p">,</span> <span class="n">splits</span><span class="p">)</span>
+
+<span class="c1"># Find the same period reported before and after split</span>
+<span class="c1"># Pre-split: Filed in 2023 10-K, reports 2023 EPS (pre-split basis)</span>
+<span class="c1"># Post-split: Filed in 2024 10-K, reports 2023 EPS (post-split basis)</span>
+
+<span class="n">eps_2023_filings</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">adjusted</span>
+                     <span class="k">if</span> <span class="s1">&#39;EarningsPerShareBasic&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">concept</span>
+                     <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">fiscal_year</span> <span class="o">==</span> <span class="mi">2023</span><span class="p">]</span>
+
+<span class="c1"># Group by filing date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="n">by_filing</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">eps_2023_filings</span><span class="p">:</span>
+    <span class="n">by_filing</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">filing_date</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Compare values across filings</span>
+<span class="k">for</span> <span class="n">filing_date</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">by_filing</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="mi">3</span><span class="p">]:</span>
+    <span class="n">facts_list</span> <span class="o">=</span> <span class="n">by_filing</span><span class="p">[</span><span class="n">filing_date</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">facts_list</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">facts_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filed </span><span class="si">{</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">: 2023 EPS = $</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">numeric_value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="calculate-split-adjusted-market-cap-history">Calculate Split-Adjusted Market Cap History</h3>
+<p>Combine share counts and stock prices to build historical market cap:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgar.ttm</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_splits</span><span class="p">,</span> <span class="n">apply_split_adjustments</span>
+
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">facts</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_facts</span><span class="p">()</span><span class="o">.</span><span class="n">get_all_facts</span><span class="p">()</span>
+
+<span class="n">splits</span> <span class="o">=</span> <span class="n">detect_splits</span><span class="p">(</span><span class="n">facts</span><span class="p">)</span>
+<span class="n">adjusted</span> <span class="o">=</span> <span class="n">apply_split_adjustments</span><span class="p">(</span><span class="n">facts</span><span class="p">,</span> <span class="n">splits</span><span class="p">)</span>
+
+<span class="c1"># Get split-adjusted shares outstanding</span>
+<span class="n">shares_facts</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">adjusted</span>
+                <span class="k">if</span> <span class="s1">&#39;CommonStockSharesOutstanding&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">concept</span>
+                <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">fiscal_period</span> <span class="o">==</span> <span class="s1">&#39;FY&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">shares_facts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">period_end</span><span class="p">)[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]:</span>
+    <span class="n">shares_b</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">numeric_value</span> <span class="o">/</span> <span class="mf">1e9</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">period_end</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">shares_b</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">B shares (split-adjusted)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="api-quick-reference">API Quick Reference</h2>
+<h3 id="detection-and-adjustment-functions">Detection and Adjustment Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detect_splits(facts)</code></td>
+<td><code>facts</code>: List of FinancialFact</td>
+<td>List of dicts with <code>date</code> and <code>ratio</code></td>
+<td>Find all stock splits in facts</td>
+</tr>
+<tr>
+<td><code>apply_split_adjustments(facts, splits)</code></td>
+<td><code>facts</code>: List of FinancialFact<br><code>splits</code>: List of split dicts</td>
+<td>List of adjusted FinancialFact</td>
+<td>Apply retroactive adjustments</td>
+</tr>
+</tbody>
+</table>
+<h3 id="company-methods-with-automatic-split-handling">Company Methods with Automatic Split Handling</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>company.get_ttm(concept, as_of=None)</code></td>
+<td><code>TTMMetric</code></td>
+<td>TTM for any concept (split-adjusted)</td>
+</tr>
+<tr>
+<td><code>company.get_ttm_revenue(as_of=None)</code></td>
+<td><code>TTMMetric</code></td>
+<td>TTM revenue (split-adjusted)</td>
+</tr>
+<tr>
+<td><code>company.get_ttm_net_income(as_of=None)</code></td>
+<td><code>TTMMetric</code></td>
+<td>TTM net income (split-adjusted)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="split-detection-parameters">Split Detection Parameters</h3>
+<p>The detection logic uses these constants from <code>edgar.ttm.calculator</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MAX_SPLIT_LAG_DAYS</code></td>
+<td>280</td>
+<td>Maximum days between split date and filing date</td>
+</tr>
+<tr>
+<td><code>MAX_SPLIT_DURATION_DAYS</code></td>
+<td>31</td>
+<td>Maximum period duration for split facts</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="things-to-know">Things to Know</h2>
+<p><strong>Splits apply retroactively to historical data only.</strong> Facts from periods after the split date don't need adjustment -- they're already reported on a post-split basis.</p>
+<p><strong>Filing date matters for restated facts.</strong> If a fact was filed after a split date, the company has already adjusted it. The adjustment logic checks <code>filing_date</code> to avoid double-adjusting.</p>
+<p><strong>Multiple splits compound.</strong> A company with a 4-for-1 split in 2021 and a 10-for-1 split in 2024 requires a cumulative adjustment of 40x for pre-2021 data.</p>
+<p><strong>Reverse splits work automatically.</strong> A 1-for-10 reverse split has <code>ratio=0.1</code>. Per-share metrics get divided by 0.1 (multiplied by 10), which correctly increases the adjusted historical EPS.</p>
+<p><strong>Balance sheet items don't need adjustment.</strong> Assets, liabilities, and equity are not per-share values. Total stockholders' equity stays the same regardless of share count.</p>
+<p><strong>Not all facts have filing dates.</strong> The adjustment logic handles <code>None</code> filing dates by assuming the fact needs adjustment if it's from before the split.</p>
+<p><strong>Instant facts are preferred.</strong> Split events are moment-in-time occurrences. The detector accepts instant facts (no <code>period_start</code>) or short-duration facts (≤31 days) but rejects quarterly/annual durations.</p>
+<p><strong>8-K filing timing varies.</strong> While Item 8.01 is common for split announcements, check Items 5.03 and exhibit press releases. Not all companies follow the same disclosure pattern.</p>
+<p><strong>Weighted average share counts need special handling.</strong> These represent time-weighted averages over a period. For Q4 EPS derivation with splits, use the formula: Q4 shares = 4 × annual_shares - 3 × YTD_9M_shares.</p>
+<hr />
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="../financial-data/">Financial Data</a> - Extract financial statements and metrics</li>
+<li><a href="../../eightk-filings/">8-K Current Reports</a> - Parse material event filings</li>
+<li><a href="../company-facts/">Company Facts API</a> - Access XBRL facts programmatically</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>

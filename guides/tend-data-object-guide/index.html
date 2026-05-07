@@ -1,0 +1,5239 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Parse Form 10-D Asset-Backed Securities (ABS) Distribution Reports and extract structured CMBS loan and property data.">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/guides/tend-data-object-guide/">
+      
+      
+        <link rel="prev" href="../npx-data-object-guide/">
+      
+      
+        <link rel="next" href="../prospectus424b-data-object-guide/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ABS Distribution (10-D) - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#form-10-d-abs-distribution-reports-cmbs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ABS Distribution (10-D)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../working-with-filing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../working-with-filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../searching-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-about-non-cmbs-10-d-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What About Non-CMBS 10-D Filings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Data Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Data Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tend-top-level-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TenD (Top-Level Object)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supporting-data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Data Models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Supporting Data Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#absentity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ABSEntity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributionperiod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DistributionPeriod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstype-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ABSType (Enum)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmbs-asset-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CMBS Asset Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CMBS Asset Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cmbsassetdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CMBSAssetData
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loans-dataframe-49-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loans DataFrame (49 Fields)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties-dataframe-46-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties DataFrame (46 Fields)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmbssummary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CMBSSummary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#property-type-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Property Type Codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-analyzing-a-cmbs-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Analyzing a CMBS Pool
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-finding-high-dscr-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Finding High-DSCR Properties
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-tracking-delinquencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Tracking Delinquencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-geographic-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Geographic Distribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-for-10-d-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Searching for 10-D Filings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Source
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portfolio-risk-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portfolio Risk Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#investment-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment Research
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compliance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compliance Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#market-intelligence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Intelligence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock-splits-eps-normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../xbrl/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/entity-facts-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-about-non-cmbs-10-d-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What About Non-CMBS 10-D Filings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Data Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Data Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tend-top-level-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TenD (Top-Level Object)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supporting-data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Data Models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Supporting Data Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#absentity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ABSEntity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributionperiod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DistributionPeriod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstype-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ABSType (Enum)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmbs-asset-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CMBS Asset Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CMBS Asset Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cmbsassetdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CMBSAssetData
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loans-dataframe-49-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loans DataFrame (49 Fields)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties-dataframe-46-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties DataFrame (46 Fields)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmbssummary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CMBSSummary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#property-type-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Property Type Codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-analyzing-a-cmbs-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Analyzing a CMBS Pool
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-finding-high-dscr-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Finding High-DSCR Properties
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-tracking-delinquencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Tracking Delinquencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-geographic-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Geographic Distribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-for-10-d-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Searching for 10-D Filings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Source
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portfolio-risk-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portfolio Risk Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#investment-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment Research
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compliance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compliance Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#market-intelligence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Intelligence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="form-10-d-abs-distribution-reports-cmbs">Form 10-D: ABS Distribution Reports (CMBS)</h1>
+<h2 id="overview">Overview</h2>
+<p><strong>Form 10-D</strong> is an Asset-Backed Issuer Distribution Report required under Sections 13 and 15(d) of the Securities Exchange Act of 1934. These filings disclose distribution and pool performance data for publicly offered asset-backed securities (ABS).</p>
+<p>ABS come in many forms — credit card receivables, auto loans, student loans, residential mortgages (RMBS), commercial mortgages (CMBS), and utility securitizations. However, <strong>edgartools currently supports only CMBS (Commercial Mortgage-Backed Securities) filings</strong> that include structured XML asset data in the EX-102 attachment.</p>
+<p>For CMBS 10-D filings, edgartools extracts:
+- <strong>Loan-level data</strong>: 49 fields covering origination, balance, rate, maturity, servicer, and payment status
+- <strong>Property-level data</strong>: 46 fields covering location, type, valuation, occupancy, financials, and debt service coverage ratios
+- <strong>Summary statistics</strong>: Pool metrics like total balance, average DSCR, occupancy, and property type distribution</p>
+<h3 id="what-about-non-cmbs-10-d-filings">What About Non-CMBS 10-D Filings?</h3>
+<p>For non-CMBS 10-D filings (auto loans, credit cards, student loans, etc.), <code>filing.obj()</code> returns <code>None</code> because these filings do not include standardized XML asset data. Asset data for non-CMBS filings is typically reported in separate ABS-EE filings or in HTML tables with highly variable formats.</p>
+<h2 id="access-pattern">Access Pattern</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filing</span>
+
+<span class="c1"># Get a Form 10-D filing</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">Filing</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-D&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Parse into TenD object</span>
+<span class="n">ten_d</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>  <span class="c1"># Returns TenD for CMBS, None for non-CMBS</span>
+
+<span class="c1"># Check if CMBS data is available</span>
+<span class="k">if</span> <span class="n">ten_d</span> <span class="ow">and</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">has_asset_data</span><span class="p">:</span>
+    <span class="n">loans</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">loans</span>              <span class="c1"># pandas DataFrame</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">properties</span>    <span class="c1"># pandas DataFrame</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">asset_data</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>  <span class="c1"># CMBSSummary</span>
+</code></pre></div>
+<hr />
+<h2 id="display">Display</h2>
+<p>When you call <code>filing.obj()</code> on a CMBS Form 10-D filing, edgartools parses the filing and displays a rich panel with issuer information, distribution period, and asset data summary:</p>
+<p><img alt="TenD Display" src="../../images/tend-display.webp" /></p>
+<p>The panel shows:
+- Issuing entity (ABS trust name and CIK)
+- ABS type (detected as CMBS, AUTO, CREDIT_CARD, etc.)
+- Distribution period dates
+- Filing date
+- Depositor and sponsor entities
+- Security classes registered
+- Asset data summary (loans, properties, total balance, average rates/DSCR/occupancy, property types)</p>
+<hr />
+<h2 id="core-data-structure">Core Data Structure</h2>
+<h3 id="tend-top-level-object">TenD (Top-Level Object)</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filing</code></td>
+<td><code>Filing</code></td>
+<td>The underlying Filing object</td>
+</tr>
+<tr>
+<td><code>form</code></td>
+<td><code>str</code></td>
+<td>Form type (10-D or 10-D/A for amendments)</td>
+</tr>
+<tr>
+<td><code>company</code></td>
+<td><code>str</code></td>
+<td>Company name from the filing</td>
+</tr>
+<tr>
+<td><code>filing_date</code></td>
+<td><code>date</code></td>
+<td>Filing date</td>
+</tr>
+<tr>
+<td><code>accession_number</code></td>
+<td><code>str</code></td>
+<td>SEC accession number</td>
+</tr>
+<tr>
+<td><code>issuing_entity</code></td>
+<td><code>ABSEntity</code></td>
+<td>The ABS trust/entity (parsed from HTML header)</td>
+</tr>
+<tr>
+<td><code>depositor</code></td>
+<td><code>ABSEntity</code></td>
+<td>The depositor entity</td>
+</tr>
+<tr>
+<td><code>sponsors</code></td>
+<td><code>List[ABSEntity]</code></td>
+<td>Sponsor entities</td>
+</tr>
+<tr>
+<td><code>distribution_period</code></td>
+<td><code>DistributionPeriod</code></td>
+<td>Period covered (start_date, end_date)</td>
+</tr>
+<tr>
+<td><code>security_classes</code></td>
+<td><code>List[str]</code></td>
+<td>Classes of securities registered</td>
+</tr>
+<tr>
+<td><code>abs_type</code></td>
+<td><code>ABSType</code></td>
+<td>Detected ABS type enum (CMBS, AUTO, CREDIT_CARD, RMBS, STUDENT_LOAN, UTILITY, OTHER)</td>
+</tr>
+<tr>
+<td><code>has_asset_data</code></td>
+<td><code>bool</code></td>
+<td>Whether EX-102 XML exists (CMBS indicator)</td>
+</tr>
+<tr>
+<td><code>asset_data</code></td>
+<td><code>Optional[CMBSAssetData]</code></td>
+<td>Parsed CMBS asset data (lazy-loaded)</td>
+</tr>
+<tr>
+<td><code>loans</code></td>
+<td><code>Optional[DataFrame]</code></td>
+<td>Convenience property for <code>asset_data.loans</code></td>
+</tr>
+<tr>
+<td><code>properties</code></td>
+<td><code>Optional[DataFrame]</code></td>
+<td>Convenience property for <code>asset_data.properties</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="supporting-data-models">Supporting Data Models</h2>
+<h3 id="absentity">ABSEntity</h3>
+<p>Represents an entity involved in the ABS transaction (issuer, depositor, or sponsor).</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>Entity name</td>
+</tr>
+<tr>
+<td><code>cik</code></td>
+<td><code>Optional[str]</code></td>
+<td>SEC Central Index Key</td>
+</tr>
+<tr>
+<td><code>file_number</code></td>
+<td><code>Optional[str]</code></td>
+<td>Commission file number</td>
+</tr>
+</tbody>
+</table>
+<h3 id="distributionperiod">DistributionPeriod</h3>
+<p>The distribution period covered by the filing.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start_date</code></td>
+<td><code>Optional[date]</code></td>
+<td>Period start date</td>
+</tr>
+<tr>
+<td><code>end_date</code></td>
+<td><code>Optional[date]</code></td>
+<td>Period end date</td>
+</tr>
+</tbody>
+</table>
+<h3 id="abstype-enum">ABSType (Enum)</h3>
+<p>Detected asset-backed security type. EdgarTools detects this by looking for EX-102 XML (CMBS) or by analyzing company/issuer name keywords.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CMBS</code></td>
+<td>Commercial Mortgage-Backed Securities</td>
+</tr>
+<tr>
+<td><code>AUTO</code></td>
+<td>Auto Loan/Lease ABS</td>
+</tr>
+<tr>
+<td><code>CREDIT_CARD</code></td>
+<td>Credit Card Receivables</td>
+</tr>
+<tr>
+<td><code>RMBS</code></td>
+<td>Residential Mortgage-Backed Securities</td>
+</tr>
+<tr>
+<td><code>STUDENT_LOAN</code></td>
+<td>Student Loan ABS</td>
+</tr>
+<tr>
+<td><code>UTILITY</code></td>
+<td>Utility Securitizations</td>
+</tr>
+<tr>
+<td><code>OTHER</code></td>
+<td>Other asset types</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cmbs-asset-data">CMBS Asset Data</h2>
+<h3 id="cmbsassetdata">CMBSAssetData</h3>
+<p>The <code>asset_data</code> property provides access to the structured CMBS loan and property data parsed from the EX-102 XML attachment.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loans</code></td>
+<td><code>DataFrame</code></td>
+<td>Loan-level data (49 fields)</td>
+</tr>
+<tr>
+<td><code>properties</code></td>
+<td>DataFrame`</td>
+<td>Property-level data (46 fields)</td>
+</tr>
+<tr>
+<td><code>summary()</code></td>
+<td><code>CMBSSummary</code></td>
+<td>Aggregate statistics for the pool</td>
+</tr>
+</tbody>
+</table>
+<h3 id="loans-dataframe-49-fields">Loans DataFrame (49 Fields)</h3>
+<p>The <code>loans</code> DataFrame contains one row per loan with the following key columns:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loan_id</code></td>
+<td><code>str</code></td>
+<td>Prospectus loan identifier</td>
+</tr>
+<tr>
+<td><code>originator</code></td>
+<td><code>str</code></td>
+<td>Loan originator name</td>
+</tr>
+<tr>
+<td><code>origination_date</code></td>
+<td><code>date</code></td>
+<td>Date loan was originated</td>
+</tr>
+<tr>
+<td><code>original_amount</code></td>
+<td><code>float</code></td>
+<td>Original loan amount</td>
+</tr>
+<tr>
+<td><code>original_term_months</code></td>
+<td><code>int</code></td>
+<td>Original loan term in months</td>
+</tr>
+<tr>
+<td><code>maturity_date</code></td>
+<td><code>date</code></td>
+<td>Loan maturity date</td>
+</tr>
+<tr>
+<td><code>original_rate</code></td>
+<td><code>float</code></td>
+<td>Original interest rate</td>
+</tr>
+<tr>
+<td><code>current_rate</code></td>
+<td><code>float</code></td>
+<td>Current interest rate</td>
+</tr>
+<tr>
+<td><code>actual_balance</code></td>
+<td><code>float</code></td>
+<td>Current actual balance</td>
+</tr>
+<tr>
+<td><code>scheduled_balance</code></td>
+<td><code>float</code></td>
+<td>Scheduled principal balance at securitization</td>
+</tr>
+<tr>
+<td><code>payment_status</code></td>
+<td><code>str</code></td>
+<td>Payment status code (0=current, 1=30 days, etc.)</td>
+</tr>
+<tr>
+<td><code>is_modified</code></td>
+<td><code>bool</code></td>
+<td>Whether loan has been modified</td>
+</tr>
+<tr>
+<td><code>is_balloon</code></td>
+<td><code>bool</code></td>
+<td>Whether loan has balloon payment</td>
+</tr>
+<tr>
+<td><code>is_interest_only</code></td>
+<td><code>bool</code></td>
+<td>Whether loan is interest-only</td>
+</tr>
+<tr>
+<td><code>primary_servicer</code></td>
+<td><code>str</code></td>
+<td>Primary servicer name</td>
+</tr>
+<tr>
+<td><code>lien_position</code></td>
+<td><code>str</code></td>
+<td>Lien position code</td>
+</tr>
+<tr>
+<td><code>num_properties</code></td>
+<td><code>int</code></td>
+<td>Number of properties securing the loan</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Additional loan fields</strong> include: <code>loan_id_type</code>, <code>period_start</code>, <code>period_end</code>, <code>securitization_rate</code>, <code>accrual_method</code>, <code>rate_type</code>, <code>io_term_months</code>, <code>first_payment_date</code>, <code>loan_structure</code>, <code>payment_type</code>, <code>payment_frequency</code>, <code>num_properties_securitization</code>, <code>grace_days</code>, <code>has_prepayment_premium</code>, <code>has_negative_amortization</code>, <code>lockout_end_date</code>, <code>yield_maintenance_end_date</code>, <code>prepayment_premium_end_date</code>, <code>period_begin_balance</code>, <code>scheduled_pi_due</code>, <code>servicer_fee_rate</code>, <code>scheduled_interest</code>, <code>scheduled_principal</code>, <code>unscheduled_principal</code>, <code>scheduled_end_balance</code>, <code>paid_through_date</code>, <code>servicing_advance_method</code>, <code>pi_advances_outstanding</code>, <code>ti_advances_outstanding</code>, <code>other_advances_outstanding</code>, <code>subject_to_demand</code>.</p>
+<h3 id="properties-dataframe-46-fields">Properties DataFrame (46 Fields)</h3>
+<p>The <code>properties</code> DataFrame contains one or more rows per loan (one per property securing the loan) with the following key columns:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loan_id</code></td>
+<td><code>str</code></td>
+<td>Associated loan identifier</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>Property name</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td><code>str</code></td>
+<td>Street address</td>
+</tr>
+<tr>
+<td><code>city</code></td>
+<td><code>str</code></td>
+<td>City</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td><code>str</code></td>
+<td>State code</td>
+</tr>
+<tr>
+<td><code>zip</code></td>
+<td><code>str</code></td>
+<td>ZIP code</td>
+</tr>
+<tr>
+<td><code>county</code></td>
+<td><code>str</code></td>
+<td>County</td>
+</tr>
+<tr>
+<td><code>property_type</code></td>
+<td><code>str</code></td>
+<td>Property type code (MF, OF, RT, etc.)</td>
+</tr>
+<tr>
+<td><code>units</code></td>
+<td><code>int</code></td>
+<td>Number of units/beds/rooms</td>
+</tr>
+<tr>
+<td><code>sqft</code></td>
+<td><code>int</code></td>
+<td>Net rentable square feet</td>
+</tr>
+<tr>
+<td><code>year_built</code></td>
+<td><code>int</code></td>
+<td>Year property was built</td>
+</tr>
+<tr>
+<td><code>year_renovated</code></td>
+<td><code>int</code></td>
+<td>Year last renovated</td>
+</tr>
+<tr>
+<td><code>valuation</code></td>
+<td><code>float</code></td>
+<td>Property valuation amount</td>
+</tr>
+<tr>
+<td><code>valuation_source</code></td>
+<td><code>str</code></td>
+<td>Valuation source code</td>
+</tr>
+<tr>
+<td><code>valuation_date</code></td>
+<td><code>date</code></td>
+<td>Valuation date</td>
+</tr>
+<tr>
+<td><code>occupancy_securitization</code></td>
+<td><code>float</code></td>
+<td>Occupancy % at securitization</td>
+</tr>
+<tr>
+<td><code>occupancy_current</code></td>
+<td><code>float</code></td>
+<td>Most recent occupancy %</td>
+</tr>
+<tr>
+<td><code>revenue_securitization</code></td>
+<td><code>float</code></td>
+<td>Revenue at securitization</td>
+</tr>
+<tr>
+<td><code>opex_securitization</code></td>
+<td><code>float</code></td>
+<td>Operating expenses at securitization</td>
+</tr>
+<tr>
+<td><code>noi_securitization</code></td>
+<td><code>float</code></td>
+<td>Net Operating Income at securitization</td>
+</tr>
+<tr>
+<td><code>ncf_securitization</code></td>
+<td><code>float</code></td>
+<td>Net Cash Flow at securitization</td>
+</tr>
+<tr>
+<td><code>dscr_noi_securitization</code></td>
+<td><code>float</code></td>
+<td>Debt Service Coverage Ratio (NOI) at securitization</td>
+</tr>
+<tr>
+<td><code>dscr_ncf_securitization</code></td>
+<td><code>float</code></td>
+<td>Debt Service Coverage Ratio (NCF) at securitization</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Additional property fields</strong> include: <code>units_securitization</code>, <code>sqft_securitization</code>, <code>status</code>, <code>defeased_status</code>, <code>tenant_1_name</code>, <code>tenant_1_sqft</code>, <code>tenant_1_lease_exp</code>, <code>tenant_2_name</code>, <code>tenant_2_sqft</code>, <code>tenant_2_lease_exp</code>, <code>tenant_3_name</code>, <code>tenant_3_sqft</code>, <code>tenant_3_lease_exp</code>, <code>financials_date_securitization</code>, <code>financials_start_date</code>, <code>financials_end_date</code>, <code>revenue_current</code>, <code>opex_current</code>, <code>noi_current</code>, <code>ncf_current</code>, <code>debt_service_current</code>, <code>dscr_noi_current</code>, <code>dscr_ncf_current</code>.</p>
+<h3 id="cmbssummary">CMBSSummary</h3>
+<p>The <code>summary()</code> method aggregates the loan and property data into pool-level statistics.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>num_loans</code></td>
+<td><code>int</code></td>
+<td>Total number of loans</td>
+</tr>
+<tr>
+<td><code>num_properties</code></td>
+<td><code>int</code></td>
+<td>Total number of properties</td>
+</tr>
+<tr>
+<td><code>total_loan_balance</code></td>
+<td><code>float</code></td>
+<td>Sum of actual balances</td>
+</tr>
+<tr>
+<td><code>total_original_loan_amount</code></td>
+<td><code>float</code></td>
+<td>Sum of original amounts</td>
+</tr>
+<tr>
+<td><code>avg_interest_rate</code></td>
+<td><code>Optional[float]</code></td>
+<td>Average current interest rate</td>
+</tr>
+<tr>
+<td><code>avg_dscr</code></td>
+<td><code>Optional[float]</code></td>
+<td>Average DSCR (NOI-based)</td>
+</tr>
+<tr>
+<td><code>avg_occupancy</code></td>
+<td><code>Optional[float]</code></td>
+<td>Average occupancy %</td>
+</tr>
+<tr>
+<td><code>property_types</code></td>
+<td><code>Dict[str, int]</code></td>
+<td>Property type code → count</td>
+</tr>
+<tr>
+<td><code>states</code></td>
+<td><code>Dict[str, int]</code></td>
+<td>State → count</td>
+</tr>
+<tr>
+<td><code>delinquent_loans</code></td>
+<td><code>int</code></td>
+<td>Number of loans with payment_status != '0'</td>
+</tr>
+<tr>
+<td><code>modified_loans</code></td>
+<td><code>int</code></td>
+<td>Number of modified loans</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="property-type-codes">Property Type Codes</h2>
+<p>Common values for <code>property_type</code> in the properties DataFrame:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MF</code></td>
+<td>Multifamily</td>
+</tr>
+<tr>
+<td><code>OF</code></td>
+<td>Office</td>
+</tr>
+<tr>
+<td><code>RT</code></td>
+<td>Retail</td>
+</tr>
+<tr>
+<td><code>IN</code></td>
+<td>Industrial</td>
+</tr>
+<tr>
+<td><code>LO</code></td>
+<td>Lodging/Hotel</td>
+</tr>
+<tr>
+<td><code>HC</code></td>
+<td>Healthcare</td>
+</tr>
+<tr>
+<td><code>SS</code></td>
+<td>Self Storage</td>
+</tr>
+<tr>
+<td><code>MH</code></td>
+<td>Manufactured Housing</td>
+</tr>
+<tr>
+<td><code>OT</code></td>
+<td>Other</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="example-analyzing-a-cmbs-pool">Example: Analyzing a CMBS Pool</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">find</span>
+
+<span class="c1"># Find a CMBS 10-D filing (BANK5 2024-5YR9)</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="s1">&#39;0001888524-25-020550&#39;</span><span class="p">)</span>
+<span class="n">ten_d</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+<span class="c1"># Display the filing</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ten_d</span><span class="p">)</span>
+<span class="c1"># Shows the rich panel with issuer, distribution period, and asset data summary</span>
+
+<span class="c1"># Check if CMBS data is available</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ten_d</span><span class="o">.</span><span class="n">has_asset_data</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ten_d</span><span class="o">.</span><span class="n">abs_type</span><span class="p">)</span>         <span class="c1"># ABSType.CMBS</span>
+
+<span class="c1"># Access loan data</span>
+<span class="n">loans</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">loans</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of loans: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">loans</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loans</span><span class="p">[[</span><span class="s1">&#39;loan_id&#39;</span><span class="p">,</span> <span class="s1">&#39;actual_balance&#39;</span><span class="p">,</span> <span class="s1">&#39;current_rate&#39;</span><span class="p">,</span> <span class="s1">&#39;payment_status&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Access property data</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">properties</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of properties: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">properties</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;property_type&#39;</span><span class="p">,</span> <span class="s1">&#39;valuation&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Get pool summary</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">asset_data</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total balance: $</span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">total_loan_balance</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average rate: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">avg_interest_rate</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average DSCR: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">avg_dscr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Delinquent loans: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">delinquent_loans</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Property type distribution</span>
+<span class="k">for</span> <span class="n">prop_type</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">property_types</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">prop_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Top states by property count</span>
+<span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">states</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="example-finding-high-dscr-properties">Example: Finding High-DSCR Properties</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">find</span>
+
+<span class="n">filing</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="s1">&#39;0001888524-25-020550&#39;</span><span class="p">)</span>
+<span class="n">ten_d</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+<span class="c1"># Filter properties with strong debt service coverage</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">properties</span>
+<span class="n">high_dscr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;dscr_noi_securitization&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">high_dscr</span><span class="p">)</span><span class="si">}</span><span class="s2"> properties with DSCR &gt; 1.5&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">high_dscr</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;property_type&#39;</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;dscr_noi_securitization&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;dscr_noi_securitization&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</code></pre></div>
+<hr />
+<h2 id="example-tracking-delinquencies">Example: Tracking Delinquencies</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">find</span>
+
+<span class="n">filing</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="s1">&#39;0001888524-25-020550&#39;</span><span class="p">)</span>
+<span class="n">ten_d</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+<span class="c1"># Find delinquent loans (payment_status != &#39;0&#39;)</span>
+<span class="n">loans</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">loans</span>
+<span class="n">delinquent</span> <span class="o">=</span> <span class="n">loans</span><span class="p">[</span><span class="n">loans</span><span class="p">[</span><span class="s1">&#39;payment_status&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;0&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Delinquent loans: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">delinquent</span><span class="p">)</span><span class="si">}</span><span class="s2"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">loans</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">delinquent</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">delinquent</span><span class="p">[[</span><span class="s1">&#39;loan_id&#39;</span><span class="p">,</span> <span class="s1">&#39;actual_balance&#39;</span><span class="p">,</span> <span class="s1">&#39;payment_status&#39;</span><span class="p">,</span> <span class="s1">&#39;primary_servicer&#39;</span><span class="p">]])</span>
+</code></pre></div>
+<hr />
+<h2 id="example-geographic-distribution">Example: Geographic Distribution</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">find</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">filing</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="s1">&#39;0001888524-25-020550&#39;</span><span class="p">)</span>
+<span class="n">ten_d</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+<span class="c1"># Aggregate property value by state</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">properties</span>
+<span class="n">state_totals</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s1">&#39;valuation&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;loan_id&#39;</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span>
+<span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loan_id&#39;</span><span class="p">:</span> <span class="s1">&#39;num_properties&#39;</span><span class="p">})</span>
+
+<span class="n">state_totals</span> <span class="o">=</span> <span class="n">state_totals</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;valuation&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">state_totals</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</code></pre></div>
+<hr />
+<h2 id="searching-for-10-d-filings">Searching for 10-D Filings</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_filings</span><span class="p">,</span> <span class="n">Company</span>
+
+<span class="c1"># Search for all recent 10-D filings</span>
+<span class="n">recent_10d</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">recent_10d</span><span class="p">:</span>
+    <span class="n">ten_d</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+    <span class="c1"># Only CMBS filings will have asset_data</span>
+    <span class="k">if</span> <span class="n">ten_d</span> <span class="ow">and</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">has_asset_data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ten_d</span><span class="o">.</span><span class="n">issuing_entity</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">ten_d</span><span class="o">.</span><span class="n">abs_type</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="n">ten_d</span><span class="o">.</span><span class="n">asset_data</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">num_loans</span><span class="si">}</span><span class="s2"> loans, $</span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">total_loan_balance</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Search for 10-D filings by a specific company</span>
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;1888524&quot;</span><span class="p">)</span>  <span class="c1"># BANK as Depositor</span>
+<span class="n">filings</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-D&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="important-notes">Important Notes</h2>
+<ol>
+<li>
+<p><strong>CMBS-only support</strong>: <code>filing.obj()</code> returns <code>TenD</code> only for CMBS filings with EX-102 XML asset data. Non-CMBS 10-D filings return <code>None</code>.</p>
+</li>
+<li>
+<p><strong>DataFrames are pandas DataFrames</strong>: You can use standard pandas operations to filter, aggregate, and analyze the data.</p>
+</li>
+<li>
+<p><strong>Lazy loading</strong>: The XML asset data is parsed on first access to <code>asset_data</code>, <code>loans</code>, or <code>properties</code>.</p>
+</li>
+<li>
+<p><strong>Missing data</strong>: Many fields can be <code>None</code> or <code>NaN</code>. Always handle missing data gracefully when doing calculations.</p>
+</li>
+<li>
+<p><strong>Distribution report HTML parsing is not supported</strong>: The narrative distribution report section has highly variable HTML formats across issuers and was found to have only ~42% extraction accuracy. EdgarTools focuses on the structured EX-102 XML data.</p>
+</li>
+</ol>
+<hr />
+<h2 id="data-source">Data Source</h2>
+<p>The structured CMBS data comes from the <strong>EX-102 XML attachment</strong> filed with the 10-D. The XML follows the SEC EDGAR schema: <code>http://www.sec.gov/edgar/document/absee/cmbs/assetdata</code></p>
+<p>The issuer, depositor, sponsor, distribution period, and security class information is parsed from the HTML header of the 10-D filing.</p>
+<hr />
+<h2 id="common-use-cases">Common Use Cases</h2>
+<h3 id="portfolio-risk-analysis">Portfolio Risk Analysis</h3>
+<ul>
+<li>Identify loans with low DSCR or high vacancy</li>
+<li>Track delinquency rates across servicers</li>
+<li>Monitor properties in specific states or metros</li>
+</ul>
+<h3 id="investment-research">Investment Research</h3>
+<ul>
+<li>Compare pool composition across issuers</li>
+<li>Analyze property type concentrations</li>
+<li>Evaluate geographic diversification</li>
+</ul>
+<h3 id="compliance-monitoring">Compliance Monitoring</h3>
+<ul>
+<li>Track modified loans</li>
+<li>Monitor payment status trends</li>
+<li>Review servicer performance</li>
+</ul>
+<h3 id="market-intelligence">Market Intelligence</h3>
+<ul>
+<li>Analyze securitization activity by sponsor</li>
+<li>Track originator market share</li>
+<li>Compare interest rates across pools</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>

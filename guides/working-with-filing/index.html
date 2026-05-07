@@ -1,0 +1,5508 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Access and analyze SEC filings, financial statements, insider trading, and investment fund data">
+      
+      
+      
+        <link rel="canonical" href="https://lmist.github.io/edgartools/guides/working-with-filing/">
+      
+      
+        <link rel="prev" href="../reference-data/">
+      
+      
+        <link rel="next" href="../searching-filings/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Working with Filings - EdgarTools - Python Library for SEC Data Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#working-with-sec-filings-access-content-attachments-and-structured-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-header__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdgarTools - Python Library for SEC Data Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Working with Filings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../finding-companies/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Company
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filings
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../data-objects/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Filing Types
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../financial-data/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Financials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Integration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../notebooks/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Notebooks
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/company/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdgarTools - Python Library for SEC Data Analysis" class="md-nav__button md-logo" aria-label="EdgarTools - Python Library for SEC Data Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdgarTools - Python Library for SEC Data Analysis
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lmist/edgartools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lmist/edgartools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../complete-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/getting-started/choosing-the-right-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choosing the Right API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common-pitfalls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Pitfalls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/sec-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Company
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finding-companies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find a Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../company-subsets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Subsets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-insiders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insiders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entity-api-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bdc-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Development Companies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-a-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting a Filing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting a Filing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-a-company" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a Company
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-a-filing-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a Filing Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by-accession-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        By Accession Number
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Direct Construction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filing-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filing Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filing Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Information
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-properties-entityfiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enhanced Properties (EntityFiling)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viewing-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Viewing Filings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Viewing Filings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-in-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open in Browser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-in-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View in Console
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serve-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serve Locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-filing-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Filing Content
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessing Filing Content">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-html" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get HTML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-plain-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Plain Text
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-markdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Markdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-xml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get XML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-full-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Full Submission
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with Attachments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Attachments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list-all-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List All Attachments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-primary-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Primary Document
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-specific-attachment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Specific Attachment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download Attachments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-with-exhibits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Work with Exhibits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extracting-structured-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting Structured Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extracting Structured Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-xbrl-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get XBRL Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-the-data-object-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview the Data Object Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-form-specific-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Form-Specific Object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-specific-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Form-Specific Objects
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-within-a-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Searching Within a Filing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Searching Within a Filing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-text-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple Text Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regex-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regex Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-for-financial-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search for Financial Terms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parsing-document-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parsing Document Sections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parsing Document Sections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-available-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Available Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parse-for-structured-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parse for Structured Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-and-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving and Loading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Saving and Loading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Save Filing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load Filing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-to-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export to Dictionary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extract-revenue-from-latest-10-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extract Revenue from Latest 10-K
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-all-exhibits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download All Exhibits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-across-recent-8-k-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search Across Recent 8-K Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-filing-to-markdown-for-llm-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convert Filing to Markdown for LLM Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-download-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Download Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../searching-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full-text-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full-Text Search & Grep
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filtering-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filter by Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../current-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filing-attachments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attachments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing Types
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filing Types
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/data-objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annual & Quarterly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eightk-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Events (8-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sixk-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foreign Issuer Reports (6-K)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../insider-filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Insider Trades (Form 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../track-form4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Track Insider Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule13dg-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beneficial Ownership (13D/G)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thirteenf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Holdings (13F)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Portfolios (N-PORT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moneymarketfund-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Money Market Funds (N-MFP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundcensus-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Census (N-CEN)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundshareholderreport-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Shareholder Reports (N-CSR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../twentyfourf-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Fee Notices (24F-2NT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxystatement-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxy Statements (DEF 14A)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formd-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Offerings (Form D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formc-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crowdfunding (Form C)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../form144-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sale Notices (Form 144)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npx-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fund Voting (N-PX)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tend-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ABS Distribution (10-D)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prospectus424b-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prospectus Supplements (424B)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../registration-s3-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shelf Registrations (S-3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mai-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Municipal Advisors (MA-I)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../correspondence-data-object-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Correspondence (CORRESP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../financial-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extract-statements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extract Financial Statements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../company-facts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-year-financial-data-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock-splits-eps-normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stock Splits & EPS Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../equity-statement-data-layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity Statement Data Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../xbrl/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    XBRL Deep Dive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl-querying/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query XBRL Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting XBRL Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/guides/multi-period-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Period Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/dimension-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xbrl/concepts/standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xbrl-footnotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footnotes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec-viewer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Interactive Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integration
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/mcp-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/company/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Company
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/filings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/xbrl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XBRL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/entity-facts-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Facts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud Storage (S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/customizing-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customizing Standardization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FormType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PeriodType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Period Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../StatementType-Quick-Reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Statement Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/sec-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SEC Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About the Creator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-a-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting a Filing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting a Filing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-a-company" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a Company
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-a-filing-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a Filing Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#by-accession-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        By Accession Number
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Direct Construction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filing-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filing Properties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filing Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Information
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-properties-entityfiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enhanced Properties (EntityFiling)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viewing-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Viewing Filings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Viewing Filings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-in-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open in Browser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-in-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View in Console
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serve-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serve Locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-filing-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Filing Content
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessing Filing Content">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-html" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get HTML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-plain-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Plain Text
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-markdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Markdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-xml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get XML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-full-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Full Submission
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with Attachments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Attachments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list-all-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List All Attachments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-primary-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Primary Document
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-specific-attachment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access Specific Attachment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download Attachments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-with-exhibits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Work with Exhibits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extracting-structured-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting Structured Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extracting Structured Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-xbrl-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get XBRL Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-the-data-object-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview the Data Object Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-form-specific-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Form-Specific Object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-specific-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Form-Specific Objects
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-within-a-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Searching Within a Filing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Searching Within a Filing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-text-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple Text Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regex-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regex Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-for-financial-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search for Financial Terms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parsing-document-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parsing Document Sections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parsing Document Sections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-available-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Available Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parse-for-structured-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parse for Structured Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-and-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving and Loading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Saving and Loading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Save Filing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-filing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load Filing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-to-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export to Dictionary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extract-revenue-from-latest-10-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extract Revenue from Latest 10-K
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-all-exhibits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Download All Exhibits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-across-recent-8-k-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search Across Recent 8-K Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convert-filing-to-markdown-for-llm-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convert Filing to Markdown for LLM Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-download-filings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Download Filings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="working-with-sec-filings-access-content-attachments-and-structured-data">Working with SEC Filings — Access Content, Attachments, and Structured Data</h1>
+<p>This guide shows you how to get, view, and extract data from individual SEC filings using the <code>Filing</code> class.</p>
+<h2 id="getting-a-filing">Getting a Filing</h2>
+<h3 id="from-a-company">From a Company</h3>
+<p>Get filings for a specific company by ticker or CIK:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">filings</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">filings</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">filing</span><span class="o">.</span><span class="n">company</span><span class="p">)</span>      <span class="c1"># &quot;Apple Inc.&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filing</span><span class="o">.</span><span class="n">form</span><span class="p">)</span>         <span class="c1"># &quot;10-K&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="p">)</span>  <span class="c1"># &quot;2023-11-03&quot;</span>
+</code></pre></div>
+<h3 id="from-a-filing-search">From a Filing Search</h3>
+<p>Search across all filings and pick one:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_filings</span>
+
+<span class="c1"># Get all Q1 2024 10-K filings</span>
+<span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get the first one</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">filings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Or get the latest</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">filings</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="by-accession-number">By Accession Number</h3>
+<p>If you know the accession number:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_by_accession_number</span>
+
+<span class="n">filing</span> <span class="o">=</span> <span class="n">get_by_accession_number</span><span class="p">(</span><span class="s2">&quot;0000320193-23-000106&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filing</span><span class="o">.</span><span class="n">company</span><span class="p">)</span>  <span class="c1"># &quot;Apple Inc.&quot;</span>
+</code></pre></div>
+<h3 id="direct-construction">Direct Construction</h3>
+<p>Create a Filing object directly (rarely needed):</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filing</span>
+
+<span class="n">filing</span> <span class="o">=</span> <span class="n">Filing</span><span class="p">(</span>
+    <span class="n">form</span><span class="o">=</span><span class="s1">&#39;10-Q&#39;</span><span class="p">,</span>
+    <span class="n">filing_date</span><span class="o">=</span><span class="s1">&#39;2024-06-30&#39;</span><span class="p">,</span>
+    <span class="n">company</span><span class="o">=</span><span class="s1">&#39;Tesla Inc.&#39;</span><span class="p">,</span>
+    <span class="n">cik</span><span class="o">=</span><span class="mi">1318605</span><span class="p">,</span>
+    <span class="n">accession_no</span><span class="o">=</span><span class="s1">&#39;0001628280-24-028839&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="filing-properties">Filing Properties</h2>
+<h3 id="basic-information">Basic Information</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Company: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CIK: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">cik</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Form: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">form</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filing Date: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Period: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">period_of_report</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accession: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">accession_no</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Output:</strong>
+<div class="highlight"><pre><span></span><code>Company: Apple Inc.
+CIK: 320193
+Form: 10-K
+Filing Date: 2023-11-03
+Period: 2023-09-30
+Accession: 0000320193-23-000106
+</code></pre></div></p>
+<h3 id="enhanced-properties-entityfiling">Enhanced Properties (EntityFiling)</h3>
+<p>When you get a filing from a company, you get an <code>EntityFiling</code> with additional properties:</p>
+<div class="highlight"><pre><span></span><code><span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;AAPL&quot;</span><span class="p">)</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+
+<span class="c1"># EntityFiling-specific properties</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Acceptance Time: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">acceptance_datetime</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File Number: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">file_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Size: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2"> bytes&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Primary Doc: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">primary_document</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is XBRL: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">is_xbrl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is Inline XBRL: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">is_inline_xbrl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="viewing-filings">Viewing Filings</h2>
+<h3 id="open-in-browser">Open in Browser</h3>
+<p>Open the filing in your default web browser:</p>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>  <span class="c1"># Opens primary document</span>
+</code></pre></div>
+<p>Open the SEC filing homepage (shows all documents):</p>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span><span class="o">.</span><span class="n">open_homepage</span><span class="p">()</span>  <span class="c1"># Opens index page with all files</span>
+</code></pre></div>
+<h3 id="view-in-console">View in Console</h3>
+<p>Display the filing directly in your terminal or Jupyter notebook:</p>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</code></pre></div>
+<p>This uses Rich formatting to display the filing as close to the original as possible.</p>
+<h3 id="serve-locally">Serve Locally</h3>
+<p>Serve the filing on a local HTTP server:</p>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+<span class="c1"># Opens http://localhost:8080 in browser</span>
+</code></pre></div>
+<h2 id="accessing-filing-content">Accessing Filing Content</h2>
+<h3 id="get-html">Get HTML</h3>
+<div class="highlight"><pre><span></span><code><span class="n">html</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">html</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">html</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HTML length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">html</span><span class="p">)</span><span class="si">}</span><span class="s2"> characters&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="get-plain-text">Get Plain Text</h3>
+<div class="highlight"><pre><span></span><code><span class="n">text</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>  <span class="c1"># First 500 characters</span>
+</code></pre></div>
+<h3 id="get-markdown">Get Markdown</h3>
+<div class="highlight"><pre><span></span><code><span class="n">md</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">markdown</span><span class="p">()</span>
+
+<span class="c1"># Save to file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;filing.md&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+</code></pre></div>
+<p>With page breaks:</p>
+<div class="highlight"><pre><span></span><code><span class="n">md</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="n">include_page_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">start_page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="get-xml">Get XML</h3>
+<p>For filings that contain XML (like ownership forms):</p>
+<div class="highlight"><pre><span></span><code><span class="n">xml</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">xml</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">xml</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.ElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ET</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
+    <span class="c1"># Parse XML data</span>
+</code></pre></div>
+<h3 id="get-full-submission">Get Full Submission</h3>
+<p>Get the complete SEC text submission file including SGML headers:</p>
+<div class="highlight"><pre><span></span><code><span class="n">full_text</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">full_text_submission</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">full_text</span><span class="p">[:</span><span class="mi">1000</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="working-with-attachments">Working with Attachments</h2>
+<p>SEC filings often include multiple documents beyond the primary filing.</p>
+<h3 id="list-all-attachments">List All Attachments</h3>
+<div class="highlight"><pre><span></span><code><span class="n">attachments</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">attachments</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total attachments: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">attachments</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">attachments</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">att</span><span class="o">.</span><span class="n">sequence</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">att</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Type: </span><span class="si">{</span><span class="n">att</span><span class="o">.</span><span class="n">document_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  File: </span><span class="si">{</span><span class="n">att</span><span class="o">.</span><span class="n">document</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="get-primary-document">Get Primary Document</h3>
+<div class="highlight"><pre><span></span><code><span class="n">primary</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">document</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Primary: </span><span class="si">{</span><span class="n">primary</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="access-specific-attachment">Access Specific Attachment</h3>
+<p>By index:</p>
+<div class="highlight"><pre><span></span><code><span class="n">first_att</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">attachments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+<p>By document name:</p>
+<div class="highlight"><pre><span></span><code><span class="n">att</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">attachments</span><span class="p">[</span><span class="s2">&quot;ex-10_1.htm&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="download-attachments">Download Attachments</h3>
+<p>Download a specific attachment:</p>
+<div class="highlight"><pre><span></span><code><span class="n">attachment</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">attachments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">attachment</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;./downloads/&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Download all attachments:</p>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span><span class="o">.</span><span class="n">attachments</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;./downloads/&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="work-with-exhibits">Work with Exhibits</h3>
+<p>Exhibits are a subset of attachments:</p>
+<div class="highlight"><pre><span></span><code><span class="n">exhibits</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">exhibits</span>
+
+<span class="k">for</span> <span class="n">exhibit</span> <span class="ow">in</span> <span class="n">exhibits</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exhibit </span><span class="si">{</span><span class="n">exhibit</span><span class="o">.</span><span class="n">exhibit_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">exhibit</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Download specific exhibit</span>
+    <span class="k">if</span> <span class="n">exhibit</span><span class="o">.</span><span class="n">exhibit_number</span> <span class="o">==</span> <span class="s2">&quot;10.1&quot;</span><span class="p">:</span>
+        <span class="n">exhibit</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;./exhibits/&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="extracting-structured-data">Extracting Structured Data</h2>
+<h3 id="get-xbrl-data">Get XBRL Data</h3>
+<p>For filings with XBRL (10-K, 10-Q, etc.):</p>
+<div class="highlight"><pre><span></span><code><span class="n">xbrl</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">xbrl</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">xbrl</span><span class="p">:</span>
+    <span class="c1"># Access financial statements</span>
+    <span class="n">statements</span> <span class="o">=</span> <span class="n">xbrl</span><span class="o">.</span><span class="n">statements</span>
+    <span class="n">income</span> <span class="o">=</span> <span class="n">statements</span><span class="o">.</span><span class="n">income_statement</span><span class="p">()</span>
+    <span class="n">balance</span> <span class="o">=</span> <span class="n">statements</span><span class="o">.</span><span class="n">balance_sheet</span><span class="p">()</span>
+    <span class="n">cashflow</span> <span class="o">=</span> <span class="n">statements</span><span class="o">.</span><span class="n">cash_flow_statement</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">income</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="preview-the-data-object-type">Preview the Data Object Type</h3>
+<p>Before calling <code>obj()</code>, you can check what type of object a filing will return:</p>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span><span class="o">.</span><span class="n">obj_type</span>  <span class="c1"># e.g. &#39;TenK&#39;, &#39;ThirteenF&#39;, &#39;Form4&#39;, None</span>
+</code></pre></div>
+<p>This is useful for filtering filings to only those with structured data objects.</p>
+<h3 id="get-form-specific-object">Get Form-Specific Object</h3>
+<p>Get a structured object based on the form type:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For 10-K filing</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>  <span class="c1"># &lt;class &#39;edgar.company_reports.TenK&#39;&gt;</span>
+
+<span class="c1"># Access financials from TenK object</span>
+<span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">financials</span><span class="p">:</span>
+    <span class="n">income</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">financials</span><span class="o">.</span><span class="n">income_statement</span>
+    <span class="n">balance</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">financials</span><span class="o">.</span><span class="n">balance_sheet</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">income</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Important:</strong> The <code>financials</code> property exists on form-specific objects (<code>TenK</code>, <code>TenQ</code>), not on the base <code>Filing</code> class.</p>
+<p><strong>Incorrect:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># This will fail - Filing doesn&#39;t have financials</span>
+<span class="n">financials</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">financials</span>  <span class="c1"># AttributeError</span>
+</code></pre></div></p>
+<p><strong>Correct:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get form-specific object first</span>
+<span class="n">tenk</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">tenk</span><span class="o">.</span><span class="n">financials</span><span class="p">:</span>
+    <span class="n">financials</span> <span class="o">=</span> <span class="n">tenk</span><span class="o">.</span><span class="n">financials</span>
+</code></pre></div></p>
+<h3 id="form-specific-objects">Form-Specific Objects</h3>
+<p>Different forms return different object types:</p>
+<table>
+<thead>
+<tr>
+<th>Form</th>
+<th>Object Type</th>
+<th>Key Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10-K</td>
+<td>TenK</td>
+<td>financials, income_statement, balance_sheet, auditor, subsidiaries, reports</td>
+</tr>
+<tr>
+<td>10-Q</td>
+<td>TenQ</td>
+<td>financials, income_statement, balance_sheet, reports</td>
+</tr>
+<tr>
+<td>8-K</td>
+<td>EightK</td>
+<td>items (material events), reports</td>
+</tr>
+<tr>
+<td>20-F</td>
+<td>TwentyF</td>
+<td>financials for foreign issuers, reports</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Form4</td>
+<td>insider transactions</td>
+</tr>
+<tr>
+<td>13F-HR</td>
+<td>ThirteenF</td>
+<td>institutional holdings</td>
+</tr>
+<tr>
+<td>SC 13D/G</td>
+<td>Schedule13</td>
+<td>beneficial ownership</td>
+</tr>
+<tr>
+<td>DEF 14A</td>
+<td>ProxyStatement</td>
+<td>proxy voting matters</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example - 8-K:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+<span class="n">eightk</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Items: </span><span class="si">{</span><span class="n">eightk</span><span class="o">.</span><span class="n">items</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Material events reported</span>
+</code></pre></div></p>
+<p><strong>Example - Form 4:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;4&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+<span class="n">form4</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+<span class="c1"># Access insider transaction data</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">form4</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span>
+</code></pre></div></p>
+<h2 id="searching-within-a-filing">Searching Within a Filing</h2>
+<h3 id="simple-text-search">Simple Text Search</h3>
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;artificial intelligence&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2"> mentions&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="mi">200</span><span class="p">])</span>  <span class="c1"># First 200 chars of each match</span>
+</code></pre></div>
+<h3 id="regex-search">Regex Search</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Search for email addresses</span>
+<span class="n">emails</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b&#39;</span><span class="p">,</span>
+    <span class="n">regex</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">emails</span><span class="p">)</span><span class="si">}</span><span class="s2"> email addresses&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="search-for-financial-terms">Search for Financial Terms</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Search for revenue mentions</span>
+<span class="n">revenue_mentions</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;revenue&quot;</span><span class="p">)</span>
+
+<span class="c1"># Search for risk factors</span>
+<span class="n">risk_mentions</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;risk factor&quot;</span><span class="p">)</span>
+
+<span class="c1"># Case-sensitive regex</span>
+<span class="n">critical_terms</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b(material weakness|restatement)\b&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="parsing-document-sections">Parsing Document Sections</h2>
+<h3 id="get-available-sections">Get Available Sections</h3>
+<div class="highlight"><pre><span></span><code><span class="n">sections</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">sections</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="parse-for-structured-search">Parse for Structured Search</h3>
+<div class="highlight"><pre><span></span><code><span class="n">doc</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+<span class="c1"># Use parsed document for advanced operations</span>
+</code></pre></div>
+<h2 id="saving-and-loading">Saving and Loading</h2>
+<h3 id="save-filing">Save Filing</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Save to directory (auto-generates filename)</span>
+<span class="n">filing</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./data/filings/&quot;</span><span class="p">)</span>
+
+<span class="c1"># Save to specific file</span>
+<span class="n">filing</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./data/apple_10k_2023.pkl&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="load-filing">Load Filing</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filing</span>
+
+<span class="n">filing</span> <span class="o">=</span> <span class="n">Filing</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;./data/apple_10k_2023.pkl&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filing</span><span class="o">.</span><span class="n">company</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="export-to-dictionary">Export to Dictionary</h3>
+<div class="highlight"><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="export-summary">Export Summary</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summary_df</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="common-use-cases">Common Use Cases</h2>
+<h3 id="extract-revenue-from-latest-10-k">Extract Revenue from Latest 10-K</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Company</span>
+
+<span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;MSFT&quot;</span><span class="p">)</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+
+<span class="n">tenk</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">tenk</span><span class="o">.</span><span class="n">financials</span><span class="p">:</span>
+    <span class="n">income</span> <span class="o">=</span> <span class="n">tenk</span><span class="o">.</span><span class="n">financials</span><span class="o">.</span><span class="n">income_statement</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">income</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="download-all-exhibits">Download All Exhibits</h3>
+<div class="highlight"><pre><span></span><code><span class="n">filing</span> <span class="o">=</span> <span class="n">get_by_accession_number</span><span class="p">(</span><span class="s2">&quot;0001234567-24-000001&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">exhibit</span> <span class="ow">in</span> <span class="n">filing</span><span class="o">.</span><span class="n">exhibits</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">exhibit</span><span class="o">.</span><span class="n">exhibit_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">exhibit</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">exhibit</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./exhibits/</span><span class="si">{</span><span class="n">exhibit</span><span class="o">.</span><span class="n">document</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="search-across-recent-8-k-filings">Search Across Recent 8-K Filings</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_filings</span>
+
+<span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;8-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;earnings&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">filing_date</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2"> mentions&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="convert-filing-to-markdown-for-llm-analysis">Convert Filing to Markdown for LLM Analysis</h3>
+<div class="highlight"><pre><span></span><code><span class="n">company</span> <span class="o">=</span> <span class="n">Company</span><span class="p">(</span><span class="s2">&quot;NVDA&quot;</span><span class="p">)</span>
+<span class="n">filing</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get_filings</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+
+<span class="c1"># Export to markdown</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="n">include_page_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Save for processing</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;nvidia_10k_for_analysis.md&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">md</span><span class="p">)</span><span class="si">}</span><span class="s2"> characters to markdown file&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="batch-download-filings">Batch Download Filings</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_filings</span>
+
+<span class="n">filings</span> <span class="o">=</span> <span class="n">get_filings</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;10-K&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">filing</span> <span class="ow">in</span> <span class="n">filings</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">filing</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="s2">&quot;./raw_filings/&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloaded: </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error downloading </span><span class="si">{</span><span class="n">filing</span><span class="o">.</span><span class="n">company</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="error-handling">Error Handling</h2>
+<p>Always check for None before using optional data:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_by_accession_number</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">filing</span> <span class="o">=</span> <span class="n">get_by_accession_number</span><span class="p">(</span><span class="s2">&quot;0000320193-23-000106&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check HTML availability</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">html</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">html</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HTML content not available&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HTML: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">html</span><span class="p">)</span><span class="si">}</span><span class="s2"> characters&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check XBRL availability</span>
+    <span class="n">xbrl</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">xbrl</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">xbrl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No XBRL data available&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;XBRL data available&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check structured object</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">obj</span><span class="p">:</span>
+        <span class="c1"># Process object</span>
+        <span class="k">pass</span>
+
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing filing: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Check form type</strong> - Use <code>filing.form</code> to determine filing type before processing</li>
+<li><strong>Verify XBRL</strong> - Check <code>filing.is_xbrl</code> for EntityFiling before extracting structured data</li>
+<li><strong>Handle large files</strong> - Some filings are very large; consider streaming for attachments</li>
+<li><strong>Cache content</strong> - Store downloaded content locally to avoid repeated API calls</li>
+<li><strong>Respect rate limits</strong> - Be mindful of SEC rate limits when processing many filings</li>
+<li><strong>Use obj() for structure</strong> - Prefer <code>filing.obj()</code> over HTML parsing for structured data</li>
+</ol>
+<h2 id="performance-tips">Performance Tips</h2>
+<p><strong>Efficient pattern:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get form-specific object once</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">obj</span><span class="p">()</span>
+
+<span class="c1"># Check before using</span>
+<span class="k">if</span> <span class="n">obj</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;financials&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">financials</span><span class="p">:</span>
+    <span class="n">income</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">financials</span><span class="o">.</span><span class="n">income_statement</span>
+    <span class="c1"># Process income statement</span>
+</code></pre></div></p>
+<p><strong>Cache expensive operations:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download once, use multiple times</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+<span class="c1"># Search multiple times without re-downloading</span>
+<span class="n">results1</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;revenue&quot;</span><span class="p">)</span>
+<span class="n">results2</span> <span class="o">=</span> <span class="n">filing</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;profit&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><strong><a href="../../api/filing/">Filing API Reference</a></strong> - Complete Filing class documentation</li>
+<li><strong><a href="../../api/filings/">Filings API Reference</a></strong> - Working with filing collections</li>
+<li><strong><a href="../extract-statements/">Extract Financial Statements</a></strong> - Getting financial data from XBRL</li>
+<li><strong><a href="../filing-attachments/">Filing Attachments Guide</a></strong> - Working with documents and exhibits</li>
+<li><strong><a href="../filtering-filings/">Filtering Filings</a></strong> - Finding specific filings</li>
+<li><strong><a href="../current-filings/">Current Filings</a></strong> - Access today's filings</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/nav-enhance.js"></script>
+      
+    
+  </body>
+</html>
